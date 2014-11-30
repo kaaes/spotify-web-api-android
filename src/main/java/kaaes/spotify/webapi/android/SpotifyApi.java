@@ -13,24 +13,16 @@ import retrofit.client.OkClient;
  * Creates and configures a REST adapter for Spotify Web API.
  *
  * Basic usage:
- * SpotifyApiWrapper wrapper = new SpotifyApiWrapper(CLIENT_ID);
+ * SpotifyApi wrapper = new SpotifyApi();
  *
  * Setting access token is optional for certain endpoints
  * so if you know you'll only use the ones that don't require authorisation
  * you can skip this step:
  * wrapper.setAccessToken(authenticationResponse.getAccessToken());
  *
- * SpotifyApi api = wrapper.getApi();
+ * SpotifyService spotify = wrapper.getService();
  *
- * api.getAlbum("2dIGnmEIy1WZIcZCFSj6i8", new Callback<Album>() {
- * public void success(Album album, Response response) {
- * Log.d("Album success", album.toString());
- * }
- *
- * public void failure(RetrofitError error) {
- * Log.d("Album failure", error.toString());
- * }
- * });
+ * Album album = spotify.getAlbum("2dIGnmEIy1WZIcZCFSj6i8");
  */
 public class SpotifyApi {
 
@@ -43,7 +35,7 @@ public class SpotifyApi {
      * The request interceptor that will add the header with OAuth
      * token to every request made with the wrapper.
      */
-    public class WebApiAuthenticator implements RequestInterceptor {
+    private class WebApiAuthenticator implements RequestInterceptor {
         @Override
         public void intercept(RequestFacade request) {
             if (mAccessToken != null) {
@@ -58,7 +50,6 @@ public class SpotifyApi {
 
     public SpotifyApi() {
         Executor executor = Executors.newSingleThreadExecutor();
-
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setLogLevel(RestAdapter.LogLevel.BASIC)
                 .setClient(new OkClient(new OkHttpClient()))
@@ -86,7 +77,7 @@ public class SpotifyApi {
     /**
      * @return The SpotifyApi instance
      */
-    public SpotifyService getApi() {
+    public SpotifyService getService() {
         return mSpotifyService;
     }
 }
