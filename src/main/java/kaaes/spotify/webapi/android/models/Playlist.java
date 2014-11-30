@@ -11,7 +11,7 @@ import java.util.Map;
 public class Playlist {
     public boolean collaborative;
     public String description;
-    public Map<String,String> external_urls;
+    public Map<String, String> external_urls;
     public Followers followers;
     public String href;
     public String id;
@@ -22,6 +22,6 @@ public class Playlist {
     public boolean is_public;
     public String snapshot_id;
     public Pager<Track> tracks;
-    public String type ;
+    public String type;
     public String uri;
 }
