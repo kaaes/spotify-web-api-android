@@ -21,7 +21,7 @@ public class Playlist {
     @SerializedName("public")
     public boolean is_public;
     public String snapshot_id;
-    public Pager<Track> tracks;
+    public Pager<PlaylistTrack> tracks;
     public String type;
     public String uri;
 }
