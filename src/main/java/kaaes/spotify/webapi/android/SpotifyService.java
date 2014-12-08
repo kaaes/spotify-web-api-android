@@ -11,8 +11,8 @@ import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
 import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.User;
-
 import retrofit.Callback;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -150,6 +150,12 @@ public interface SpotifyService {
 
     @GET("/tracks/{id}")
     public Track getTrack(@Path("id") String trackId);
+
+    @GET("/tracks")
+    public void getTracks(@Query("ids") String trackIds, Callback<Tracks> callback);
+
+    @GET("/tracks")
+    public Tracks getTracks(@Query("ids") String trackIds);
 
     /**
      * Browse *

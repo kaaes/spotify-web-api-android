@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class Album {
     public String album_type;
-    public List<Artist> artists;
+    public List<ArtistSimple> artists;
     public List<String> available_markets;
     public List<Copyright> copyrights;
     public Map<String, String> external_ids;
@@ -21,7 +21,7 @@ public class Album {
     public int popularity;
     public String release_date;
     public String release_date_precision;
-    public Pager<Track> tracks;
+    public Pager<TrackSimple> tracks;
     public String type;
     public String uri;
 }
