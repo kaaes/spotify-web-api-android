@@ -1,17 +1,25 @@
 package kaaes.spotify.webapi.android;
 
+import java.util.Map;
+
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.Albums;
 import kaaes.spotify.webapi.android.models.Artist;
+import kaaes.spotify.webapi.android.models.NewReleases;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
+import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
+import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.User;
 
 import retrofit.Callback;
+import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import retrofit.http.QueryMap;
 
 public interface SpotifyService {
 
@@ -142,4 +150,84 @@ public interface SpotifyService {
 
     @GET("/tracks/{id}")
     public Track getTrack(@Path("id") String trackId);
+
+    /**
+     * Browse *
+     */
+
+    @GET("/browse/featured-playlists")
+    public void getFeaturedPlaylists(Callback<FeaturedPlaylists> callback);
+
+    @GET("/browse/featured-playlists")
+    public FeaturedPlaylists getFeaturedPlaylists();
+
+    @GET("/browse/featured-playlists")
+    public void getFeaturedPlaylists(@QueryMap Map<String, String> options, Callback<FeaturedPlaylists> callback);
+
+    @GET("/browse/featured-playlists")
+    public FeaturedPlaylists getFeaturedPlaylists(@QueryMap Map<String, String> options);
+
+    @GET("/browse/featured-playlists")
+    public void getFeaturedPlaylists(@QueryMap Map<String, String> options, @Query("offset") int offset, @Query("limit") int limit, Callback<FeaturedPlaylists> callback);
+
+    @GET("/browse/featured-playlists")
+    public FeaturedPlaylists getFeaturedPlaylists(@QueryMap Map<String, String> options, @Query("offset") int offset, @Query("limit") int limit);
+
+    @GET("/browse/new-releases")
+    public void getNewReleases(Callback<NewReleases> callback);
+
+    @GET("/browse/new-releases")
+    public NewReleases getNewReleases();
+
+    @GET("/browse/new-releases")
+    public void getNewReleases(@Query("country") String country, Callback<NewReleases> callback);
+
+    @GET("/browse/new-releases")
+    public NewReleases getNewReleases(@Query("country") String country);
+
+    @GET("/browse/new-releases")
+    public void getNewReleases(@Query("country") String country, @Query("offset") int offset, @Query("limit") int limit, Callback<NewReleases> callback);
+
+    @GET("/browse/new-releases")
+    public NewReleases getNewReleases(@Query("country") String country, @Query("offset") int offset, @Query("limit") int limit);
+
+
+    /**
+     * Library / Your Music *
+     */
+
+    @GET("/me/tracks")
+    public void getMySavedTracks(Callback<Pager<SavedTrack>> callback);
+
+    @GET("/me/tracks")
+    public Pager<SavedTrack> getMySavedTracks();
+
+    @GET("/me/tracks")
+    public void getMySavedTracks(@Query("offset") int offset, @Query("limit") int limit, Callback<Pager<SavedTrack>> callback);
+
+    @GET("/me/tracks")
+    public Pager<SavedTrack> getMySavedTracks(@Query("offset") int offset, @Query("limit") int limit);
+
+    @GET("/me/tracks/contains")
+    public void containsMySavedTracks(@Query("ids") String ids, Callback<boolean[]> callback);
+
+    @GET("/me/tracks/contains")
+    public Boolean[] containsMySavedTracks(@Query("ids") String ids);
+
+    // todo: read response status code
+    @PUT("/me/tracks")
+    public void addToMySavedTracks(@Query("ids") String ids, Callback<Boolean> callback);
+
+    // todo: read response status code
+    @PUT("/me/tracks")
+    public boolean addToMySavedTracks(@Query("ids") String ids);
+
+    // todo: read response status code
+    @DELETE("/me/tracks")
+    public void removeFromMySavedTracks(@Query("ids") String ids, Callback<Boolean> callback);
+
+    // todo: read response status code
+    @DELETE("/me/tracks")
+    public boolean removeFromMySavedTracks(@Query("ids") String ids);
+
 }
