@@ -4,11 +4,6 @@ Spotify Web API for Android
 This project is a wrapper for [Spotify Web API](https://developer.spotify.com/web-api/).
 It uses [Retrofit](http://square.github.io/retrofit/) to create Java interfaces from API endpoints.
 
-Quick start with the binary
----------------------------
-1. [Download the library](https://github.com/kaaes/spotify-web-api-android/releases/download/0.1/spotify-web-api-android-0.1.0.jar)
-2. Drop it to your Android project libraries folder (usually in `app/libs`)
-
 Building the project
 --------------------
 1. Clone the repository: `git clone https://github.com/kaaes/spotify-web-api-android.git`
