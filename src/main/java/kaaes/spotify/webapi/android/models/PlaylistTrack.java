@@ -5,6 +5,6 @@ package kaaes.spotify.webapi.android.models;
  */
 public class PlaylistTrack {
     public String added_at;
-    public User added_by;
+    public UserSimple added_by;
     public Track track;
 }
