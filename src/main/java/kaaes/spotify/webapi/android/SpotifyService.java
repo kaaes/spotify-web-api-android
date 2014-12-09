@@ -13,6 +13,7 @@ import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.User;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import retrofit.Callback;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
@@ -56,16 +57,16 @@ public interface SpotifyService {
     public Playlist getPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
 
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public void getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<Track>> callback);
+    public void getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<PlaylistTrack>> callback);
 
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public Pager<Track> getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("offset") int offset, @Query("limit") int limit);
+    public Pager<PlaylistTrack> getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("offset") int offset, @Query("limit") int limit);
 
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public void getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, Callback<Pager<Track>> callback);
+    public void getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, Callback<Pager<PlaylistTrack>> callback);
 
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public Pager<Track> getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
+    public Pager<PlaylistTrack> getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
 
     /**
      * Albums *
