@@ -4,14 +4,19 @@ import java.util.Map;
 
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.Albums;
+import kaaes.spotify.webapi.android.models.AlbumsPager;
 import kaaes.spotify.webapi.android.models.Artist;
+import kaaes.spotify.webapi.android.models.Artists;
+import kaaes.spotify.webapi.android.models.ArtistsPager;
 import kaaes.spotify.webapi.android.models.NewReleases;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
+import kaaes.spotify.webapi.android.models.PlaylistsPager;
 import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
+import kaaes.spotify.webapi.android.models.TracksPager;
 import kaaes.spotify.webapi.android.models.User;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import retrofit.Callback;
@@ -33,6 +38,12 @@ public interface SpotifyService {
 
     @GET("/me")
     public User getMe();
+
+    @GET("/user/{id}")
+    public void getUser(@Path("id") String userId, Callback<User> callback);
+
+    @GET("/user/{id}")
+    public User getUser(@Path("id") String userId);
 
     /**
      * Playlists *
@@ -79,7 +90,7 @@ public interface SpotifyService {
     public Album getAlbum(@Path("id") String albumId);
 
     @GET("/albums")
-    public void getAlbums(@Path("id") String albumIds, Callback<Albums> callback);
+    public void getAlbums(@Query("ids") String albumIds, Callback<Albums> callback);
 
     @GET("/albums")
     public Albums getAlbums(@Query("ids") String albumIds);
@@ -141,6 +152,12 @@ public interface SpotifyService {
 
     @GET("/artists/{id}")
     public Artist getArtist(@Path("id") String artistId);
+
+    @GET("/artists")
+    public void getArtists(@Query("ids") String artistIds, Callback<Artists> callback);
+
+    @GET("/artists")
+    public Artists getArtists(@Query("ids") String artistIds);
 
     /**
      * Tracks *
@@ -237,4 +254,106 @@ public interface SpotifyService {
     @DELETE("/me/tracks")
     public boolean removeFromMySavedTracks(@Query("ids") String ids);
 
+    /**
+     * Search *
+     */
+
+    @GET("/search?type=track")
+    public void searchTracks(@Query("q") String q, Callback<TracksPager> callback);
+
+    @GET("/search?type=track")
+    public TracksPager searchTracks(@Query("q") String q);
+
+    @GET("/search?type=track")
+    public void searchTracks(@Query("q") String q, @Query("market") String market, Callback<TracksPager> callback);
+
+    @GET("/search?type=track")
+    public TracksPager searchTracks(@Query("q") String q, @Query("market") String market);
+
+    @GET("/search?type=track")
+    public void searchTracks(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit, Callback<TracksPager> callback);
+
+    @GET("/search?type=track")
+    public TracksPager searchTracks(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit);
+
+    @GET("/search?type=track")
+    public void searchTracks(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit, Callback<TracksPager> callback);
+
+    @GET("/search?type=track")
+    public TracksPager searchTracks(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit);
+
+
+    @GET("/search?type=artist")
+    public void searchArtists(@Query("q") String q, Callback<ArtistsPager> callback);
+
+    @GET("/search?type=artist")
+    public ArtistsPager searchArtists(@Query("q") String q);
+
+    @GET("/search?type=artist")
+    public void searchArtists(@Query("q") String q, @Query("market") String market, Callback<ArtistsPager> callback);
+
+    @GET("/search?type=artist")
+    public ArtistsPager searchArtists(@Query("q") String q, @Query("market") String market);
+
+    @GET("/search?type=artist")
+    public void searchArtists(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit, Callback<ArtistsPager> callback);
+
+    @GET("/search?type=artist")
+    public ArtistsPager searchArtists(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit);
+
+    @GET("/search?type=artist")
+    public void searchArtists(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit, Callback<ArtistsPager> callback);
+
+    @GET("/search?type=artist")
+    public ArtistsPager searchArtists(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit);
+
+
+    @GET("/search?type=album")
+    public void searchAlbums(@Query("q") String q, Callback<AlbumsPager> callback);
+
+    @GET("/search?type=album")
+    public AlbumsPager searchAlbums(@Query("q") String q);
+
+    @GET("/search?type=album")
+    public void searchAlbums(@Query("q") String q, @Query("market") String market, Callback<AlbumsPager> callback);
+
+    @GET("/search?type=album")
+    public AlbumsPager searchAlbums(@Query("q") String q, @Query("market") String market);
+
+    @GET("/search?type=album")
+    public void searchAlbums(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit, Callback<AlbumsPager> callback);
+
+    @GET("/search?type=album")
+    public AlbumsPager searchAlbums(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit);
+
+    @GET("/search?type=album")
+    public void searchAlbums(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit, Callback<AlbumsPager> callback);
+
+    @GET("/search?type=album")
+    public AlbumsPager searchAlbums(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit);
+
+
+    @GET("/search?type=playlist")
+    public void searchPlaylists(@Query("q") String q, Callback<PlaylistsPager> callback);
+
+    @GET("/search?type=playlist")
+    public PlaylistsPager searchPlaylists(@Query("q") String q);
+
+    @GET("/search?type=playlist")
+    public void searchPlaylists(@Query("q") String q, @Query("market") String market, Callback<PlaylistsPager> callback);
+
+    @GET("/search?type=playlist")
+    public PlaylistsPager searchPlaylists(@Query("q") String q, @Query("market") String market);
+
+    @GET("/search?type=playlist")
+    public void searchPlaylists(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit, Callback<PlaylistsPager> callback);
+
+    @GET("/search?type=playlist")
+    public PlaylistsPager searchPlaylists(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit);
+
+    @GET("/search?type=playlist")
+    public void searchPlaylists(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit, Callback<PlaylistsPager> callback);
+
+    @GET("/search?type=playlist")
+    public PlaylistsPager searchPlaylists(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit);
 }

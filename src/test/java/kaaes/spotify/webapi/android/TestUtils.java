@@ -19,7 +19,7 @@ import retrofit.mime.TypedInput;
 
 public class TestUtils {
     private static final String TEST_DATA_DIR = "src/test/fixtures/";
-    private static final int MAX_TEST_DATA_FILE_SIZE = 65536;
+    private static final int MAX_TEST_DATA_FILE_SIZE = 131072;
     private static final Gson gson = new Gson();
 
     private static class ResponseBody implements TypedInput {
