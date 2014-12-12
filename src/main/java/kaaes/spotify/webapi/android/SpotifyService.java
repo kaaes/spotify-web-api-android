@@ -2,6 +2,7 @@ package kaaes.spotify.webapi.android;
 
 import java.util.Map;
 
+import kaaes.spotify.webapi.android.annotations.DELETEWITHBODY;
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.Albums;
 import kaaes.spotify.webapi.android.models.AlbumsPager;
@@ -14,14 +15,19 @@ import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
 import kaaes.spotify.webapi.android.models.PlaylistsPager;
 import kaaes.spotify.webapi.android.models.SavedTrack;
+import kaaes.spotify.webapi.android.models.SnapshotId;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.TracksPager;
+import kaaes.spotify.webapi.android.models.TracksToRemove;
+import kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition;
 import kaaes.spotify.webapi.android.models.User;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import retrofit.Callback;
+import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.GET;
+import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
@@ -78,6 +84,67 @@ public interface SpotifyService {
 
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
     public Pager<PlaylistTrack> getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
+
+
+    @POST("/users/{user_id}/playlists")
+    public void createPlaylist(@Path("user_id") String userId, @Query("name") String name, Callback<Playlist> callback);
+
+    @POST("/users/{user_id}/playlists")
+    public Playlist createPlaylist(@Path("user_id") String userId, @Query("name") String name);
+
+    @POST("/users/{user_id}/playlists")
+    public void createPlaylist(@Path("user_id") String userId, @Query("name") String name, @Query("public") boolean is_public, Callback<Playlist> callback);
+
+    @POST("/users/{user_id}/playlists")
+    public Playlist createPlaylist(@Path("user_id") String userId, @Query("name") String name, @Query("public") boolean is_public);
+
+    @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
+    public void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, Callback<SnapshotId> callback);
+
+    @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
+    public SnapshotId addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris);
+
+    @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
+    public void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, @Query("position") int position, Callback<SnapshotId> callback);
+
+    @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
+    public SnapshotId addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, @Query("position") int position);
+
+    @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
+    public void removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemove tracksToRemove, Callback<SnapshotId> callback);
+
+    @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
+    public SnapshotId removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemove tracksToRemove);
+
+    @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
+    public void removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemoveWithPosition tracksToRemoveWithPosition, Callback<SnapshotId> callback);
+
+    @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
+    public SnapshotId removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemoveWithPosition tracksToRemoveWithPosition);
+
+    // todo: process status code and return boolean
+    @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
+    public void replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, Callback<Boolean> callback);
+
+    // todo: process status code and return boolean
+    @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
+    public boolean replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris);
+
+    // todo: process status code and return boolean
+    @PUT("/users/{user_id}/playlists/{playlist_id}")
+    public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("name") String name, Callback<Boolean> callback);
+
+    // todo: process status code and return boolean
+    @PUT("/users/{user_id}/playlists/{playlist_id}")
+    public boolean changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("name") String name);
+
+    // todo: process status code and return boolean
+    @PUT("/users/{user_id}/playlists/{playlist_id}")
+    public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("public") boolean is_public, Callback<Boolean> callback);
+
+    // todo: process status code and return boolean
+    @PUT("/users/{user_id}/playlists/{playlist_id}")
+    public boolean changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("public") boolean is_public);
 
     /**
      * Albums *
@@ -238,19 +305,19 @@ public interface SpotifyService {
     @GET("/me/tracks/contains")
     public Boolean[] containsMySavedTracks(@Query("ids") String ids);
 
-    // todo: read response status code
+    // todo: process status code and return boolean
     @PUT("/me/tracks")
     public void addToMySavedTracks(@Query("ids") String ids, Callback<Boolean> callback);
 
-    // todo: read response status code
+    // todo: process status code and return boolean
     @PUT("/me/tracks")
     public boolean addToMySavedTracks(@Query("ids") String ids);
 
-    // todo: read response status code
+    // todo: process status code and return boolean
     @DELETE("/me/tracks")
     public void removeFromMySavedTracks(@Query("ids") String ids, Callback<Boolean> callback);
 
-    // todo: read response status code
+    // todo: process status code and return boolean
     @DELETE("/me/tracks")
     public boolean removeFromMySavedTracks(@Query("ids") String ids);
 
