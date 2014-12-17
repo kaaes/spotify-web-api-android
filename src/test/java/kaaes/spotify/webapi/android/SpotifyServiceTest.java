@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.Albums;
@@ -276,6 +277,56 @@ public class SpotifyServiceTest {
 
         User user = mSpotifyService.getMe();
         this.compareJSONWithoutNulls(body, user);
+    }
+
+    @Test
+    public void shouldCheckFollowingUsers() throws IOException {
+        String body = TestUtils.readTestData("follow_is_following_users.json");
+        List<Boolean> fixture = mGson.fromJson(body, List.class);
+
+        final String userIds = "thelinmichael,wizzler";
+
+        Response response = TestUtils.getResponseFromModel(fixture);
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+            @Override
+            public boolean matches(Object argument) {
+                try {
+                    return ((Request) argument).getUrl().contains("type=user") &&
+                            ((Request) argument).getUrl().contains("ids=" + URLEncoder.encode(userIds, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    return false;
+                }
+            }
+        }))).thenReturn(response);
+
+        Boolean[] result = mSpotifyService.isFollowingUsers(userIds);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldCheckFollowingArtists() throws IOException {
+        String body = TestUtils.readTestData("follow_is_following_artists.json");
+        List<Boolean> fixture = mGson.fromJson(body, List.class);
+
+        final String artistIds = "3mOsjj1MhocRVwOejIZlTi";
+
+        Response response = TestUtils.getResponseFromModel(fixture);
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+            @Override
+            public boolean matches(Object argument) {
+                try {
+                    return ((Request) argument).getUrl().contains("type=artist") &&
+                            ((Request) argument).getUrl().contains("ids=" + URLEncoder.encode(artistIds, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    return false;
+                }
+            }
+        }))).thenReturn(response);
+
+        Boolean[] result = mSpotifyService.isFollowingArtists(artistIds);
+        this.compareJSONWithoutNulls(body, result);
     }
 
     /**
