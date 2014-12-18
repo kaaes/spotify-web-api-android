@@ -1,7 +1,6 @@
 package kaaes.spotify.webapi.android;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -9,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.lang.reflect.Type;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -46,8 +46,17 @@ public class TestUtils {
         }
     }
 
-    public static <T> Response getResponseFromModel(T model) throws IOException {
-        ResponseBody responseBody = new ResponseBody(gson.toJson(model, new TypeToken<T>(){}.getType()));
+    public static <T> Response getResponseFromModel(T model, Class<T> modelClass) throws IOException {
+        ResponseBody responseBody = new ResponseBody(gson.toJson(model, modelClass));
+        return createResponse(responseBody);
+    }
+
+    public static <T> Response getResponseFromModel(T model, Type modelType) {
+        ResponseBody responseBody = new ResponseBody(gson.toJson(model, modelType));
+        return createResponse(responseBody);
+    }
+
+    private static Response createResponse(ResponseBody responseBody) {
         return new Response("", 200, "", new ArrayList<Header>(), responseBody);
     }
 
