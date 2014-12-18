@@ -305,21 +305,57 @@ public interface SpotifyService {
     @GET("/me/tracks/contains")
     public Boolean[] containsMySavedTracks(@Query("ids") String ids);
 
-    // todo: process status code and return boolean
     @PUT("/me/tracks")
-    public void addToMySavedTracks(@Query("ids") String ids, Callback<Boolean> callback);
+    public void addToMySavedTracks(@Query("ids") String ids, Callback<Object> callback);
 
-    // todo: process status code and return boolean
     @PUT("/me/tracks")
-    public boolean addToMySavedTracks(@Query("ids") String ids);
+    public Object addToMySavedTracks(@Query("ids") String ids);
 
-    // todo: process status code and return boolean
     @DELETE("/me/tracks")
-    public void removeFromMySavedTracks(@Query("ids") String ids, Callback<Boolean> callback);
+    public void removeFromMySavedTracks(@Query("ids") String ids, Callback<Object> callback);
 
-    // todo: process status code and return boolean
     @DELETE("/me/tracks")
-    public boolean removeFromMySavedTracks(@Query("ids") String ids);
+    public Object removeFromMySavedTracks(@Query("ids") String ids);
+
+    /**
+     * Follow *
+     */
+
+    @PUT("/me/following?type=user")
+    public void followUsers(@Query("ids") String ids, Callback<Object> callback);
+
+    @PUT("/me/following?type=user")
+    public Object followUsers(@Query("ids") String ids);
+
+    @PUT("/me/following?type=artist")
+    public void followArtists(@Query("ids") String ids, Callback<Object> callback);
+
+    @PUT("/me/following?type=artist")
+    public Object followArtists(@Query("ids") String ids);
+
+    @DELETE("/me/following?type=user")
+    public void unfollowUsers(@Query("ids") String ids, Callback<Object> callback);
+
+    @DELETE("/me/following?type=user")
+    public Object unfollowUsers(@Query("ids") String ids);
+
+    @DELETE("/me/following?type=artist")
+    public void unfollowArtists(@Query("ids") String ids, Callback<Object> callback);
+
+    @DELETE("/me/following?type=artist")
+    public Object unfollowArtists(@Query("ids") String ids);
+
+    @GET("/me/following/contains?type=user")
+    public void isFollowingUsers(@Query("ids") String ids, Callback<boolean[]> callback);
+
+    @GET("/me/following/contains?type=user")
+    public Boolean[] isFollowingUsers(@Query("ids") String ids);
+
+    @GET("/me/following/contains?type=artist")
+    public void isFollowingArtists(@Query("ids") String ids, Callback<boolean[]> callback);
+
+    @GET("/me/following/contains?type=artist")
+    public Boolean[] isFollowingArtists(@Query("ids") String ids);
 
     /**
      * Search *
