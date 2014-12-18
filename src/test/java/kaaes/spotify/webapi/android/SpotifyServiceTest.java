@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -13,7 +12,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Matchers;
-import org.skyscreamer.jsonassert.JSONParser;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -28,6 +26,8 @@ import kaaes.spotify.webapi.android.models.Artists;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
 import kaaes.spotify.webapi.android.models.NewReleases;
 import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.Playlist;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.User;
@@ -38,12 +38,9 @@ import retrofit.client.Request;
 import retrofit.client.Response;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONAs;
 
 @RunWith(JUnit4.class)
 public class SpotifyServiceTest {
@@ -184,7 +181,7 @@ public class SpotifyServiceTest {
     public void shouldGetArtistsAlbumsData() throws IOException {
         String artistId = "1vCWHaC5f2uS3yhpwWbIA6";
         String body = TestUtils.readTestData("artist-album.json");
-        Pager<Album> fixture = mGson.fromJson(body, Pager.class);
+        Pager fixture = mGson.fromJson(body, Pager.class);
 
         Response response = TestUtils.getResponseFromModel(fixture);
         when(mMockClient.execute(argThat(new MatchesId(artistId)))).thenReturn(response);
@@ -192,6 +189,33 @@ public class SpotifyServiceTest {
         Pager<Album> albums = mSpotifyService.getArtistAlbums(artistId);
 
         this.compareJSONWithoutNulls(body, albums);
+    }
+
+    @Test
+    public void shouldGetPlaylistData() throws IOException {
+        String body = TestUtils.readTestData("playlist-response.json");
+        Playlist fixture = mGson.fromJson(body, Playlist.class);
+
+        Response response = TestUtils.getResponseFromModel(fixture);
+        when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
+
+        Playlist playlist = mSpotifyService.getPlaylist(fixture.owner.id, fixture.id);
+        this.compareJSONWithoutNulls(body, playlist);
+    }
+
+    @Test
+    public void shouldGetPlaylistTracks() throws IOException {
+        String body = TestUtils.readTestData("playlist-tracks.json");
+        Pager fixture = mGson.fromJson(body, Pager.class);
+
+        String playlistBody = TestUtils.readTestData("playlist-response.json");
+        Playlist playlistFixture = mGson.fromJson(playlistBody, Playlist.class);
+
+        Response response = TestUtils.getResponseFromModel(fixture);
+        when(mMockClient.execute(argThat(new MatchesId(playlistFixture.id)))).thenReturn(response);
+
+        Pager<PlaylistTrack> playlistTracks = mSpotifyService.getPlaylistTracks(playlistFixture.owner.id, playlistFixture.id);
+        this.compareJSONWithoutNulls(body, playlistTracks);
     }
 
     @Test
@@ -273,7 +297,7 @@ public class SpotifyServiceTest {
         User fixture = mGson.fromJson(body, User.class);
 
         Response response = TestUtils.getResponseFromModel(fixture);
-        when(mMockClient.execute(Matchers.<Request> any())).thenReturn(response);
+        when(mMockClient.execute(Matchers.<Request>any())).thenReturn(response);
 
         User user = mSpotifyService.getMe();
         this.compareJSONWithoutNulls(body, user);
@@ -282,7 +306,7 @@ public class SpotifyServiceTest {
     @Test
     public void shouldCheckFollowingUsers() throws IOException {
         String body = TestUtils.readTestData("follow_is_following_users.json");
-        List<Boolean> fixture = mGson.fromJson(body, List.class);
+        List fixture = mGson.fromJson(body, List.class);
 
         final String userIds = "thelinmichael,wizzler";
 
@@ -307,7 +331,7 @@ public class SpotifyServiceTest {
     @Test
     public void shouldCheckFollowingArtists() throws IOException {
         String body = TestUtils.readTestData("follow_is_following_artists.json");
-        List<Boolean> fixture = mGson.fromJson(body, List.class);
+        List fixture = mGson.fromJson(body, List.class);
 
         final String artistIds = "3mOsjj1MhocRVwOejIZlTi";
 
@@ -334,10 +358,11 @@ public class SpotifyServiceTest {
      * This is useful to prevent issues with entities such as "Image" in
      * which width and height are not always present, and they result in
      * null values in the Image object
+     *
+     * @param fixture The JSON to test against
+     * @param object  The object to be serialized
      * @todo: replace with proper comparator, since integers are being
      * serialized as floats
-     * @param fixture The JSON to test against
-     * @param object The object to be serialized
      */
     private void compareJSONWithoutNulls(String fixture, Object object) {
         String json = mGson.toJson(object);
