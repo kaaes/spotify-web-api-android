@@ -4,19 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONObject;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Matchers;
-import org.skyscreamer.jsonassert.JSONParser;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +27,8 @@ import kaaes.spotify.webapi.android.models.Artists;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
 import kaaes.spotify.webapi.android.models.NewReleases;
 import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.Playlist;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.User;
@@ -38,12 +39,10 @@ import retrofit.client.Request;
 import retrofit.client.Response;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static uk.co.datumedge.hamcrest.json.SameJSONAs.sameJSONAs;
 
 @RunWith(JUnit4.class)
 public class SpotifyServiceTest {
@@ -87,11 +86,11 @@ public class SpotifyServiceTest {
         String body = TestUtils.readTestData("track.json");
         Track fixture = mGson.fromJson(body, Track.class);
 
-        Response response = TestUtils.getResponseFromModel(fixture);
+        Response response = TestUtils.getResponseFromModel(fixture, Track.class);
         when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
 
         Track track = mSpotifyService.getTrack(fixture.id);
-        this.compareJSONWithoutNulls(body, track);
+        this.compareJSONWithoutNulls(body, track, Track.class);
     }
 
     @Test
@@ -107,11 +106,11 @@ public class SpotifyServiceTest {
             ids += fixture.tracks.get(i).id;
         }
 
-        Response response = TestUtils.getResponseFromModel(fixture);
+        Response response = TestUtils.getResponseFromModel(fixture, Tracks.class);
         when(mMockClient.execute(argThat(new MatchesId(ids)))).thenReturn(response);
 
         Tracks tracks = mSpotifyService.getTracks(ids);
-        this.compareJSONWithoutNulls(body, tracks);
+        this.compareJSONWithoutNulls(body, tracks, Tracks.class);
     }
 
     @Test
@@ -119,11 +118,11 @@ public class SpotifyServiceTest {
         String body = TestUtils.readTestData("album.json");
         Album fixture = mGson.fromJson(body, Album.class);
 
-        Response response = TestUtils.getResponseFromModel(fixture);
+        Response response = TestUtils.getResponseFromModel(fixture, Album.class);
         when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
 
         Album album = mSpotifyService.getAlbum(fixture.id);
-        this.compareJSONWithoutNulls(body, album);
+        this.compareJSONWithoutNulls(body, album, Album.class);
     }
 
     @Test
@@ -139,11 +138,11 @@ public class SpotifyServiceTest {
             ids += fixture.albums.get(i).id;
         }
 
-        Response response = TestUtils.getResponseFromModel(fixture);
+        Response response = TestUtils.getResponseFromModel(fixture, Albums.class);
         when(mMockClient.execute(argThat(new MatchesId(ids)))).thenReturn(response);
 
         Albums albums = mSpotifyService.getAlbums(ids);
-        this.compareJSONWithoutNulls(body, albums);
+        this.compareJSONWithoutNulls(body, albums, Albums.class);
     }
 
     @Test
@@ -151,11 +150,11 @@ public class SpotifyServiceTest {
         String body = TestUtils.readTestData("artist.json");
         Artist fixture = mGson.fromJson(body, Artist.class);
 
-        Response response = TestUtils.getResponseFromModel(fixture);
+        Response response = TestUtils.getResponseFromModel(fixture, Artist.class);
         when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
 
         Artist artist = mSpotifyService.getArtist(fixture.id);
-        this.compareJSONWithoutNulls(body, artist);
+        this.compareJSONWithoutNulls(body, artist, Artist.class);
     }
 
     @Test
@@ -171,27 +170,54 @@ public class SpotifyServiceTest {
             ids += fixture.artists.get(i).id;
         }
 
-        Response response = TestUtils.getResponseFromModel(fixture);
+        Response response = TestUtils.getResponseFromModel(fixture, Artists.class);
         when(mMockClient.execute(argThat(new MatchesId(ids)))).thenReturn(response);
 
         Artists artists = mSpotifyService.getArtists(ids);
 
-        this.compareJSONWithoutNulls(body, artists);
+        this.compareJSONWithoutNulls(body, artists, Artists.class);
     }
 
     @Test
-    @Ignore
     public void shouldGetArtistsAlbumsData() throws IOException {
+        Type modelType = new TypeToken<Pager<Album>>(){}.getType();
+
         String artistId = "1vCWHaC5f2uS3yhpwWbIA6";
         String body = TestUtils.readTestData("artist-album.json");
-        Pager<Album> fixture = mGson.fromJson(body, Pager.class);
+        Pager<Album> fixture = mGson.fromJson(body, modelType);
 
-        Response response = TestUtils.getResponseFromModel(fixture);
+        Response response = TestUtils.getResponseFromModel(fixture, modelType);
         when(mMockClient.execute(argThat(new MatchesId(artistId)))).thenReturn(response);
 
         Pager<Album> albums = mSpotifyService.getArtistAlbums(artistId);
 
-        this.compareJSONWithoutNulls(body, albums);
+        this.compareJSONWithoutNulls(body, albums, modelType);
+    }
+
+    @Test
+    public void shouldGetPlaylistData() throws IOException {
+        String body = TestUtils.readTestData("playlist-response.json");
+        Playlist fixture = mGson.fromJson(body, Playlist.class);
+
+        Response response = TestUtils.getResponseFromModel(fixture, Playlist.class);
+        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+
+        Playlist playlist = mSpotifyService.getPlaylist(fixture.owner.id, fixture.id);
+        compareJSONWithoutNulls(body, playlist, Playlist.class);
+    }
+
+    @Test
+    public void shouldGetPlaylistTracks() throws IOException {
+        Type modelType = new TypeToken<Pager<PlaylistTrack>>(){}.getType();
+
+        String body = TestUtils.readTestData("playlist-tracks.json");
+        Pager<PlaylistTrack> fixture = mGson.fromJson(body, modelType);
+
+        Response response = TestUtils.getResponseFromModel(fixture, modelType);
+        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+
+        Pager<PlaylistTrack> playlistTracks = mSpotifyService.getPlaylistTracks("test", "test");
+        compareJSONWithoutNulls(body, playlistTracks, modelType);
     }
 
     @Test
@@ -202,7 +228,7 @@ public class SpotifyServiceTest {
         String body = TestUtils.readTestData("new-releases.json");
         NewReleases fixture = mGson.fromJson(body, NewReleases.class);
 
-        Response response = TestUtils.getResponseFromModel(fixture);
+        Response response = TestUtils.getResponseFromModel(fixture, NewReleases.class);
 
         when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
             @Override
@@ -219,7 +245,7 @@ public class SpotifyServiceTest {
 
         NewReleases newReleases = mSpotifyService.getNewReleases(countryId, 0, limit);
 
-        this.compareJSONWithoutNulls(body, newReleases);
+        this.compareJSONWithoutNulls(body, newReleases, NewReleases.class);
     }
 
     @Test
@@ -231,7 +257,7 @@ public class SpotifyServiceTest {
         String body = TestUtils.readTestData("featured-playlists.json");
         FeaturedPlaylists fixture = mGson.fromJson(body, FeaturedPlaylists.class);
 
-        Response response = TestUtils.getResponseFromModel(fixture);
+        Response response = TestUtils.getResponseFromModel(fixture, FeaturedPlaylists.class);
 
         when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
             @Override
@@ -252,7 +278,7 @@ public class SpotifyServiceTest {
         map.put("locale", locale);
         FeaturedPlaylists featuredPlaylists = mSpotifyService.getFeaturedPlaylists(map, 0, limit);
 
-        this.compareJSONWithoutNulls(body, featuredPlaylists);
+        this.compareJSONWithoutNulls(body, featuredPlaylists, FeaturedPlaylists.class);
     }
 
     @Test
@@ -260,11 +286,11 @@ public class SpotifyServiceTest {
         String body = TestUtils.readTestData("user.json");
         UserSimple fixture = mGson.fromJson(body, UserSimple.class);
 
-        Response response = TestUtils.getResponseFromModel(fixture);
+        Response response = TestUtils.getResponseFromModel(fixture, UserSimple.class);
         when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
 
         UserSimple userSimple = mSpotifyService.getUser(fixture.id);
-        this.compareJSONWithoutNulls(body, userSimple);
+        this.compareJSONWithoutNulls(body, userSimple, UserSimple.class);
     }
 
     @Test
@@ -272,21 +298,22 @@ public class SpotifyServiceTest {
         String body = TestUtils.readTestData("current-user.json");
         User fixture = mGson.fromJson(body, User.class);
 
-        Response response = TestUtils.getResponseFromModel(fixture);
-        when(mMockClient.execute(Matchers.<Request> any())).thenReturn(response);
+        Response response = TestUtils.getResponseFromModel(fixture, User.class);
+        when(mMockClient.execute(Matchers.<Request>any())).thenReturn(response);
 
         User user = mSpotifyService.getMe();
-        this.compareJSONWithoutNulls(body, user);
+        this.compareJSONWithoutNulls(body, user, User.class);
     }
 
     @Test
     public void shouldCheckFollowingUsers() throws IOException {
+        Type modelType = new TypeToken<List<Boolean>>(){}.getType();
         String body = TestUtils.readTestData("follow_is_following_users.json");
-        List<Boolean> fixture = mGson.fromJson(body, List.class);
+        List<Boolean> fixture = mGson.fromJson(body, modelType);
 
         final String userIds = "thelinmichael,wizzler";
 
-        Response response = TestUtils.getResponseFromModel(fixture);
+        Response response = TestUtils.getResponseFromModel(fixture, modelType);
 
         when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
             @Override
@@ -301,17 +328,18 @@ public class SpotifyServiceTest {
         }))).thenReturn(response);
 
         Boolean[] result = mSpotifyService.isFollowingUsers(userIds);
-        this.compareJSONWithoutNulls(body, result);
+        this.compareJSONWithoutNulls(body, result, modelType);
     }
 
     @Test
     public void shouldCheckFollowingArtists() throws IOException {
+        Type modelType = new TypeToken<List<Boolean>>(){}.getType();
         String body = TestUtils.readTestData("follow_is_following_artists.json");
-        List<Boolean> fixture = mGson.fromJson(body, List.class);
+        List<Boolean> fixture = mGson.fromJson(body, modelType);
 
         final String artistIds = "3mOsjj1MhocRVwOejIZlTi";
 
-        Response response = TestUtils.getResponseFromModel(fixture);
+        Response response = TestUtils.getResponseFromModel(fixture, modelType);
 
         when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
             @Override
@@ -326,7 +354,7 @@ public class SpotifyServiceTest {
         }))).thenReturn(response);
 
         Boolean[] result = mSpotifyService.isFollowingArtists(artistIds);
-        this.compareJSONWithoutNulls(body, result);
+        this.compareJSONWithoutNulls(body, result, modelType);
     }
 
     /**
@@ -334,19 +362,28 @@ public class SpotifyServiceTest {
      * This is useful to prevent issues with entities such as "Image" in
      * which width and height are not always present, and they result in
      * null values in the Image object
-     * @todo: replace with proper comparator, since integers are being
-     * serialized as floats
-     * @param fixture The JSON to test against
-     * @param object The object to be serialized
+     *
+     * @param fixture   The JSON to test against
+     * @param model     The object to be serialized
+     * @param modelType Type of the object to serialize to.
      */
-    private void compareJSONWithoutNulls(String fixture, Object object) {
-        String json = mGson.toJson(object);
-        Object cleanBody = mGson.fromJson(fixture, Object.class);
-        String cleanBodyJson = mGson.toJson(cleanBody);
+    private <T> void compareJSONWithoutNulls(String fixture, T model, Type modelType) {
+        T fixtureModel = mGson.fromJson(fixture, modelType);
+        compareModels(fixtureModel, model);
+    }
+
+    private <T> void compareJSONWithoutNulls(String fixture, T model, Class<T> modelClass) {
+        T fixtureModel = mGson.fromJson(fixture, modelClass);
+        compareModels(fixtureModel, model);
+    }
+
+    private <T> void compareModels(T expected, T actual) {
+        String expectedJson = mGson.toJson(expected);
+        String actualJson = mGson.toJson(actual);
 
         JsonParser parser = new JsonParser();
-        JsonElement o1 = parser.parse(cleanBodyJson);
-        JsonElement o2 = parser.parse(json);
+        JsonElement o1 = parser.parse(expectedJson);
+        JsonElement o2 = parser.parse(actualJson);
         assertEquals(o1, o2);
     }
 }
