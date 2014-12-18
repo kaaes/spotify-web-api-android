@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kaaes/spotify-web-api-android.svg?branch=master)](https://travis-ci.org/kaaes/spotify-web-api-android)
+
 Spotify Web API for Android
 ===========================
 
