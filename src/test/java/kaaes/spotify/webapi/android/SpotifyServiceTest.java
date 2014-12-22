@@ -31,6 +31,7 @@ import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
+import kaaes.spotify.webapi.android.models.TracksPager;
 import kaaes.spotify.webapi.android.models.User;
 import kaaes.spotify.webapi.android.models.UserSimple;
 import retrofit.RestAdapter;
@@ -90,7 +91,7 @@ public class SpotifyServiceTest {
         when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
 
         Track track = mSpotifyService.getTrack(fixture.id);
-        this.compareJSONWithoutNulls(body, track, Track.class);
+        this.compareJSONWithoutNulls(body, track);
     }
 
     @Test
@@ -110,7 +111,7 @@ public class SpotifyServiceTest {
         when(mMockClient.execute(argThat(new MatchesId(ids)))).thenReturn(response);
 
         Tracks tracks = mSpotifyService.getTracks(ids);
-        this.compareJSONWithoutNulls(body, tracks, Tracks.class);
+        this.compareJSONWithoutNulls(body, tracks);
     }
 
     @Test
@@ -122,7 +123,7 @@ public class SpotifyServiceTest {
         when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
 
         Album album = mSpotifyService.getAlbum(fixture.id);
-        this.compareJSONWithoutNulls(body, album, Album.class);
+        this.compareJSONWithoutNulls(body, album);
     }
 
     @Test
@@ -142,7 +143,7 @@ public class SpotifyServiceTest {
         when(mMockClient.execute(argThat(new MatchesId(ids)))).thenReturn(response);
 
         Albums albums = mSpotifyService.getAlbums(ids);
-        this.compareJSONWithoutNulls(body, albums, Albums.class);
+        this.compareJSONWithoutNulls(body, albums);
     }
 
     @Test
@@ -154,7 +155,7 @@ public class SpotifyServiceTest {
         when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
 
         Artist artist = mSpotifyService.getArtist(fixture.id);
-        this.compareJSONWithoutNulls(body, artist, Artist.class);
+        this.compareJSONWithoutNulls(body, artist);
     }
 
     @Test
@@ -175,7 +176,7 @@ public class SpotifyServiceTest {
 
         Artists artists = mSpotifyService.getArtists(ids);
 
-        this.compareJSONWithoutNulls(body, artists, Artists.class);
+        this.compareJSONWithoutNulls(body, artists);
     }
 
     @Test
@@ -191,7 +192,7 @@ public class SpotifyServiceTest {
 
         Pager<Album> albums = mSpotifyService.getArtistAlbums(artistId);
 
-        this.compareJSONWithoutNulls(body, albums, modelType);
+        this.compareJSONWithoutNulls(body, albums);
     }
 
     @Test
@@ -203,7 +204,7 @@ public class SpotifyServiceTest {
         when(mMockClient.execute(isA(Request.class))).thenReturn(response);
 
         Playlist playlist = mSpotifyService.getPlaylist(fixture.owner.id, fixture.id);
-        compareJSONWithoutNulls(body, playlist, Playlist.class);
+        compareJSONWithoutNulls(body, playlist);
     }
 
     @Test
@@ -217,7 +218,7 @@ public class SpotifyServiceTest {
         when(mMockClient.execute(isA(Request.class))).thenReturn(response);
 
         Pager<PlaylistTrack> playlistTracks = mSpotifyService.getPlaylistTracks("test", "test");
-        compareJSONWithoutNulls(body, playlistTracks, modelType);
+        compareJSONWithoutNulls(body, playlistTracks);
     }
 
     @Test
@@ -245,7 +246,7 @@ public class SpotifyServiceTest {
 
         NewReleases newReleases = mSpotifyService.getNewReleases(countryId, 0, limit);
 
-        this.compareJSONWithoutNulls(body, newReleases, NewReleases.class);
+        this.compareJSONWithoutNulls(body, newReleases);
     }
 
     @Test
@@ -278,7 +279,7 @@ public class SpotifyServiceTest {
         map.put("locale", locale);
         FeaturedPlaylists featuredPlaylists = mSpotifyService.getFeaturedPlaylists(map, 0, limit);
 
-        this.compareJSONWithoutNulls(body, featuredPlaylists, FeaturedPlaylists.class);
+        this.compareJSONWithoutNulls(body, featuredPlaylists);
     }
 
     @Test
@@ -290,7 +291,7 @@ public class SpotifyServiceTest {
         when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
 
         UserSimple userSimple = mSpotifyService.getUser(fixture.id);
-        this.compareJSONWithoutNulls(body, userSimple, UserSimple.class);
+        this.compareJSONWithoutNulls(body, userSimple);
     }
 
     @Test
@@ -302,7 +303,7 @@ public class SpotifyServiceTest {
         when(mMockClient.execute(Matchers.<Request>any())).thenReturn(response);
 
         User user = mSpotifyService.getMe();
-        this.compareJSONWithoutNulls(body, user, User.class);
+        this.compareJSONWithoutNulls(body, user);
     }
 
     @Test
@@ -328,7 +329,7 @@ public class SpotifyServiceTest {
         }))).thenReturn(response);
 
         Boolean[] result = mSpotifyService.isFollowingUsers(userIds);
-        this.compareJSONWithoutNulls(body, result, modelType);
+        this.compareJSONWithoutNulls(body, result);
     }
 
     @Test
@@ -354,7 +355,19 @@ public class SpotifyServiceTest {
         }))).thenReturn(response);
 
         Boolean[] result = mSpotifyService.isFollowingArtists(artistIds);
-        this.compareJSONWithoutNulls(body, result, modelType);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldGetSearchedTracks() throws IOException {
+        String body = TestUtils.readTestData("search-track.json");
+        TracksPager fixture = mGson.fromJson(body, TracksPager.class);
+
+        Response response = TestUtils.getResponseFromModel(fixture, TracksPager.class);
+        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+
+        TracksPager tracks = mSpotifyService.searchTracks("Christmas");
+        compareJSONWithoutNulls(body, tracks);
     }
 
     /**
@@ -363,27 +376,22 @@ public class SpotifyServiceTest {
      * which width and height are not always present, and they result in
      * null values in the Image object
      *
-     * @param fixture   The JSON to test against
-     * @param model     The object to be serialized
-     * @param modelType Type of the object to serialize to.
+     * @param fixture The JSON to test against
+     * @param model   The object to be serialized
      */
-    private <T> void compareJSONWithoutNulls(String fixture, T model, Type modelType) {
-        T fixtureModel = mGson.fromJson(fixture, modelType);
-        compareModels(fixtureModel, model);
-    }
-
-    private <T> void compareJSONWithoutNulls(String fixture, T model, Class<T> modelClass) {
-        T fixtureModel = mGson.fromJson(fixture, modelClass);
-        compareModels(fixtureModel, model);
-    }
-
-    private <T> void compareModels(T expected, T actual) {
-        String expectedJson = mGson.toJson(expected);
-        String actualJson = mGson.toJson(actual);
-
+    private <T> void compareJSONWithoutNulls(String fixture, T model) {
         JsonParser parser = new JsonParser();
-        JsonElement o1 = parser.parse(expectedJson);
-        JsonElement o2 = parser.parse(actualJson);
-        assertEquals(o1, o2);
+
+        // Parsing fixture twice gets rid of nulls
+        JsonElement fixtureJsonElement = parser.parse(fixture);
+        String fixtureWithoutNulls = mGson.toJson(fixtureJsonElement);
+        fixtureJsonElement = parser.parse(fixtureWithoutNulls);
+
+        JsonElement modelJsonElement = mGson.toJsonTree(model);
+
+        // We compare JsonElements from fixture
+        // with the one created from model. If they're different
+        // it means the model is borked
+        assertEquals(fixtureJsonElement, modelJsonElement);
     }
 }
