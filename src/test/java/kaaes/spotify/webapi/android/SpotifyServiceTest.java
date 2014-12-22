@@ -22,13 +22,16 @@ import java.util.List;
 
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.Albums;
+import kaaes.spotify.webapi.android.models.AlbumsPager;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.Artists;
+import kaaes.spotify.webapi.android.models.ArtistsPager;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
 import kaaes.spotify.webapi.android.models.NewReleases;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import kaaes.spotify.webapi.android.models.PlaylistsPager;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.TracksPager;
@@ -368,6 +371,42 @@ public class SpotifyServiceTest {
 
         TracksPager tracks = mSpotifyService.searchTracks("Christmas");
         compareJSONWithoutNulls(body, tracks);
+    }
+
+    @Test
+    public void shouldGetSearchedAlbums() throws IOException {
+        String body = TestUtils.readTestData("search-album.json");
+        AlbumsPager fixture = mGson.fromJson(body, AlbumsPager.class);
+
+        Response response = TestUtils.getResponseFromModel(fixture, AlbumsPager.class);
+        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+
+        AlbumsPager result = mSpotifyService.searchAlbums("Christmas");
+        compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldGetSearchedArtists() throws IOException {
+        String body = TestUtils.readTestData("search-artist.json");
+        ArtistsPager fixture = mGson.fromJson(body, ArtistsPager.class);
+
+        Response response = TestUtils.getResponseFromModel(fixture, ArtistsPager.class);
+        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+
+        ArtistsPager result = mSpotifyService.searchArtists("Christmas");
+        compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldGetSearchedPlaylists() throws IOException {
+        String body = TestUtils.readTestData("search-playlist.json");
+        PlaylistsPager fixture = mGson.fromJson(body, PlaylistsPager.class);
+
+        Response response = TestUtils.getResponseFromModel(fixture, PlaylistsPager.class);
+        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+
+        PlaylistsPager result = mSpotifyService.searchPlaylists("Christmas");
+        compareJSONWithoutNulls(body, result);
     }
 
     /**
