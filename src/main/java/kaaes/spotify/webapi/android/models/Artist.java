@@ -1,7 +1,6 @@
 package kaaes.spotify.webapi.android.models;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <a href="https://developer.spotify.com/web-api/object-model/#artist-object-full">Artist object model</a>

@@ -46,7 +46,7 @@ public class TestUtils {
         }
     }
 
-    public static <T> Response getResponseFromModel(T model, Class<T> modelClass) throws IOException {
+    public static <T> Response getResponseFromModel(T model, Class<T> modelClass) {
         ResponseBody responseBody = new ResponseBody(gson.toJson(model, modelClass));
         return createResponse(responseBody);
     }
