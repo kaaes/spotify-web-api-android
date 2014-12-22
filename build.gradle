@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'jacoco'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -6,6 +7,10 @@ version = '0.1.0'
 
 repositories {
     mavenCentral()
+}
+
+jacoco {
+    version = "0.7.1.201405082137"
 }
 
 dependencies {
@@ -20,4 +25,13 @@ dependencies {
 
 test {
     outputs.upToDateWhen {false}
+
 }
+
+jacocoTestReport {
+    reports {
+        html.destination "${buildDir}/reports/jacoco/html"
+    }
+}
+
+check.dependsOn jacocoTestReport
