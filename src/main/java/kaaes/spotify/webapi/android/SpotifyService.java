@@ -182,13 +182,25 @@ public interface SpotifyService {
     public void getArtistAlbums(@Path("id") String artistId, Callback<Pager<Album>> callback, @Query("offset") int offset, @Query("limit") int limit);
 
     @GET("/artists/{id}/albums")
+    public void getArtistAlbums(@Path("id") String artistId, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<Album>> callback);
+
+    @GET("/artists/{id}/albums")
     public Pager<Album> getArtistAlbums(@Path("id") String artistId, @Query("offset") int offset, @Query("limit") int limit);
+
+    @GET("/artists/{id}/albums")
+    public Pager<Album> getArtistAlbums(@Path("id") String artistId, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit);
 
     @GET("/artists/{id}/albums")
     public void getArtistAlbums(@Path("id") String artistId, Callback<Pager<Album>> callback);
 
     @GET("/artists/{id}/albums")
+    public void getArtistAlbums(@Path("id") String artistId, @Query("market") String market, Callback<Pager<Album>> callback);
+
+    @GET("/artists/{id}/albums")
     public Pager<Album> getArtistAlbums(@Path("id") String artistId);
+
+    @GET("/artists/{id}/albums")
+    public Pager<Album> getArtistAlbums(@Path("id") String artistId, @Query("market") String market);
 
     @GET("/artists/{id}/top-tracks")
     public void getArtistTopTrack(@Path("id") String artistId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<Track>> callback);
