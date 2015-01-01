@@ -56,10 +56,10 @@ public interface SpotifyService {
      */
 
     @GET("/users/{id}/playlists")
-    public void getPlaylists(@Path("id") String userId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<Playlist>> callback);
+    public void getPlaylists(@Path("id") String userId, @QueryMap Map<String, String> filterOptions, Callback<Pager<Playlist>> callback);
 
     @GET("/users/{id}/playlists")
-    public Pager<Playlist> getPlaylists(@Path("id") String userId, @Query("offset") int offset, @Query("limit") int limit);
+    public Pager<Playlist> getPlaylists(@Path("id") String userId, @QueryMap Map<String, String> filterOptions);
 
     @GET("/users/{id}/playlists")
     public void getPlaylists(@Path("id") String userId, Callback<Pager<Playlist>> callback);
@@ -74,10 +74,10 @@ public interface SpotifyService {
     public Playlist getPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
 
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public void getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<PlaylistTrack>> callback);
+    public void getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, String> filterOptions, Callback<Pager<PlaylistTrack>> callback);
 
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public Pager<PlaylistTrack> getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("offset") int offset, @Query("limit") int limit);
+    public Pager<PlaylistTrack> getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, String> filterOptions);
 
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
     public void getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, Callback<Pager<PlaylistTrack>> callback);
@@ -87,28 +87,16 @@ public interface SpotifyService {
 
 
     @POST("/users/{user_id}/playlists")
-    public void createPlaylist(@Path("user_id") String userId, @Query("name") String name, Callback<Playlist> callback);
+    public void createPlaylist(@Path("user_id") String userId, @QueryMap Map<String, String> filterOptions, Callback<Playlist> callback);
 
     @POST("/users/{user_id}/playlists")
-    public Playlist createPlaylist(@Path("user_id") String userId, @Query("name") String name);
-
-    @POST("/users/{user_id}/playlists")
-    public void createPlaylist(@Path("user_id") String userId, @Query("name") String name, @Query("public") boolean is_public, Callback<Playlist> callback);
-
-    @POST("/users/{user_id}/playlists")
-    public Playlist createPlaylist(@Path("user_id") String userId, @Query("name") String name, @Query("public") boolean is_public);
+    public Playlist createPlaylist(@Path("user_id") String userId, @QueryMap Map<String, String> filterOptions);
 
     @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, Callback<SnapshotId> callback);
+    public void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, String> filterOptions, Callback<SnapshotId> callback);
 
     @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public SnapshotId addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris);
-
-    @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, @Query("position") int position, Callback<SnapshotId> callback);
-
-    @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public SnapshotId addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, @Query("position") int position);
+    public SnapshotId addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, String> filterOptions);
 
     @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
     public void removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemove tracksToRemove, Callback<SnapshotId> callback);
@@ -122,29 +110,17 @@ public interface SpotifyService {
     @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
     public SnapshotId removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemoveWithPosition tracksToRemoveWithPosition);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
     public void replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, Callback<Boolean> callback);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
     public boolean replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}")
-    public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("name") String name, Callback<Boolean> callback);
+    public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, String> filterOptions, Callback<Boolean> callback);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}")
-    public boolean changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("name") String name);
-
-    // todo: process status code and return boolean
-    @PUT("/users/{user_id}/playlists/{playlist_id}")
-    public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("public") boolean is_public, Callback<Boolean> callback);
-
-    // todo: process status code and return boolean
-    @PUT("/users/{user_id}/playlists/{playlist_id}")
-    public boolean changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("public") boolean is_public);
+    public boolean changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, String> filterOptions);
 
     /**
      * Albums *
@@ -169,44 +145,32 @@ public interface SpotifyService {
     public void getAlbumTracks(@Path("id") String albumId, Callback<Pager<Track>> callback);
 
     @GET("/albums/{id}/tracks")
-    public void getAlbumTracks(@Path("id") String albumId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<Track>> callback);
+    public void getAlbumTracks(@Path("id") String albumId, @QueryMap Map<String, String> filterOptions, Callback<Pager<Track>> callback);
 
     @GET("/albums/{id}/tracks")
-    public Pager<Track> getAlbumTracks(@Path("id") String albumId, @Query("offset") int offset, @Query("limit") int limit);
+    public Pager<Track> getAlbumTracks(@Path("id") String albumId, @QueryMap Map<String, String> filterOptions);
 
     /**
      * Artists *
      */
 
     @GET("/artists/{id}/albums")
-    public void getArtistAlbums(@Path("id") String artistId, Callback<Pager<Album>> callback, @Query("offset") int offset, @Query("limit") int limit);
-
-    @GET("/artists/{id}/albums")
-    public void getArtistAlbums(@Path("id") String artistId, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<Album>> callback);
-
-    @GET("/artists/{id}/albums")
-    public Pager<Album> getArtistAlbums(@Path("id") String artistId, @Query("offset") int offset, @Query("limit") int limit);
-
-    @GET("/artists/{id}/albums")
-    public Pager<Album> getArtistAlbums(@Path("id") String artistId, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit);
-
-    @GET("/artists/{id}/albums")
     public void getArtistAlbums(@Path("id") String artistId, Callback<Pager<Album>> callback);
-
-    @GET("/artists/{id}/albums")
-    public void getArtistAlbums(@Path("id") String artistId, @Query("market") String market, Callback<Pager<Album>> callback);
 
     @GET("/artists/{id}/albums")
     public Pager<Album> getArtistAlbums(@Path("id") String artistId);
 
     @GET("/artists/{id}/albums")
-    public Pager<Album> getArtistAlbums(@Path("id") String artistId, @Query("market") String market);
+    public void getArtistAlbums(@Path("id") String artistId, @QueryMap Map<String, String> filterOptions, Callback<Pager<Album>> callback);
+
+    @GET("/artists/{id}/albums")
+    public Pager<Album> getArtistAlbums(@Path("id") String artistId, @QueryMap Map<String, String> filterOptions);
 
     @GET("/artists/{id}/top-tracks")
-    public void getArtistTopTrack(@Path("id") String artistId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<Track>> callback);
+    public void getArtistTopTrack(@Path("id") String artistId, @QueryMap Map<String, String> filterOptions, Callback<Pager<Track>> callback);
 
     @GET("/artists/{id}/top-tracks")
-    public Pager<Track> getArtistTopTrack(@Path("id") String artistId, @Query("offset") int offset, @Query("limit") int limit);
+    public Pager<Track> getArtistTopTrack(@Path("id") String artistId, @QueryMap Map<String, String> filterOptions);
 
     @GET("/artists/{id}/top-tracks")
     public void getArtistTopTrack(@Path("id") String artistId, Callback<Pager<Track>> callback);
@@ -215,10 +179,10 @@ public interface SpotifyService {
     public Pager<Track> getArtistTopTrack(@Path("id") String artistId);
 
     @GET("/artists/{id}/related-artists")
-    public void getRelatedArtists(@Path("id") String artistId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<Artist>> callback);
+    public void getRelatedArtists(@Path("id") String artistId, @QueryMap Map<String, String> filterOptions, Callback<Pager<Artist>> callback);
 
     @GET("/artists/{id}/related-artists")
-    public Pager<Artist> getRelatedArtists(@Path("id") String artistId, @Query("offset") int offset, @Query("limit") int limit);
+    public Pager<Artist> getRelatedArtists(@Path("id") String artistId, @QueryMap Map<String, String> filterOptions);
 
     @GET("/artists/{id}/related-artists")
     public void getRelatedArtists(@Path("id") String artistId, Callback<Pager<Artist>> callback);
@@ -265,16 +229,10 @@ public interface SpotifyService {
     public FeaturedPlaylists getFeaturedPlaylists();
 
     @GET("/browse/featured-playlists")
-    public void getFeaturedPlaylists(@QueryMap Map<String, String> options, Callback<FeaturedPlaylists> callback);
+    public void getFeaturedPlaylists(@QueryMap Map<String, String> filterOptions, Callback<FeaturedPlaylists> callback);
 
     @GET("/browse/featured-playlists")
-    public FeaturedPlaylists getFeaturedPlaylists(@QueryMap Map<String, String> options);
-
-    @GET("/browse/featured-playlists")
-    public void getFeaturedPlaylists(@QueryMap Map<String, String> options, @Query("offset") int offset, @Query("limit") int limit, Callback<FeaturedPlaylists> callback);
-
-    @GET("/browse/featured-playlists")
-    public FeaturedPlaylists getFeaturedPlaylists(@QueryMap Map<String, String> options, @Query("offset") int offset, @Query("limit") int limit);
+    public FeaturedPlaylists getFeaturedPlaylists(@QueryMap Map<String, String> filterOptions);
 
     @GET("/browse/new-releases")
     public void getNewReleases(Callback<NewReleases> callback);
@@ -283,17 +241,10 @@ public interface SpotifyService {
     public NewReleases getNewReleases();
 
     @GET("/browse/new-releases")
-    public void getNewReleases(@Query("country") String country, Callback<NewReleases> callback);
+    public void getNewReleases(@Query("country") String country, @QueryMap Map<String, String> filterOptions, Callback<NewReleases> callback);
 
     @GET("/browse/new-releases")
-    public NewReleases getNewReleases(@Query("country") String country);
-
-    @GET("/browse/new-releases")
-    public void getNewReleases(@Query("country") String country, @Query("offset") int offset, @Query("limit") int limit, Callback<NewReleases> callback);
-
-    @GET("/browse/new-releases")
-    public NewReleases getNewReleases(@Query("country") String country, @Query("offset") int offset, @Query("limit") int limit);
-
+    public NewReleases getNewReleases(@Query("country") String country, @QueryMap Map<String, String> filterOptions);
 
     /**
      * Library / Your Music *
@@ -306,10 +257,10 @@ public interface SpotifyService {
     public Pager<SavedTrack> getMySavedTracks();
 
     @GET("/me/tracks")
-    public void getMySavedTracks(@Query("offset") int offset, @Query("limit") int limit, Callback<Pager<SavedTrack>> callback);
+    public void getMySavedTracks(@QueryMap Map<String, String> filterOptions, Callback<Pager<SavedTrack>> callback);
 
     @GET("/me/tracks")
-    public Pager<SavedTrack> getMySavedTracks(@Query("offset") int offset, @Query("limit") int limit);
+    public Pager<SavedTrack> getMySavedTracks(@QueryMap Map<String, String> filterOptions);
 
     @GET("/me/tracks/contains")
     public void containsMySavedTracks(@Query("ids") String ids, Callback<boolean[]> callback);
@@ -374,101 +325,53 @@ public interface SpotifyService {
      */
 
     @GET("/search?type=track")
-    public void searchTracks(@Query("q") String q, Callback<TracksPager> callback);
+    public void searchTracks(@Query("q") String query, Callback<TracksPager> callback);
 
     @GET("/search?type=track")
-    public TracksPager searchTracks(@Query("q") String q);
+    public TracksPager searchTracks(@Query("q") String query);
 
     @GET("/search?type=track")
-    public void searchTracks(@Query("q") String q, @Query("market") String market, Callback<TracksPager> callback);
+    public void searchTracks(@Query("q") String query, @QueryMap Map<String, String> filterOptions, Callback<TracksPager> callback);
 
     @GET("/search?type=track")
-    public TracksPager searchTracks(@Query("q") String q, @Query("market") String market);
-
-    @GET("/search?type=track")
-    public void searchTracks(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit, Callback<TracksPager> callback);
-
-    @GET("/search?type=track")
-    public TracksPager searchTracks(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit);
-
-    @GET("/search?type=track")
-    public void searchTracks(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit, Callback<TracksPager> callback);
-
-    @GET("/search?type=track")
-    public TracksPager searchTracks(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit);
+    public TracksPager searchTracks(@Query("q") String query, @QueryMap Map<String, String> filterOptions);
 
 
     @GET("/search?type=artist")
-    public void searchArtists(@Query("q") String q, Callback<ArtistsPager> callback);
+    public void searchArtists(@Query("q") String query, Callback<ArtistsPager> callback);
 
     @GET("/search?type=artist")
-    public ArtistsPager searchArtists(@Query("q") String q);
+    public ArtistsPager searchArtists(@Query("q") String query);
 
     @GET("/search?type=artist")
-    public void searchArtists(@Query("q") String q, @Query("market") String market, Callback<ArtistsPager> callback);
+    public void searchArtists(@Query("q") String query, @QueryMap Map<String, String> filterOptions, Callback<ArtistsPager> callback);
 
     @GET("/search?type=artist")
-    public ArtistsPager searchArtists(@Query("q") String q, @Query("market") String market);
-
-    @GET("/search?type=artist")
-    public void searchArtists(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit, Callback<ArtistsPager> callback);
-
-    @GET("/search?type=artist")
-    public ArtistsPager searchArtists(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit);
-
-    @GET("/search?type=artist")
-    public void searchArtists(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit, Callback<ArtistsPager> callback);
-
-    @GET("/search?type=artist")
-    public ArtistsPager searchArtists(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit);
+    public ArtistsPager searchArtists(@Query("q") String query, @QueryMap Map<String, String> filterOptions);
 
 
     @GET("/search?type=album")
-    public void searchAlbums(@Query("q") String q, Callback<AlbumsPager> callback);
+    public void searchAlbums(@Query("q") String query, Callback<AlbumsPager> callback);
 
     @GET("/search?type=album")
-    public AlbumsPager searchAlbums(@Query("q") String q);
+    public AlbumsPager searchAlbums(@Query("q") String query);
 
     @GET("/search?type=album")
-    public void searchAlbums(@Query("q") String q, @Query("market") String market, Callback<AlbumsPager> callback);
+    public void searchAlbums(@Query("q") String query, @QueryMap Map<String, String> filterOptions, Callback<AlbumsPager> callback);
 
     @GET("/search?type=album")
-    public AlbumsPager searchAlbums(@Query("q") String q, @Query("market") String market);
-
-    @GET("/search?type=album")
-    public void searchAlbums(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit, Callback<AlbumsPager> callback);
-
-    @GET("/search?type=album")
-    public AlbumsPager searchAlbums(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit);
-
-    @GET("/search?type=album")
-    public void searchAlbums(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit, Callback<AlbumsPager> callback);
-
-    @GET("/search?type=album")
-    public AlbumsPager searchAlbums(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit);
+    public AlbumsPager searchAlbums(@Query("q") String query, @QueryMap Map<String, String> filterOptions);
 
 
     @GET("/search?type=playlist")
-    public void searchPlaylists(@Query("q") String q, Callback<PlaylistsPager> callback);
+    public void searchPlaylists(@Query("q") String query, Callback<PlaylistsPager> callback);
 
     @GET("/search?type=playlist")
-    public PlaylistsPager searchPlaylists(@Query("q") String q);
+    public PlaylistsPager searchPlaylists(@Query("q") String query);
 
     @GET("/search?type=playlist")
-    public void searchPlaylists(@Query("q") String q, @Query("market") String market, Callback<PlaylistsPager> callback);
+    public void searchPlaylists(@Query("q") String query, @QueryMap Map<String, String> filterOptions, Callback<PlaylistsPager> callback);
 
     @GET("/search?type=playlist")
-    public PlaylistsPager searchPlaylists(@Query("q") String q, @Query("market") String market);
-
-    @GET("/search?type=playlist")
-    public void searchPlaylists(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit, Callback<PlaylistsPager> callback);
-
-    @GET("/search?type=playlist")
-    public PlaylistsPager searchPlaylists(@Query("q") String q, @Query("offset") int offset, @Query("limit") int limit);
-
-    @GET("/search?type=playlist")
-    public void searchPlaylists(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit, Callback<PlaylistsPager> callback);
-
-    @GET("/search?type=playlist")
-    public PlaylistsPager searchPlaylists(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit);
+    public PlaylistsPager searchPlaylists(@Query("q") String query, @QueryMap Map<String, String> filterOptions);
 }
