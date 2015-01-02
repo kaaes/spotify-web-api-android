@@ -227,7 +227,8 @@ public class SpotifyServiceTest {
     @Test
     public void shouldGetNewReleases() throws IOException {
         final String countryId = "SE";
-        final int limit = 5;
+        final String offset = "0";
+        final String limit = "5";
 
         String body = TestUtils.readTestData("new-releases.json");
         NewReleases fixture = mGson.fromJson(body, NewReleases.class);
@@ -247,7 +248,11 @@ public class SpotifyServiceTest {
             }
         }))).thenReturn(response);
 
-        NewReleases newReleases = mSpotifyService.getNewReleases(countryId, 0, limit);
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("country", countryId);
+        map.put("offset", offset);
+        map.put("limit", limit);
+        NewReleases newReleases = mSpotifyService.getNewReleases(map);
 
         this.compareJSONWithoutNulls(body, newReleases);
     }
@@ -256,7 +261,8 @@ public class SpotifyServiceTest {
     public void shouldGetFeaturedPlaylists() throws IOException {
         final String countryId = "SE";
         final String locale = "sv_SE";
-        final int limit = 5;
+        final String offset = "0";
+        final String limit = "5";
 
         String body = TestUtils.readTestData("featured-playlists.json");
         FeaturedPlaylists fixture = mGson.fromJson(body, FeaturedPlaylists.class);
@@ -280,7 +286,9 @@ public class SpotifyServiceTest {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("country", countryId);
         map.put("locale", locale);
-        FeaturedPlaylists featuredPlaylists = mSpotifyService.getFeaturedPlaylists(map, 0, limit);
+        map.put("offset", offset);
+        map.put("limit", limit);
+        FeaturedPlaylists featuredPlaylists = mSpotifyService.getFeaturedPlaylists(map);
 
         this.compareJSONWithoutNulls(body, featuredPlaylists);
     }
