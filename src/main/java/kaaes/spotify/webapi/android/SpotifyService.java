@@ -241,10 +241,10 @@ public interface SpotifyService {
     public NewReleases getNewReleases();
 
     @GET("/browse/new-releases")
-    public void getNewReleases(@Query("country") String country, @QueryMap Map<String, String> filterOptions, Callback<NewReleases> callback);
+    public void getNewReleases(@QueryMap Map<String, String> filterOptions, Callback<NewReleases> callback);
 
     @GET("/browse/new-releases")
-    public NewReleases getNewReleases(@Query("country") String country, @QueryMap Map<String, String> filterOptions);
+    public NewReleases getNewReleases(@QueryMap Map<String, String> filterOptions);
 
     /**
      * Library / Your Music *
