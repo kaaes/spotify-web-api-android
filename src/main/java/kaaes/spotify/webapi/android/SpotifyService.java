@@ -3,26 +3,7 @@ package kaaes.spotify.webapi.android;
 import java.util.Map;
 
 import kaaes.spotify.webapi.android.annotations.DELETEWITHBODY;
-import kaaes.spotify.webapi.android.models.Album;
-import kaaes.spotify.webapi.android.models.Albums;
-import kaaes.spotify.webapi.android.models.AlbumsPager;
-import kaaes.spotify.webapi.android.models.Artist;
-import kaaes.spotify.webapi.android.models.Artists;
-import kaaes.spotify.webapi.android.models.ArtistsPager;
-import kaaes.spotify.webapi.android.models.NewReleases;
-import kaaes.spotify.webapi.android.models.Pager;
-import kaaes.spotify.webapi.android.models.Playlist;
-import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
-import kaaes.spotify.webapi.android.models.PlaylistsPager;
-import kaaes.spotify.webapi.android.models.SavedTrack;
-import kaaes.spotify.webapi.android.models.SnapshotId;
-import kaaes.spotify.webapi.android.models.Track;
-import kaaes.spotify.webapi.android.models.Tracks;
-import kaaes.spotify.webapi.android.models.TracksPager;
-import kaaes.spotify.webapi.android.models.TracksToRemove;
-import kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition;
-import kaaes.spotify.webapi.android.models.User;
-import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import kaaes.spotify.webapi.android.models.*;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
@@ -145,6 +126,30 @@ public interface SpotifyService {
     // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}")
     public boolean changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("public") boolean is_public);
+
+    // todo: process status code and return boolean
+    @PUT("/users/{user_id}/playlists/{playlist_id}/followers")
+    public void followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, Callback<Boolean> callback);
+
+    // todo: process status code and return boolean
+    @PUT("/users/{user_id}/playlists/{playlist_id}/followers")
+    public boolean followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
+
+    // todo: process status code and return boolean
+    @PUT("/users/{user_id}/playlists/{playlist_id}/followers")
+    public void followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body PlaylistFollowPrivacy playlistFollowPrivacy, Callback<Boolean> callback);
+
+    // todo: process status code and return boolean
+    @PUT("/users/{user_id}/playlists/{playlist_id}/followers")
+    public boolean followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body PlaylistFollowPrivacy playlistFollowPrivacy);
+
+    // todo: process status code and return boolean
+    @DELETE("/users/{user_id}/playlists/{playlist_id}/followers")
+    public void unfollowPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, Callback<Boolean> callback);
+
+    // todo: process status code and return boolean
+    @DELETE("/users/{user_id}/playlists/{playlist_id}/followers")
+    public boolean unfollowPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
 
     /**
      * Albums *
