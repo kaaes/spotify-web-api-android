@@ -103,53 +103,41 @@ public interface SpotifyService {
     @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
     public SnapshotId removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemoveWithPosition tracksToRemoveWithPosition);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public void replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, Callback<Boolean> callback);
+    public void replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, Callback<Result> callback);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public boolean replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris);
+    public Result replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}")
-    public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("name") String name, Callback<Boolean> callback);
+    public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("name") String name, Callback<Result> callback);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}")
-    public boolean changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("name") String name);
+    public Result changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("name") String name);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}")
-    public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("public") boolean is_public, Callback<Boolean> callback);
+    public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("public") boolean is_public, Callback<Result> callback);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}")
-    public boolean changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("public") boolean is_public);
+    public Result changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("public") boolean is_public);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}/followers")
-    public void followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, Callback<Boolean> callback);
+    public void followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, Callback<Result> callback);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}/followers")
-    public boolean followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
+    public Result followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}/followers")
-    public void followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body PlaylistFollowPrivacy playlistFollowPrivacy, Callback<Boolean> callback);
+    public void followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body PlaylistFollowPrivacy playlistFollowPrivacy, Callback<Result> callback);
 
-    // todo: process status code and return boolean
     @PUT("/users/{user_id}/playlists/{playlist_id}/followers")
-    public boolean followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body PlaylistFollowPrivacy playlistFollowPrivacy);
+    public Result followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body PlaylistFollowPrivacy playlistFollowPrivacy);
 
-    // todo: process status code and return boolean
     @DELETE("/users/{user_id}/playlists/{playlist_id}/followers")
-    public void unfollowPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, Callback<Boolean> callback);
+    public void unfollowPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, Callback<Result> callback);
 
-    // todo: process status code and return boolean
     @DELETE("/users/{user_id}/playlists/{playlist_id}/followers")
-    public boolean unfollowPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
+    public Result unfollowPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
 
     /**
      * Albums *
