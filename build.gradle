@@ -1,6 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'jacoco'
 
+jacoco {
+    version = "0.7.1.201405082137"
+}
+
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 version = '0.1.0'
@@ -9,14 +13,13 @@ repositories {
     mavenCentral()
 }
 
-jacoco {
-    version = "0.7.1.201405082137"
-}
-
 dependencies {
-    compile 'com.squareup.retrofit:retrofit:1.6.1'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
-    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile('com.squareup.retrofit:retrofit:1.9.0') {
+        transitive = true
+    }
+    compile('com.squareup.okhttp:okhttp:2.2.0') {
+        transitive = true
+    }
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
@@ -30,6 +33,12 @@ jacocoTestReport {
     reports {
         html.destination "${buildDir}/reports/jacoco/html"
     }
+}
+
+task jarAll(type: Jar) {
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }
 
 check.dependsOn jacocoTestReport
