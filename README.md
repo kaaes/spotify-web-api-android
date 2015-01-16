@@ -8,9 +8,29 @@ It uses [Retrofit](http://square.github.io/retrofit/) to create Java interfaces 
 
 Building the project
 --------------------
+This project is built using Gradle:
+
 1. Clone the repository: `git clone https://github.com/kaaes/spotify-web-api-android.git`
-2. Build: `./gradlew build`
+2. Build: `./gradlew jar`
 3. Grab the jar and put it in your project. It can be found in `build/libs/spotify-web-api-android-0.1.0.jar`
+
+### Dependencies
+
+This project depends on `Retrofit 1.9.0` and `OkHttp 2.2.0`. When you build it using
+the command above it creates a lean jar that doesn't contain Retrofit and OkHttp files.
+To make your app work you'll need to include these dependencies in your app:
+
+```java
+compile 'com.squareup.retrofit:retrofit:1.9.0'
+compile 'com.squareup.okhttp:okhttp:2.2.0'
+```
+
+It is also possible to build the project as a fat jar that contains all dependencies. To do this run:
+
+`./gradlew jarAll`
+
+the jar will be located in `build/libs/spotify-web-api-android-all-0.1.0.jar`
+
 
 Using the wrapper
 -----------------
@@ -37,7 +57,7 @@ spotify.getAlbum("2dIGnmEIy1WZIcZCFSj6i8", new Callback<Album>() {
         Log.d("Album failure", error.toString());
     }
 });
-````
+```
 
 It is also possible to construct the adapter with custom parameters.
 
