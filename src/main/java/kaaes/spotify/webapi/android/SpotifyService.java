@@ -458,4 +458,19 @@ public interface SpotifyService {
 
     @GET("/search?type=playlist")
     public PlaylistsPager searchPlaylists(@Query("q") String q, @Query("market") String market, @Query("offset") int offset, @Query("limit") int limit);
+
+    /**
+     * Starred
+     */
+    @GET("/users/{user_id}/starred/tracks")
+    public void getStarredTracks(@Path("user_id") String userId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<PlaylistTrack>> callback);
+
+    @GET("/users/{user_id}/starred/tracks")
+    public Pager<PlaylistTrack> getStarredTracks(@Path("user_id") String userId, @Query("offset") int offset, @Query("limit") int limit);
+
+    @GET("/users/{user_id}/starred/tracks")
+    public void getStarredTracks(@Path("user_id") String userId, Callback<Pager<PlaylistTrack>> callback);
+
+    @GET("/users/{user_id}/starred/tracks")
+    public Pager<PlaylistTrack> getStarredTracks(@Path("user_id") String userId);
 }
