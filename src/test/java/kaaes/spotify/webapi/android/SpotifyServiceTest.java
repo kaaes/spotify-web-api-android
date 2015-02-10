@@ -409,6 +409,35 @@ public class SpotifyServiceTest {
         compareJSONWithoutNulls(body, result);
     }
 
+    @Test
+    public void shouldGetPlaylistFollowersContains() throws IOException {
+      final Type modelType = new TypeToken<List<Boolean>>(){}.getType();
+      final String body = TestUtils.readTestData("playlist-followers-contains.json");
+      final List<Boolean> fixture = mGson.fromJson(body, modelType);
+
+      final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+
+      final String userIds = "thelinmichael,jmperezperez,kaees";
+
+      when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        @Override
+        public boolean matches(Object argument) {
+          try {
+            return ((Request) argument).getUrl()
+                .contains("ids=" + URLEncoder.encode(userIds, "UTF-8"));
+          } catch (UnsupportedEncodingException e) {
+            return false;
+          }
+        }
+      }))).thenReturn(response);
+
+      final String requestPlaylist = TestUtils.readTestData("playlist-response.json");
+      final Playlist requestFixture = mGson.fromJson(requestPlaylist, Playlist.class);
+
+      final Boolean[] result = mSpotifyService.areFollowingPlaylist(requestFixture.owner.id, requestFixture.id, userIds);
+      this.compareJSONWithoutNulls(body, result);
+    }
+
     /**
      * Compares the mapping fixture <-> object, ignoring NULL fields
      * This is useful to prevent issues with entities such as "Image" in

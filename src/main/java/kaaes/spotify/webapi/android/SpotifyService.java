@@ -356,6 +356,16 @@ public interface SpotifyService {
     @GET("/me/following/contains?type=artist")
     public Boolean[] isFollowingArtists(@Query("ids") String ids);
 
+    @GET("/users/{user_id}/playlists/{playlist_id}/followers/contains")
+    public Boolean[] areFollowingPlaylist(@Path("user_id") String userId,
+                                          @Path("playlist_id") String playlistId,
+                                          @Query("ids") String ids);
+
+    @GET("/users/{user_id}/playlists/{playlist_id}/followers/contains")
+    public void areFollowingPlaylist(@Path("user_id") String userId,
+                                     @Path("playlist_id") String playlistId,
+                                     @Query("ids") String ids, Callback<boolean[]> callback);
+
     /**
      * Search *
      */
