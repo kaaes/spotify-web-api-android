@@ -26,11 +26,13 @@ public interface SpotifyService {
     @GET("/me")
     public User getMe();
 
+
     @GET("/user/{id}")
     public void getUser(@Path("id") String userId, Callback<User> callback);
 
     @GET("/user/{id}")
     public User getUser(@Path("id") String userId);
+
 
     /**
      * Playlists *
@@ -48,11 +50,13 @@ public interface SpotifyService {
     @GET("/users/{id}/playlists")
     public Pager<Playlist> getPlaylists(@Path("id") String userId);
 
+
     @GET("/users/{user_id}/playlists/{playlist_id}")
     public void getPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, Callback<Playlist> callback);
 
     @GET("/users/{user_id}/playlists/{playlist_id}")
     public Playlist getPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
+
 
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
     public void getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<PlaylistTrack>> callback);
@@ -79,6 +83,7 @@ public interface SpotifyService {
     @POST("/users/{user_id}/playlists")
     public Playlist createPlaylist(@Path("user_id") String userId, @Query("name") String name, @Query("public") boolean is_public);
 
+
     @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
     public void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, Callback<SnapshotId> callback);
 
@@ -90,6 +95,7 @@ public interface SpotifyService {
 
     @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
     public SnapshotId addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, @Query("position") int position);
+
 
     @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
     public void removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemove tracksToRemove, Callback<SnapshotId> callback);
@@ -103,11 +109,13 @@ public interface SpotifyService {
     @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
     public SnapshotId removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemoveWithPosition tracksToRemoveWithPosition);
 
+
     @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
     public void replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, Callback<Result> callback);
 
     @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
     public Result replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris);
+
 
     @PUT("/users/{user_id}/playlists/{playlist_id}")
     public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("name") String name, Callback<Result> callback);
@@ -121,6 +129,7 @@ public interface SpotifyService {
     @PUT("/users/{user_id}/playlists/{playlist_id}")
     public Result changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("public") boolean is_public);
 
+
     @PUT("/users/{user_id}/playlists/{playlist_id}/followers")
     public void followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, Callback<Result> callback);
 
@@ -133,11 +142,13 @@ public interface SpotifyService {
     @PUT("/users/{user_id}/playlists/{playlist_id}/followers")
     public Result followPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body PlaylistFollowPrivacy playlistFollowPrivacy);
 
+
     @DELETE("/users/{user_id}/playlists/{playlist_id}/followers")
     public void unfollowPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, Callback<Result> callback);
 
     @DELETE("/users/{user_id}/playlists/{playlist_id}/followers")
     public Result unfollowPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
+
 
     /**
      * Albums *
@@ -149,11 +160,13 @@ public interface SpotifyService {
     @GET("/albums/{id}")
     public Album getAlbum(@Path("id") String albumId);
 
+
     @GET("/albums")
     public void getAlbums(@Query("ids") String albumIds, Callback<Albums> callback);
 
     @GET("/albums")
     public Albums getAlbums(@Query("ids") String albumIds);
+
 
     @GET("/albums/{id}/tracks")
     public Pager<Track> getAlbumTracks(@Path("id") String albumId);
@@ -166,6 +179,7 @@ public interface SpotifyService {
 
     @GET("/albums/{id}/tracks")
     public Pager<Track> getAlbumTracks(@Path("id") String albumId, @Query("offset") int offset, @Query("limit") int limit);
+
 
     /**
      * Artists *
@@ -189,6 +203,7 @@ public interface SpotifyService {
     @GET("/artists/{id}/albums")
     public Pager<Album> getArtistAlbums(@Path("id") String artistId, @QueryMap Map<String, String> options);
 
+
     @GET("/artists/{id}/top-tracks")
     public void getArtistTopTrack(@Path("id") String artistId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<Track>> callback);
 
@@ -200,6 +215,7 @@ public interface SpotifyService {
 
     @GET("/artists/{id}/top-tracks")
     public Pager<Track> getArtistTopTrack(@Path("id") String artistId);
+
 
     @GET("/artists/{id}/related-artists")
     public void getRelatedArtists(@Path("id") String artistId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<Artist>> callback);
@@ -213,17 +229,20 @@ public interface SpotifyService {
     @GET("/artists/{id}/related-artists")
     public Pager<Artist> getRelatedArtists(@Path("id") String artistId);
 
+
     @GET("/artists/{id}")
     public void getArtist(@Path("id") String artistId, Callback<Artist> callback);
 
     @GET("/artists/{id}")
     public Artist getArtist(@Path("id") String artistId);
 
+
     @GET("/artists")
     public void getArtists(@Query("ids") String artistIds, Callback<Artists> callback);
 
     @GET("/artists")
     public Artists getArtists(@Query("ids") String artistIds);
+
 
     /**
      * Tracks *
@@ -235,11 +254,13 @@ public interface SpotifyService {
     @GET("/tracks/{id}")
     public Track getTrack(@Path("id") String trackId);
 
+
     @GET("/tracks")
     public void getTracks(@Query("ids") String trackIds, Callback<Tracks> callback);
 
     @GET("/tracks")
     public Tracks getTracks(@Query("ids") String trackIds);
+
 
     /**
      * Browse *
@@ -262,6 +283,7 @@ public interface SpotifyService {
 
     @GET("/browse/featured-playlists")
     public FeaturedPlaylists getFeaturedPlaylists(@QueryMap Map<String, String> options, @Query("offset") int offset, @Query("limit") int limit);
+
 
     @GET("/browse/new-releases")
     public void getNewReleases(Callback<NewReleases> callback);
@@ -298,11 +320,13 @@ public interface SpotifyService {
     @GET("/me/tracks")
     public Pager<SavedTrack> getMySavedTracks(@Query("offset") int offset, @Query("limit") int limit);
 
+
     @GET("/me/tracks/contains")
     public void containsMySavedTracks(@Query("ids") String ids, Callback<boolean[]> callback);
 
     @GET("/me/tracks/contains")
     public Boolean[] containsMySavedTracks(@Query("ids") String ids);
+
 
     @PUT("/me/tracks")
     public void addToMySavedTracks(@Query("ids") String ids, Callback<Object> callback);
@@ -310,11 +334,13 @@ public interface SpotifyService {
     @PUT("/me/tracks")
     public Object addToMySavedTracks(@Query("ids") String ids);
 
+
     @DELETE("/me/tracks")
     public void removeFromMySavedTracks(@Query("ids") String ids, Callback<Object> callback);
 
     @DELETE("/me/tracks")
     public Object removeFromMySavedTracks(@Query("ids") String ids);
+
 
     /**
      * Follow *
@@ -326,11 +352,13 @@ public interface SpotifyService {
     @PUT("/me/following?type=user")
     public Object followUsers(@Query("ids") String ids);
 
+
     @PUT("/me/following?type=artist")
     public void followArtists(@Query("ids") String ids, Callback<Object> callback);
 
     @PUT("/me/following?type=artist")
     public Object followArtists(@Query("ids") String ids);
+
 
     @DELETE("/me/following?type=user")
     public void unfollowUsers(@Query("ids") String ids, Callback<Object> callback);
@@ -338,11 +366,13 @@ public interface SpotifyService {
     @DELETE("/me/following?type=user")
     public Object unfollowUsers(@Query("ids") String ids);
 
+
     @DELETE("/me/following?type=artist")
     public void unfollowArtists(@Query("ids") String ids, Callback<Object> callback);
 
     @DELETE("/me/following?type=artist")
     public Object unfollowArtists(@Query("ids") String ids);
+
 
     @GET("/me/following/contains?type=user")
     public void isFollowingUsers(@Query("ids") String ids, Callback<boolean[]> callback);
@@ -350,11 +380,13 @@ public interface SpotifyService {
     @GET("/me/following/contains?type=user")
     public Boolean[] isFollowingUsers(@Query("ids") String ids);
 
+
     @GET("/me/following/contains?type=artist")
     public void isFollowingArtists(@Query("ids") String ids, Callback<boolean[]> callback);
 
     @GET("/me/following/contains?type=artist")
     public Boolean[] isFollowingArtists(@Query("ids") String ids);
+
 
     @GET("/users/{user_id}/playlists/{playlist_id}/followers/contains")
     public Boolean[] areFollowingPlaylist(@Path("user_id") String userId,
@@ -365,6 +397,7 @@ public interface SpotifyService {
     public void areFollowingPlaylist(@Path("user_id") String userId,
                                      @Path("playlist_id") String playlistId,
                                      @Query("ids") String ids, Callback<boolean[]> callback);
+
 
     /**
      * Search *
