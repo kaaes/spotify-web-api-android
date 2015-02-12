@@ -1,0 +1,69 @@
+{
+  "playlists" : {
+    "href" : "https://api.spotify.com/v1/browse/categories/dinner/playlists?country=SE&offset=1&limit=2",
+    "items" : [ {
+      "collaborative" : false,
+      "external_urls" : {
+        "spotify" : "http://open.spotify.com/user/hitfactory/playlist/3VQgJwn7I3aujdIrAAC6Z4"
+      },
+      "href" : "https://api.spotify.com/v1/users/hitfactory/playlists/3VQgJwn7I3aujdIrAAC6Z4",
+      "id" : "3VQgJwn7I3aujdIrAAC6Z4",
+      "images" : [ {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/6dc5be2570debd73e370febbb3f7828e8ce27271",
+        "width" : 300
+      } ],
+      "name" : "Middagsmusik",
+      "owner" : {
+        "external_urls" : {
+          "spotify" : "http://open.spotify.com/user/hitfactory"
+        },
+        "href" : "https://api.spotify.com/v1/users/hitfactory",
+        "id" : "hitfactory",
+        "type" : "user",
+        "uri" : "spotify:user:hitfactory"
+      },
+      "public" : null,
+      "tracks" : {
+        "href" : "https://api.spotify.com/v1/users/hitfactory/playlists/3VQgJwn7I3aujdIrAAC6Z4/tracks",
+        "total" : 88
+      },
+      "type" : "playlist",
+      "uri" : "spotify:user:hitfactory:playlist:3VQgJwn7I3aujdIrAAC6Z4"
+    }, {
+      "collaborative" : false,
+      "external_urls" : {
+        "spotify" : "http://open.spotify.com/user/spotify/playlist/59ZbFPES4DQwEjBpWHzrtC"
+      },
+      "href" : "https://api.spotify.com/v1/users/spotify/playlists/59ZbFPES4DQwEjBpWHzrtC",
+      "id" : "59ZbFPES4DQwEjBpWHzrtC",
+      "images" : [ {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/68b6a65573a55095e9c0c0c33a274b18e0422736",
+        "width" : 300
+      } ],
+      "name" : "Dinner with Friends",
+      "owner" : {
+        "external_urls" : {
+          "spotify" : "http://open.spotify.com/user/spotify"
+        },
+        "href" : "https://api.spotify.com/v1/users/spotify",
+        "id" : "spotify",
+        "type" : "user",
+        "uri" : "spotify:user:spotify"
+      },
+      "public" : null,
+      "tracks" : {
+        "href" : "https://api.spotify.com/v1/users/spotify/playlists/59ZbFPES4DQwEjBpWHzrtC/tracks",
+        "total" : 98
+      },
+      "type" : "playlist",
+      "uri" : "spotify:user:spotify:playlist:59ZbFPES4DQwEjBpWHzrtC"
+    } ],
+    "limit" : 2,
+    "next" : "https://api.spotify.com/v1/browse/categories/dinner/playlists?country=SE&offset=3&limit=2",
+    "offset" : 1,
+    "previous" : "https://api.spotify.com/v1/browse/categories/dinner/playlists?country=SE&offset=0&limit=2",
+    "total" : 42
+  }
+}

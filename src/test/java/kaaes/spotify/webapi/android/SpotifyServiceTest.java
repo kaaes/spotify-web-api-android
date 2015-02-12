@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.Albums;
@@ -26,6 +27,8 @@ import kaaes.spotify.webapi.android.models.AlbumsPager;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.Artists;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
+import kaaes.spotify.webapi.android.models.CategoriesPager;
+import kaaes.spotify.webapi.android.models.Category;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
 import kaaes.spotify.webapi.android.models.NewReleases;
 import kaaes.spotify.webapi.android.models.Pager;
@@ -411,31 +414,121 @@ public class SpotifyServiceTest {
 
     @Test
     public void shouldGetPlaylistFollowersContains() throws IOException {
-      final Type modelType = new TypeToken<List<Boolean>>(){}.getType();
-      final String body = TestUtils.readTestData("playlist-followers-contains.json");
-      final List<Boolean> fixture = mGson.fromJson(body, modelType);
+        final Type modelType = new TypeToken<List<Boolean>>(){}.getType();
+        final String body = TestUtils.readTestData("playlist-followers-contains.json");
+        final List<Boolean> fixture = mGson.fromJson(body, modelType);
 
-      final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+        final Response response = TestUtils.getResponseFromModel(fixture, modelType);
 
-      final String userIds = "thelinmichael,jmperezperez,kaees";
+        final String userIds = "thelinmichael,jmperezperez,kaees";
 
-      when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
-        @Override
-        public boolean matches(Object argument) {
-          try {
-            return ((Request) argument).getUrl()
-                .contains("ids=" + URLEncoder.encode(userIds, "UTF-8"));
-          } catch (UnsupportedEncodingException e) {
-            return false;
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+          @Override
+          public boolean matches(Object argument) {
+            try {
+              return ((Request) argument).getUrl()
+                  .contains("ids=" + URLEncoder.encode(userIds, "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+              return false;
+            }
           }
-        }
-      }))).thenReturn(response);
+        }))).thenReturn(response);
 
-      final String requestPlaylist = TestUtils.readTestData("playlist-response.json");
-      final Playlist requestFixture = mGson.fromJson(requestPlaylist, Playlist.class);
+        final String requestPlaylist = TestUtils.readTestData("playlist-response.json");
+        final Playlist requestFixture = mGson.fromJson(requestPlaylist, Playlist.class);
 
-      final Boolean[] result = mSpotifyService.areFollowingPlaylist(requestFixture.owner.id, requestFixture.id, userIds);
-      this.compareJSONWithoutNulls(body, result);
+        final Boolean[] result = mSpotifyService.areFollowingPlaylist(requestFixture.owner.id, requestFixture.id, userIds);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldGetCategories() throws Exception {
+        final Type modelType = new TypeToken<CategoriesPager>(){}.getType();
+        final String body = TestUtils.readTestData("get-categories.json");
+        final CategoriesPager fixture = mGson.fromJson(body, modelType);
+
+        final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+
+        final String country = "SE";
+        final String locale = "sv_SE";
+        final int offset = 1;
+        final int limit = 2;
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+          @Override
+          public boolean matches(Object argument) {
+            return ((Request) argument).getUrl()
+              .contains(String.format("limit=%d&locale=%s&offset=%d&country=%s", limit, locale, offset, country));
+          }
+        }))).thenReturn(response);
+
+
+        final Map<String, String> options = new HashMap<String, String>();
+        options.put("offset", String.valueOf(offset));
+        options.put("limit", String.valueOf(limit));
+        options.put("country", country);
+        options.put("locale", locale);
+
+        final CategoriesPager result = mSpotifyService.getCategories(options);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldGetCategory() throws Exception {
+        final Type modelType = new TypeToken<Category>(){}.getType();
+        final String body = TestUtils.readTestData("category.json");
+        final Category fixture = mGson.fromJson(body, modelType);
+
+        final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+
+        final String categoryId = "mood";
+        final String country = "SE";
+        final String locale = "sv_SE";
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+          @Override
+          public boolean matches(Object argument) {
+            return ((Request) argument).getUrl()
+                .contains(String.format("locale=%s&country=%s", locale, country));
+          }
+        }))).thenReturn(response);
+
+        final Map<String, String> options = new HashMap<String, String>();
+        options.put("country", country);
+        options.put("locale", locale);
+
+        final Category result = mSpotifyService.getCategory(categoryId, options);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldGetPlaylistsForCategory() throws Exception {
+        final Type modelType = new TypeToken<PlaylistsPager>(){}.getType();
+        final String body = TestUtils.readTestData("category-playlist.json");
+        final PlaylistsPager fixture = mGson.fromJson(body, modelType);
+
+        final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+
+        final String categoryId = "mood";
+        final String country = "SE";
+        final int offset = 1;
+        final int limit = 2;
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+          @Override
+          public boolean matches(Object argument) {
+            return ((Request) argument).getUrl()
+                .contains(String.format("limit=%d&offset=%d&country=%s", limit, offset, country));
+          }
+        }))).thenReturn(response);
+
+        final Map<String, String> options = new HashMap<String, String>();
+        options.put("country", country);
+        options.put("offset", String.valueOf(offset));
+        options.put("limit", String.valueOf(limit));
+
+        final PlaylistsPager result = mSpotifyService.getPlaylistsForCategory(categoryId, options);
+        this.compareJSONWithoutNulls(body, result);
     }
 
     /**
