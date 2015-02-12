@@ -71,18 +71,11 @@ public interface SpotifyService {
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
     public Pager<PlaylistTrack> getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
 
+    @POST("/users/{user_id}/playlists")
+    public Playlist createPlaylist(@Path("user_id") String userId, @Body Playlist playlist);
 
     @POST("/users/{user_id}/playlists")
-    public void createPlaylist(@Path("user_id") String userId, @Query("name") String name, Callback<Playlist> callback);
-
-    @POST("/users/{user_id}/playlists")
-    public Playlist createPlaylist(@Path("user_id") String userId, @Query("name") String name);
-
-    @POST("/users/{user_id}/playlists")
-    public void createPlaylist(@Path("user_id") String userId, @Query("name") String name, @Query("public") boolean is_public, Callback<Playlist> callback);
-
-    @POST("/users/{user_id}/playlists")
-    public Playlist createPlaylist(@Path("user_id") String userId, @Query("name") String name, @Query("public") boolean is_public);
+    public void createPlaylist(@Path("user_id") String userId, @Body Playlist playlist, Callback<Playlist> callback);
 
 
     @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
