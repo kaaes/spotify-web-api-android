@@ -1,5 +1,6 @@
 package kaaes.spotify.webapi.android;
 
+import java.util.List;
 import java.util.Map;
 
 import kaaes.spotify.webapi.android.annotations.DELETEWITHBODY;
@@ -302,6 +303,68 @@ public interface SpotifyService {
 
     @GET("/browse/new-releases")
     public NewReleases getNewReleases(@Query("country") String country, @Query("offset") int offset, @Query("limit") int limit);
+
+    /**
+     * Retrieve Spotify categories. Categories used to tag items in
+     * Spotify (on, for example, the Spotify player’s “Browse” tab).
+     * @param options Optional parameters.
+     * @param callback Callback method.
+     * @see <a href="https://developer.spotify.com/web-api/get-list-categories/">Get a List of Categories</a>
+     */
+    @GET("/browse/categories")
+    public void getCategories(@QueryMap Map<String, String> options, Callback<CategoriesPager> callback);
+
+    /**
+     * Retrieve Spotify categories. Categories used to tag items in
+     * Spotify (on, for example, the Spotify player’s “Browse” tab).
+     * @param options Optional parameters.
+     * @return A paging object containing categories.
+     * @see <a href="https://developer.spotify.com/web-api/get-list-categories/">Get a List of Categories</a>
+     */
+    @GET("/browse/categories")
+    public CategoriesPager getCategories(@QueryMap Map<String, String> options);
+
+
+    /**
+     * Retrieve a Spotify category.
+     * @param categoryId The category's ID.
+     * @param options Optional parameters.
+     * @param callback Callback method.
+     * @see <a href="https://developer.spotify.com/web-api/get-category/">Get a Spotify Category</a>
+     */
+    @GET("/browse/categories/{category_id}")
+    public void getCategory(@Path("category_id") String categoryId, @QueryMap Map<String, String> options, Callback<Category> callback);
+
+    /**
+     * Retrieve a Spotify category.
+     * @param categoryId The category's ID.
+     * @param options Optional parameters.
+     * @return A Spotify category.
+     * @see <a href="https://developer.spotify.com/web-api/get-category/">Get a Spotify Category</a>
+     */
+    @GET("/browse/categories/{category_id}")
+    public Category getCategory(@Path("category_id") String categoryId, @QueryMap Map<String, String> options);
+
+
+    /**
+     * Retrieve playlists for a Spotify Category.
+     * @param categoryId The category's ID.
+     * @param options Optional parameters.
+     * @param callback Callback method.
+     * @see <a href="https://developer.spotify.com/web-api/get-categorys-playlists/">Get playlists for a Spotify Category</a>
+     */
+    @GET("/browse/categories/{category_id}/playlists")
+    public void getPlaylistsForCategory(@Path("category_id") String categoryId, @QueryMap Map<String, String> options, Callback<PlaylistsPager> callback);
+
+    /**
+     * Retrieve playlists for a Spotify Category.
+     * @param categoryId The category's ID.
+     * @param options Optional parameters.
+     * @return Playlists for a Spotify Category.
+     * @see <a href="https://developer.spotify.com/web-api/get-categorys-playlists/">Get playlists for a Spotify Category</a>
+     */
+    @GET("/browse/categories/{category_id}/playlists")
+    public PlaylistsPager getPlaylistsForCategory(@Path("category_id") String categoryId, @QueryMap Map<String, String> options);
 
 
     /**
