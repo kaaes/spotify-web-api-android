@@ -13,7 +13,9 @@ import org.junit.runners.JUnit4;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Matchers;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
@@ -44,7 +46,11 @@ import retrofit.RestAdapter;
 import retrofit.client.Client;
 import retrofit.client.Request;
 import retrofit.client.Response;
+import retrofit.converter.GsonConverter;
+import retrofit.mime.TypedByteArray;
+import retrofit.mime.TypedOutput;
 
+import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.isA;
@@ -528,6 +534,51 @@ public class SpotifyServiceTest {
         options.put("limit", String.valueOf(limit));
 
         final PlaylistsPager result = mSpotifyService.getPlaylistsForCategory(categoryId, options);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldCreatePlaylistUsingBodyMap() throws Exception {
+        final Type modelType = new TypeToken<Playlist>(){}.getType();
+        final String body = TestUtils.readTestData("created-playlist.json");
+        final Playlist fixture = mGson.fromJson(body, modelType);
+
+        final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+
+        final String owner = "thelinmichael";
+        final String name = "Coolest Playlist";
+        final boolean isPublic = true;
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+            @Override
+            public boolean matches(Object argument) {
+                final Request request = (Request) argument;
+
+                final OutputStream outputStream = new ByteArrayOutputStream();
+                final TypedOutput output = request.getBody();
+                String body = null;
+                try {
+                    output.writeTo(outputStream);
+                    body = outputStream.toString();
+                } catch (IOException e) {
+                    fail("Could not read body");
+                }
+
+
+                final String expectedBody = String.format("{\"name\":\"%s\",\"public\":%b}",
+                    name, isPublic);
+
+                return request.getUrl().endsWith(String.format("/users/%s/playlists", owner)) &&
+                       expectedBody.equals(body) &&
+                       "POST".equals(request.getMethod());
+            }
+        }))).thenReturn(response);
+
+        final Map<String, Object> options = new HashMap<String, Object>();
+        options.put("name", name);
+        options.put("public", isPublic);
+
+        final Playlist result = mSpotifyService.createPlaylist(owner, options);
         this.compareJSONWithoutNulls(body, result);
     }
 

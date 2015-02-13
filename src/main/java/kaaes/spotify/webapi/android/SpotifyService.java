@@ -1,10 +1,32 @@
 package kaaes.spotify.webapi.android;
 
-import java.util.List;
 import java.util.Map;
 
 import kaaes.spotify.webapi.android.annotations.DELETEWITHBODY;
-import kaaes.spotify.webapi.android.models.*;
+import kaaes.spotify.webapi.android.models.Album;
+import kaaes.spotify.webapi.android.models.Albums;
+import kaaes.spotify.webapi.android.models.AlbumsPager;
+import kaaes.spotify.webapi.android.models.Artist;
+import kaaes.spotify.webapi.android.models.Artists;
+import kaaes.spotify.webapi.android.models.ArtistsPager;
+import kaaes.spotify.webapi.android.models.CategoriesPager;
+import kaaes.spotify.webapi.android.models.Category;
+import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
+import kaaes.spotify.webapi.android.models.NewReleases;
+import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.Playlist;
+import kaaes.spotify.webapi.android.models.PlaylistFollowPrivacy;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import kaaes.spotify.webapi.android.models.PlaylistsPager;
+import kaaes.spotify.webapi.android.models.Result;
+import kaaes.spotify.webapi.android.models.SavedTrack;
+import kaaes.spotify.webapi.android.models.SnapshotId;
+import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.Tracks;
+import kaaes.spotify.webapi.android.models.TracksPager;
+import kaaes.spotify.webapi.android.models.TracksToRemove;
+import kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition;
+import kaaes.spotify.webapi.android.models.User;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
@@ -21,16 +43,39 @@ public interface SpotifyService {
      * Profiles *
      */
 
+    /**
+     * Get the currently logged in user profile information.
+     * The contents of the User object may differ depending on application's scope.
+     * @param callback Callback method
+     * @see <a href="https://developer.spotify.com/web-api/get-current-users-profile/">Get Current User's Profile</a>
+     */
     @GET("/me")
     public void getMe(Callback<User> callback);
 
+    /**
+     * Get the currently logged in user profile information.
+     * The contents of the User object may differ depending on application's scope.
+     * @see <a href="https://developer.spotify.com/web-api/get-current-users-profile/">Get Current User's Profile</a>
+     */
     @GET("/me")
     public User getMe();
 
 
+    /**
+     * Get a user's public profile information.
+     * @param userId The user's User ID
+     * @param callback Callback method
+     * @see <a href"https://developer.spotify.com/web-api/get-users-profile/">Get User's Public Profile</a>
+     */
     @GET("/user/{id}")
     public void getUser(@Path("id") String userId, Callback<User> callback);
 
+    /**
+     * Get a user's public profile information.
+     * @param userId The user's User ID
+     * @returns The user's public profile information.
+     * @see <a href"https://developer.spotify.com/web-api/get-users-profile/">Get User's Public Profile</a>
+     */
     @GET("/user/{id}")
     public User getUser(@Path("id") String userId);
 
@@ -71,19 +116,24 @@ public interface SpotifyService {
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
     public Pager<PlaylistTrack> getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
 
-
+    /**
+     * Create a playlist.
+     * @param userId The playlist's owner's User ID
+     * @param body The body parameters
+     * @param callback Callback method
+     * @return The created playlist.
+     */
     @POST("/users/{user_id}/playlists")
-    public void createPlaylist(@Path("user_id") String userId, @Query("name") String name, Callback<Playlist> callback);
+    public Playlist createPlaylist(@Path("user_id") String userId, @Body Map<String, Object> body, Callback<Playlist> callback);
 
+    /**
+     * Create a playlist.
+     * @param userId The playlist's owner's User ID
+     * @param body The body parameters
+     * @return The created playlist.
+     */
     @POST("/users/{user_id}/playlists")
-    public Playlist createPlaylist(@Path("user_id") String userId, @Query("name") String name);
-
-    @POST("/users/{user_id}/playlists")
-    public void createPlaylist(@Path("user_id") String userId, @Query("name") String name, @Query("public") boolean is_public, Callback<Playlist> callback);
-
-    @POST("/users/{user_id}/playlists")
-    public Playlist createPlaylist(@Path("user_id") String userId, @Query("name") String name, @Query("public") boolean is_public);
-
+    public Playlist createPlaylist(@Path("user_id") String userId, @Body Map<String, Object> body);
 
     @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
     public void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, Callback<SnapshotId> callback);
