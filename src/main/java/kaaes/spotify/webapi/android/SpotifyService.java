@@ -55,6 +55,7 @@ public interface SpotifyService {
     /**
      * Get the currently logged in user profile information.
      * The contents of the User object may differ depending on application's scope.
+     * @return The current user
      * @see <a href="https://developer.spotify.com/web-api/get-current-users-profile/">Get Current User's Profile</a>
      */
     @GET("/me")
@@ -73,7 +74,7 @@ public interface SpotifyService {
     /**
      * Get a user's public profile information.
      * @param userId The user's User ID
-     * @returns The user's public profile information.
+     * @return The user's public profile information.
      * @see <a href"https://developer.spotify.com/web-api/get-users-profile/">Get User's Public Profile</a>
      */
     @GET("/user/{id}")
