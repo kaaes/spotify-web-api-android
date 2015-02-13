@@ -19,6 +19,7 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,7 @@ import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.PlaylistsPager;
+import kaaes.spotify.webapi.android.models.SnapshotId;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.TracksPager;
@@ -46,8 +48,6 @@ import retrofit.RestAdapter;
 import retrofit.client.Client;
 import retrofit.client.Request;
 import retrofit.client.Response;
-import retrofit.converter.GsonConverter;
-import retrofit.mime.TypedByteArray;
 import retrofit.mime.TypedOutput;
 
 import static junit.framework.TestCase.fail;
@@ -579,6 +579,55 @@ public class SpotifyServiceTest {
         options.put("public", isPublic);
 
         final Playlist result = mSpotifyService.createPlaylist(owner, options);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldAddTracksToPlaylist() throws Exception {
+        final Type modelType = new TypeToken<SnapshotId>(){}.getType();
+        final String body = TestUtils.readTestData("snapshot-response.json");
+        final SnapshotId fixture = mGson.fromJson(body, modelType);
+
+        final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+
+        final String owner = "thelinmichael";
+        final String playlistId = "4JPlPnLULieb2WPFKlLiRq";
+        final String trackUri1 = "spotify:track:76lT30VRv09h5MQp5snmsb";
+        final String trackUri2 = "spotify:track:2KCmalBTv3SiYxvpKrXmr5";
+        final int position = 1;
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+            @Override
+            public boolean matches(Object argument) {
+                final Request request = (Request) argument;
+
+                final OutputStream outputStream = new ByteArrayOutputStream();
+                final TypedOutput output = request.getBody();
+                String body = null;
+                try {
+                    output.writeTo(outputStream);
+                    body = outputStream.toString();
+                } catch (IOException e) {
+                    fail("Could not read body");
+                }
+
+                final String expectedBody = String.format("{\"uris\":[\"%s\",\"%s\"]}",
+                                                          trackUri1, trackUri2);
+                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/tracks?position=%d",
+                                                               owner, playlistId, position)) &&
+                       expectedBody.equals(body) &&
+                       "POST".equals(request.getMethod());
+            }
+        }))).thenReturn(response);
+
+        final Map<String, Object> options = new HashMap<String, Object>();
+        final List<String> trackUris = Arrays.asList(trackUri1, trackUri2);
+        options.put("uris", trackUris);
+
+        final Map<String, String> queryParameters = new HashMap<String, String>();
+        queryParameters.put("position", String.valueOf(position));
+
+        final SnapshotId result = mSpotifyService.addTracksToPlaylist(owner, playlistId, queryParameters, options);
         this.compareJSONWithoutNulls(body, result);
     }
 
