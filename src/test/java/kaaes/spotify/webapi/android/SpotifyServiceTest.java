@@ -193,7 +193,8 @@ public class SpotifyServiceTest {
 
     @Test
     public void shouldGetArtistsAlbumsData() throws IOException {
-        Type modelType = new TypeToken<Pager<Album>>(){}.getType();
+        Type modelType = new TypeToken<Pager<Album>>() {
+        }.getType();
 
         String artistId = "1vCWHaC5f2uS3yhpwWbIA6";
         String body = TestUtils.readTestData("artist-album.json");
@@ -221,7 +222,8 @@ public class SpotifyServiceTest {
 
     @Test
     public void shouldGetPlaylistTracks() throws IOException {
-        Type modelType = new TypeToken<Pager<PlaylistTrack>>(){}.getType();
+        Type modelType = new TypeToken<Pager<PlaylistTrack>>() {
+        }.getType();
 
         String body = TestUtils.readTestData("playlist-tracks.json");
         Pager<PlaylistTrack> fixture = mGson.fromJson(body, modelType);
@@ -256,7 +258,11 @@ public class SpotifyServiceTest {
             }
         }))).thenReturn(response);
 
-        NewReleases newReleases = mSpotifyService.getNewReleases(countryId, 0, limit);
+        Map<String, Object> options = new HashMap<String, Object>();
+        options.put(SpotifyService.COUNTRY, countryId);
+        options.put(SpotifyService.OFFSET, 0);
+        options.put(SpotifyService.LIMIT, limit);
+        NewReleases newReleases = mSpotifyService.getNewReleases(options);
 
         this.compareJSONWithoutNulls(body, newReleases);
     }
@@ -286,10 +292,13 @@ public class SpotifyServiceTest {
             }
         }))).thenReturn(response);
 
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("country", countryId);
-        map.put("locale", locale);
-        FeaturedPlaylists featuredPlaylists = mSpotifyService.getFeaturedPlaylists(map, 0, limit);
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put(SpotifyService.COUNTRY, countryId);
+        map.put(SpotifyService.LOCALE, locale);
+        map.put(SpotifyService.OFFSET, 0);
+        map.put(SpotifyService.LIMIT, limit);
+
+        FeaturedPlaylists featuredPlaylists = mSpotifyService.getFeaturedPlaylists(map);
 
         this.compareJSONWithoutNulls(body, featuredPlaylists);
     }
@@ -320,7 +329,8 @@ public class SpotifyServiceTest {
 
     @Test
     public void shouldCheckFollowingUsers() throws IOException {
-        Type modelType = new TypeToken<List<Boolean>>(){}.getType();
+        Type modelType = new TypeToken<List<Boolean>>() {
+        }.getType();
         String body = TestUtils.readTestData("follow_is_following_users.json");
         List<Boolean> fixture = mGson.fromJson(body, modelType);
 
@@ -346,7 +356,8 @@ public class SpotifyServiceTest {
 
     @Test
     public void shouldCheckFollowingArtists() throws IOException {
-        Type modelType = new TypeToken<List<Boolean>>(){}.getType();
+        Type modelType = new TypeToken<List<Boolean>>() {
+        }.getType();
         String body = TestUtils.readTestData("follow_is_following_artists.json");
         List<Boolean> fixture = mGson.fromJson(body, modelType);
 
@@ -420,7 +431,8 @@ public class SpotifyServiceTest {
 
     @Test
     public void shouldGetPlaylistFollowersContains() throws IOException {
-        final Type modelType = new TypeToken<List<Boolean>>(){}.getType();
+        final Type modelType = new TypeToken<List<Boolean>>() {
+        }.getType();
         final String body = TestUtils.readTestData("playlist-followers-contains.json");
         final List<Boolean> fixture = mGson.fromJson(body, modelType);
 
@@ -429,15 +441,15 @@ public class SpotifyServiceTest {
         final String userIds = "thelinmichael,jmperezperez,kaees";
 
         when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
-          @Override
-          public boolean matches(Object argument) {
-            try {
-              return ((Request) argument).getUrl()
-                  .contains("ids=" + URLEncoder.encode(userIds, "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
-              return false;
+            @Override
+            public boolean matches(Object argument) {
+                try {
+                    return ((Request) argument).getUrl()
+                            .contains("ids=" + URLEncoder.encode(userIds, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    return false;
+                }
             }
-          }
         }))).thenReturn(response);
 
         final String requestPlaylist = TestUtils.readTestData("playlist-response.json");
@@ -449,7 +461,8 @@ public class SpotifyServiceTest {
 
     @Test
     public void shouldGetCategories() throws Exception {
-        final Type modelType = new TypeToken<CategoriesPager>(){}.getType();
+        final Type modelType = new TypeToken<CategoriesPager>() {
+        }.getType();
         final String body = TestUtils.readTestData("get-categories.json");
         final CategoriesPager fixture = mGson.fromJson(body, modelType);
 
@@ -461,17 +474,20 @@ public class SpotifyServiceTest {
         final int limit = 2;
 
         when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
-          @Override
-          public boolean matches(Object argument) {
-            return ((Request) argument).getUrl()
-              .contains(String.format("limit=%d&locale=%s&offset=%d&country=%s", limit, locale, offset, country));
-          }
+            @Override
+            public boolean matches(Object argument) {
+                String requestUrl = ((Request) argument).getUrl();
+                return requestUrl.contains(String.format("limit=%d", limit)) &&
+                        requestUrl.contains(String.format("offset=%d", offset)) &&
+                        requestUrl.contains(String.format("country=%s", country)) &&
+                        requestUrl.contains(String.format("locale=%s", locale));
+            }
         }))).thenReturn(response);
 
 
-        final Map<String, String> options = new HashMap<String, String>();
-        options.put("offset", String.valueOf(offset));
-        options.put("limit", String.valueOf(limit));
+        final Map<String, Object> options = new HashMap<String, Object>();
+        options.put("offset", offset);
+        options.put("limit", limit);
         options.put("country", country);
         options.put("locale", locale);
 
@@ -481,7 +497,8 @@ public class SpotifyServiceTest {
 
     @Test
     public void shouldGetCategory() throws Exception {
-        final Type modelType = new TypeToken<Category>(){}.getType();
+        final Type modelType = new TypeToken<Category>() {
+        }.getType();
         final String body = TestUtils.readTestData("category.json");
         final Category fixture = mGson.fromJson(body, modelType);
 
@@ -492,14 +509,16 @@ public class SpotifyServiceTest {
         final String locale = "sv_SE";
 
         when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
-          @Override
-          public boolean matches(Object argument) {
-            return ((Request) argument).getUrl()
-                .contains(String.format("locale=%s&country=%s", locale, country));
-          }
+            @Override
+            public boolean matches(Object argument) {
+                String requestUrl = ((Request) argument).getUrl();
+                return requestUrl.contains(String.format("locale=%s", locale)) &&
+                        requestUrl.contains(String.format("country=%s", country));
+
+            }
         }))).thenReturn(response);
 
-        final Map<String, String> options = new HashMap<String, String>();
+        final Map<String, Object> options = new HashMap<String, Object>();
         options.put("country", country);
         options.put("locale", locale);
 
@@ -509,7 +528,8 @@ public class SpotifyServiceTest {
 
     @Test
     public void shouldGetPlaylistsForCategory() throws Exception {
-        final Type modelType = new TypeToken<PlaylistsPager>(){}.getType();
+        final Type modelType = new TypeToken<PlaylistsPager>() {
+        }.getType();
         final String body = TestUtils.readTestData("category-playlist.json");
         final PlaylistsPager fixture = mGson.fromJson(body, modelType);
 
@@ -521,17 +541,19 @@ public class SpotifyServiceTest {
         final int limit = 2;
 
         when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
-          @Override
-          public boolean matches(Object argument) {
-            return ((Request) argument).getUrl()
-                .contains(String.format("limit=%d&offset=%d&country=%s", limit, offset, country));
-          }
+            @Override
+            public boolean matches(Object argument) {
+                String requestUrl = ((Request) argument).getUrl();
+                return requestUrl.contains(String.format("limit=%d", limit)) &&
+                        requestUrl.contains(String.format("offset=%d", offset)) &&
+                        requestUrl.contains(String.format("country=%s", country));
+            }
         }))).thenReturn(response);
 
-        final Map<String, String> options = new HashMap<String, String>();
+        final Map<String, Object> options = new HashMap<String, Object>();
         options.put("country", country);
-        options.put("offset", String.valueOf(offset));
-        options.put("limit", String.valueOf(limit));
+        options.put("offset", offset);
+        options.put("limit", limit);
 
         final PlaylistsPager result = mSpotifyService.getPlaylistsForCategory(categoryId, options);
         this.compareJSONWithoutNulls(body, result);
@@ -539,7 +561,8 @@ public class SpotifyServiceTest {
 
     @Test
     public void shouldCreatePlaylistUsingBodyMap() throws Exception {
-        final Type modelType = new TypeToken<Playlist>(){}.getType();
+        final Type modelType = new TypeToken<Playlist>() {
+        }.getType();
         final String body = TestUtils.readTestData("created-playlist.json");
         final Playlist fixture = mGson.fromJson(body, modelType);
 
@@ -566,11 +589,11 @@ public class SpotifyServiceTest {
 
 
                 final String expectedBody = String.format("{\"name\":\"%s\",\"public\":%b}",
-                    name, isPublic);
+                        name, isPublic);
 
                 return request.getUrl().endsWith(String.format("/users/%s/playlists", owner)) &&
-                       expectedBody.equals(body) &&
-                       "POST".equals(request.getMethod());
+                        JSONsContainSameData(expectedBody, body) &&
+                        "POST".equals(request.getMethod());
             }
         }))).thenReturn(response);
 
@@ -584,7 +607,8 @@ public class SpotifyServiceTest {
 
     @Test
     public void shouldAddTracksToPlaylist() throws Exception {
-        final Type modelType = new TypeToken<SnapshotId>(){}.getType();
+        final Type modelType = new TypeToken<SnapshotId>() {
+        }.getType();
         final String body = TestUtils.readTestData("snapshot-response.json");
         final SnapshotId fixture = mGson.fromJson(body, modelType);
 
@@ -612,11 +636,11 @@ public class SpotifyServiceTest {
                 }
 
                 final String expectedBody = String.format("{\"uris\":[\"%s\",\"%s\"]}",
-                                                          trackUri1, trackUri2);
+                        trackUri1, trackUri2);
                 return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/tracks?position=%d",
-                                                               owner, playlistId, position)) &&
-                       expectedBody.equals(body) &&
-                       "POST".equals(request.getMethod());
+                        owner, playlistId, position)) &&
+                        JSONsContainSameData(expectedBody, body) &&
+                        "POST".equals(request.getMethod());
             }
         }))).thenReturn(response);
 
@@ -624,7 +648,7 @@ public class SpotifyServiceTest {
         final List<String> trackUris = Arrays.asList(trackUri1, trackUri2);
         options.put("uris", trackUris);
 
-        final Map<String, String> queryParameters = new HashMap<String, String>();
+        final Map<String, Object> queryParameters = new HashMap<String, Object>();
         queryParameters.put("position", String.valueOf(position));
 
         final SnapshotId result = mSpotifyService.addTracksToPlaylist(owner, playlistId, queryParameters, options);
@@ -654,5 +678,21 @@ public class SpotifyServiceTest {
         // with the one created from model. If they're different
         // it means the model is borked
         assertEquals(fixtureJsonElement, modelJsonElement);
+    }
+
+    /**
+     * Compares two JSON strings if they contain the same data even if the order
+     * of the keys differs.
+     *
+     * @param expected The JSON to test against
+     * @param actual   The tested JSON
+     * @return true if JSONs contain the same data, false otherwise.
+     */
+    private boolean JSONsContainSameData(String expected, String actual) {
+        JsonParser parser = new JsonParser();
+        JsonElement expectedJsonElement = parser.parse(expected);
+        JsonElement actualJsonElement = parser.parse(actual);
+
+        return expectedJsonElement.equals(actualJsonElement);
     }
 }
