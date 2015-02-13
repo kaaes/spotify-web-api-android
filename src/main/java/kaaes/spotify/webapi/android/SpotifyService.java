@@ -117,35 +117,49 @@ public interface SpotifyService {
     public Pager<PlaylistTrack> getPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
 
     /**
-     * Create a playlist.
+     * Create a playlist
      * @param userId The playlist's owner's User ID
      * @param body The body parameters
      * @param callback Callback method
-     * @return The created playlist.
+     * @return The created playlist
+     * @see <a href="https://developer.spotify.com/web-api/create-playlist/">Create a Playlist</a>
      */
     @POST("/users/{user_id}/playlists")
     public Playlist createPlaylist(@Path("user_id") String userId, @Body Map<String, Object> body, Callback<Playlist> callback);
 
     /**
-     * Create a playlist.
+     * Create a playlist
      * @param userId The playlist's owner's User ID
-     * @param body The body parameters
-     * @return The created playlist.
+     * @param options The body parameters
+     * @return The created playlist
+     * @see <a href="https://developer.spotify.com/web-api/create-playlist/">Create a Playlist</a>
      */
     @POST("/users/{user_id}/playlists")
-    public Playlist createPlaylist(@Path("user_id") String userId, @Body Map<String, Object> body);
+    public Playlist createPlaylist(@Path("user_id") String userId, @Body Map<String, Object> options);
 
+    /**
+     * Add tracks to a playlist
+     * @param userId The owner of the playlist
+     * @param playlistId The playlist's ID
+     * @param queryParameters Query parameters
+     * @param body JSON body
+     * @return A snapshot ID (the version of the playlist)
+     * @see <a href="https://developer.spotify.com/web-api/add-tracks-to-playlist/">Add Tracks to a Playlist</a>
+     */
     @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, Callback<SnapshotId> callback);
+    public SnapshotId addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, String> queryParameters, @Body Map<String, Object> body);
 
+    /**
+     * Add tracks to a playlist
+     * @param userId The owner of the playlist
+     * @param playlistId The playlist's Id
+     * @param queryParameters Query parameters
+     * @param body The body parameters
+     * @param callback Callback method
+     * @see <a href="https://developer.spotify.com/web-api/add-tracks-to-playlist/">Add Tracks to a Playlist</a>
+     */
     @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public SnapshotId addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris);
-
-    @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, @Query("position") int position, Callback<SnapshotId> callback);
-
-    @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
-    public SnapshotId addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, @Query("position") int position);
+    public void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, String> queryParameters, @Body Map<String, Object> body, Callback<Pager<PlaylistTrack>> callback);
 
 
     @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
