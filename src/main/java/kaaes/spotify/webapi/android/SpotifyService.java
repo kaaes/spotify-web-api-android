@@ -268,7 +268,7 @@ public interface SpotifyService {
      * @param userId          The owner of the playlist
      * @param playlistId      The playlist's ID
      * @param queryParameters Query parameters
-     * @param body            JSON body
+     * @param body            The body parameters
      * @return A snapshot ID (the version of the playlist)
      * @see <a href="https://developer.spotify.com/web-api/add-tracks-to-playlist/">Add Tracks to a Playlist</a>
      */
@@ -287,7 +287,6 @@ public interface SpotifyService {
      */
     @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
     public void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, Object> queryParameters, @Body Map<String, Object> body, Callback<Pager<PlaylistTrack>> callback);
-
 
     @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
     public void removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemove tracksToRemove, Callback<SnapshotId> callback);
@@ -309,17 +308,29 @@ public interface SpotifyService {
     public Result replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris);
 
 
+    /**
+     * Change playlist details
+     *
+     * @param userId        The owner of the playlist
+     * @param playlistId    The playlist's Id
+     * @param body          The body parameters. For list of supported parameters see <a href="https://developer.spotify.com/web-api/change-playlist-details/">endpoint documentation</a>
+     * @return An empty result
+     * @see <a href="https://developer.spotify.com/web-api/change-playlist-details/">Change a Playlist's Details</a>
+     */
     @PUT("/users/{user_id}/playlists/{playlist_id}")
-    public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("name") String name, Callback<Result> callback);
+    public Result changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body Map<String, Object> body);
 
+    /**
+     * Change playlist details
+     *
+     * @param userId        The owner of the playlist
+     * @param playlistId    The playlist's Id
+     * @param body          The body parameters. For list of supported parameters see <a href="https://developer.spotify.com/web-api/change-playlist-details/">endpoint documentation</a>
+     * @param callback      Callback method
+     * @see <a href="https://developer.spotify.com/web-api/change-playlist-details/">Change a Playlist's Details</a>
+     */
     @PUT("/users/{user_id}/playlists/{playlist_id}")
-    public Result changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("name") String name);
-
-    @PUT("/users/{user_id}/playlists/{playlist_id}")
-    public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("public") boolean is_public, Callback<Result> callback);
-
-    @PUT("/users/{user_id}/playlists/{playlist_id}")
-    public Result changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("public") boolean is_public);
+    public void changePlaylistDetails(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body Map<String, Object> body, Callback<Result> callback);
 
 
     @PUT("/users/{user_id}/playlists/{playlist_id}/followers")

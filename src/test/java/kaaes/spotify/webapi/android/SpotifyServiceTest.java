@@ -38,6 +38,7 @@ import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.PlaylistsPager;
+import kaaes.spotify.webapi.android.models.Result;
 import kaaes.spotify.webapi.android.models.SnapshotId;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
@@ -652,6 +653,50 @@ public class SpotifyServiceTest {
         queryParameters.put("position", String.valueOf(position));
 
         final SnapshotId result = mSpotifyService.addTracksToPlaylist(owner, playlistId, queryParameters, options);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldChangePlaylistDetails() throws Exception {
+        final Type modelType = new TypeToken<Result>() {}.getType();
+        final String body = ""; // Returns empty body
+        final Result fixture = mGson.fromJson(body, modelType);
+
+        final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+
+        final String owner = "thelinmichael";
+        final String playlistId = "4JPlPnLULieb2WPFKlLiRq";
+        final String name = "Changed name";
+        final boolean isPublic = false;
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+            @Override
+            public boolean matches(Object argument) {
+                final Request request = (Request) argument;
+
+                final OutputStream outputStream = new ByteArrayOutputStream();
+                final TypedOutput output = request.getBody();
+                String body = null;
+                try {
+                    output.writeTo(outputStream);
+                    body = outputStream.toString();
+                } catch (IOException e) {
+                    fail("Could not read body");
+                }
+
+                final String expectedBody = String.format("{\"name\":\"%s\",\"public\":%b}", name, isPublic);
+                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s",
+                                                               owner, playlistId)) &&
+                       JSONsContainSameData(expectedBody, body) &&
+                       "PUT".equals(request.getMethod());
+            }
+        }))).thenReturn(response);
+
+        final Map<String, Object> options = new HashMap<String, Object>();
+        options.put("name", name);
+        options.put("public", isPublic);
+
+        final Result result = mSpotifyService.changePlaylistDetails(owner, playlistId, options);
         this.compareJSONWithoutNulls(body, result);
     }
 
