@@ -1,20 +1,18 @@
 [![Build Status](https://travis-ci.org/kaaes/spotify-web-api-android.svg?branch=master)](https://travis-ci.org/kaaes/spotify-web-api-android)
 
-Spotify Web API for Android
-===========================
+# Spotify Web API for Android
 
-This project is a wrapper for [Spotify Web API](https://developer.spotify.com/web-api/).
+This project is a wrapper for the [Spotify Web API](https://developer.spotify.com/web-api/).
 It uses [Retrofit](http://square.github.io/retrofit/) to create Java interfaces from API endpoints.
 
-Building the project
---------------------
-This project is built using Gradle:
+## Building
+This project is built using [Gradle](https://gradle.org/):
 
 1. Clone the repository: `git clone https://github.com/kaaes/spotify-web-api-android.git`
 2. Build: `./gradlew jar`
 3. Grab the jar and put it in your project. It can be found in `build/libs/spotify-web-api-android-0.1.0.jar`
 
-### Dependencies
+#### Dependencies
 
 This project depends on `Retrofit 1.9.0` and `OkHttp 2.2.0`. When you build it using
 the command above it creates a lean jar that doesn't contain Retrofit and OkHttp files.
@@ -32,8 +30,7 @@ It is also possible to build the project as a fat jar that contains all dependen
 the jar will be located in `build/libs/spotify-web-api-android-all-0.1.0.jar`
 
 
-Using the wrapper
------------------
+## Usage
 
 Out of the box it uses [OkHttp](http://square.github.io/okhttp/) HTTP client and a [single thread executor](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executors.html#newSingleThreadExecutor()).
 
@@ -76,3 +73,11 @@ RestAdapter restAdapter = new RestAdapter.Builder()
 
 SpotifyService spotify = restAdapter.create(SpotifyService.class);
 ```
+
+## Help
+
+#### Bugs, Feature requests
+Found a bug? Something that's missing? Feedback is an important part of improving the project, so please [open an issue](https://github.com/kaaes/spotify-web-api-android/issues).
+
+#### Code
+Fork this project and start working on your own feature branch. When you're done, send a Pull Request to have your suggested changes merged into the master branch by the project's collaborators. Read more about the [GitHub flow](https://guides.github.com/introduction/flow/).
