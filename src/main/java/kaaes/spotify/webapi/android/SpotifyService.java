@@ -447,6 +447,28 @@ public interface SpotifyService {
     public Album getAlbum(@Path("id") String albumId);
 
     /**
+     * Get Spotify catalog information for a single album.
+     * @param albumId  The Spotify ID for the album.
+     * @param options  Optional parameters. For list of supported parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-album/">endpoint documentation</a>
+     * @param callback Callback method
+     * @see <a href="https://developer.spotify.com/web-api/get-album/">Get an Album</a>
+     */
+    @GET("/albums/{id}")
+    public void getAlbum(@Path("id") String albumId, @QueryMap Map<String, Object> options, Callback<Album> callback);
+
+    /**
+     * Get Spotify catalog information for a single album.
+     * @param albumId The Spotify ID for the album.
+     * @param options Optional parameters. For list of supported parameters see
+     *                <a href="https://developer.spotify.com/web-api/get-album/">endpoint documentation</a>
+     * @return Requested album information
+     * @see <a href="https://developer.spotify.com/web-api/get-album/">Get an Album</a>
+     */
+    @GET("/albums/{id}")
+    public Album getAlbum(@Path("id") String albumId, @QueryMap Map<String, Object> options);
+
+    /**
      * Get Spotify catalog information for multiple albums identified by their Spotify IDs.
      *
      * @param albumIds A comma-separated list of the Spotify IDs for the albums
@@ -464,6 +486,29 @@ public interface SpotifyService {
      */
     @GET("/albums")
     public Albums getAlbums(@Query("ids") String albumIds);
+
+    /**
+     * Get Spotify catalog information for multiple albums identified by their Spotify IDs.
+     *
+     * @param albumIds A comma-separated list of the Spotify IDs for the albums
+     * @param options Optional parameters. For list of supported parameters see
+     *                <a href="https://developer.spotify.com/web-api/get-several-albums/">endpoint documentation</a>
+     * @param callback Callback method
+     * @see <a href="https://developer.spotify.com/web-api/get-several-albums/">Get Several Albums</a>
+     */
+    @GET("/albums")
+    public void getAlbums(@Query("ids") String albumIds, @QueryMap Map<String, Object> options, Callback<Albums> callback);
+
+    /**
+     * Get Spotify catalog information for multiple albums identified by their Spotify IDs.
+     * @param albumIds A comma-separated list of the Spotify IDs for the albums
+     * @param options Optional parameters. For list of supported parameters see
+     *                <a href="https://developer.spotify.com/web-api/get-several-albums/">endpoint documentation</a>
+     * @return Object whose key is "albums" and whose value is an array of album objects.
+     * @see <a href="https://developer.spotify.com/web-api/get-several-albums/">Get Several Albums</a>
+     */
+    @GET("/albums")
+    public Albums getAlbums(@Query("ids") String albumIds, @QueryMap Map<String, Object> options);
 
     /**
      * Get Spotify catalog information about an album’s tracks.
@@ -669,9 +714,31 @@ public interface SpotifyService {
     public Track getTrack(@Path("id") String trackId);
 
     /**
+     * Get Spotify catalog information for a single track identified by their unique Spotify ID.
+     * @param trackId  The Spotify ID for the track.
+     * @param options  Optional parameters. For list of supported parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-track/">endpoint documentation</a>
+     * @param callback Callback method
+     * @see <a href="https://developer.spotify.com/web-api/get-track/">Get a Track</a>
+     */
+    @GET("/tracks/{id}")
+    public void getTrack(@Path("id") String trackId, @QueryMap Map<String, Object> options, Callback<Track> callback);
+
+    /**
+     * Get Spotify catalog information for a single track identified by their unique Spotify ID.
+     * @param trackId The Spotify ID for the track.
+     * @param options Optional parameters. For list of supported parameters see
+     *                <a href="https://developer.spotify.com/web-api/get-track/">endpoint documentation</a>
+     * @return Requested track information
+     * @see <a href="https://developer.spotify.com/web-api/get-track/">Get a Track</a>
+     */
+    @GET("/tracks/{id}")
+    public Track getTrack(@Path("id") String trackId, @QueryMap Map<String, Object> options);
+
+    /**
      * Get Several Tracks
      * @param trackIds A comma-separated list of the Spotify IDs for the tracks
-     * @param callback  Callback method
+     * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-several-tracks/">Get Several Tracks</a>
      */
     @GET("/tracks")
@@ -685,6 +752,29 @@ public interface SpotifyService {
      */
     @GET("/tracks")
     public Tracks getTracks(@Query("ids") String trackIds);
+
+    /**
+     * Get Several Tracks
+     * @param trackIds A comma-separated list of the Spotify IDs for the tracks
+     * @param options  Optional parameters. For list of supported parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-several-tracks/">endpoint documentation</a>
+     * @param callback Callback method
+     * @see <a href="https://developer.spotify.com/web-api/get-several-tracks/">Get Several Tracks</a>
+     */
+    @GET("/tracks")
+    public void getTracks(@Query("ids") String trackIds, @QueryMap Map<String, Object> options, Callback<Tracks> callback);
+
+    /**
+     * Get Several Tracks
+     * @param trackIds A comma-separated list of the Spotify IDs for the tracks
+     * @param options  Optional parameters. For list of supported parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-several-tracks/">endpoint documentation</a>
+     * @return An object whose key is "tracks" and whose value is an array of track objects.
+     * @see <a href="https://developer.spotify.com/web-api/get-several-tracks/">Get Several Tracks</a>
+     */
+    @GET("/tracks")
+    public Tracks getTracks(@Query("ids") String trackIds, @QueryMap Map<String, Object> options);
+
 
     /**
      * Browse
