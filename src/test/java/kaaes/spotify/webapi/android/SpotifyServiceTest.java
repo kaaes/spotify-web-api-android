@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
+import kaaes.spotify.webapi.android.models.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,32 +20,8 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import kaaes.spotify.webapi.android.models.Album;
-import kaaes.spotify.webapi.android.models.Albums;
-import kaaes.spotify.webapi.android.models.AlbumsPager;
-import kaaes.spotify.webapi.android.models.Artist;
-import kaaes.spotify.webapi.android.models.Artists;
-import kaaes.spotify.webapi.android.models.ArtistsPager;
-import kaaes.spotify.webapi.android.models.CategoriesPager;
-import kaaes.spotify.webapi.android.models.Category;
-import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
-import kaaes.spotify.webapi.android.models.NewReleases;
-import kaaes.spotify.webapi.android.models.Pager;
-import kaaes.spotify.webapi.android.models.Playlist;
-import kaaes.spotify.webapi.android.models.PlaylistTrack;
-import kaaes.spotify.webapi.android.models.PlaylistsPager;
-import kaaes.spotify.webapi.android.models.Result;
-import kaaes.spotify.webapi.android.models.SnapshotId;
-import kaaes.spotify.webapi.android.models.Track;
-import kaaes.spotify.webapi.android.models.Tracks;
-import kaaes.spotify.webapi.android.models.TracksPager;
-import kaaes.spotify.webapi.android.models.User;
-import kaaes.spotify.webapi.android.models.UserSimple;
 import retrofit.RestAdapter;
 import retrofit.client.Client;
 import retrofit.client.Request;
@@ -657,6 +634,106 @@ public class SpotifyServiceTest {
     }
 
     @Test
+    public void shouldRemoveTracksFromPlaylist() throws Exception {
+        final Type modelType = new TypeToken<SnapshotId>() {
+        }.getType();
+        final String body = TestUtils.readTestData("snapshot-response.json");
+        final SnapshotId fixture = mGson.fromJson(body, modelType);
+        final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+
+        final String owner = "thelinmichael";
+        final String playlistId = "4JPlPnLULieb2WPFKlLiRq";
+        final String trackUri1 = "spotify:track:76lT30VRv09h5MQp5snmsb";
+        final String trackUri2 = "spotify:track:2KCmalBTv3SiYxvpKrXmr5";
+
+        TracksToRemove ttr = new TracksToRemove();
+        TrackToRemove trackObject1 = new TrackToRemove();
+        trackObject1.uri = trackUri1;
+        TrackToRemove trackObject2 = new TrackToRemove();
+        trackObject2.uri = trackUri2;
+
+        ttr.tracks = Arrays.asList(trackObject1, trackObject2);
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+            @Override
+            public boolean matches(Object argument) {
+                final Request request = (Request) argument;
+
+                final OutputStream outputStream = new ByteArrayOutputStream();
+                final TypedOutput output = request.getBody();
+                String body = null;
+                try {
+                    output.writeTo(outputStream);
+                    body = outputStream.toString();
+                } catch (IOException e) {
+                    fail("Could not read body");
+                }
+
+                final String expectedBody = String.format("{\"tracks\":[{\"uri\":\"%s\"},{\"uri\":\"%s\"}]}",
+                        trackUri1, trackUri2);
+                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/tracks",
+                        owner, playlistId)) &&
+                        JSONsContainSameData(expectedBody, body) &&
+                        "DELETE".equals(request.getMethod());
+            }
+        }))).thenReturn(response);
+
+        final SnapshotId result = mSpotifyService.removeTracksFromPlaylist(owner, playlistId, ttr);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldRemoveTracksFromPlaylistSpecifyingPositions() throws Exception {
+        final Type modelType = new TypeToken<SnapshotId>() {
+        }.getType();
+        final String body = TestUtils.readTestData("snapshot-response.json");
+        final SnapshotId fixture = mGson.fromJson(body, modelType);
+        final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+
+        final String owner = "thelinmichael";
+        final String playlistId = "4JPlPnLULieb2WPFKlLiRq";
+        final String trackUri1 = "spotify:track:76lT30VRv09h5MQp5snmsb";
+        final String trackUri2 = "spotify:track:2KCmalBTv3SiYxvpKrXmr5";
+
+        TracksToRemoveWithPosition ttrwp = new TracksToRemoveWithPosition();
+        TrackToRemoveWithPosition trackObject1 = new TrackToRemoveWithPosition();
+        trackObject1.uri = trackUri1;
+        trackObject1.positions = Arrays.asList(0,3);
+        TrackToRemoveWithPosition trackObject2 = new TrackToRemoveWithPosition();
+        trackObject2.uri = trackUri2;
+        trackObject2.positions = Arrays.asList(1);
+
+        ttrwp.tracks = Arrays.asList(trackObject1, trackObject2);
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+            @Override
+            public boolean matches(Object argument) {
+                final Request request = (Request) argument;
+
+                final OutputStream outputStream = new ByteArrayOutputStream();
+                final TypedOutput output = request.getBody();
+                String body = null;
+                try {
+                    output.writeTo(outputStream);
+                    body = outputStream.toString();
+                } catch (IOException e) {
+                    fail("Could not read body");
+                }
+
+                final String expectedBody = String.format("{\"tracks\":[{\"uri\":\"%s\",\"positions\":[0,3]},{\"uri\":\"%s\",\"positions\":[1]}]}",
+                        trackUri1, trackUri2);
+                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/tracks",
+                        owner, playlistId)) &&
+                        JSONsContainSameData(expectedBody, body) &&
+                        "DELETE".equals(request.getMethod());
+            }
+        }))).thenReturn(response);
+
+        final SnapshotId result = mSpotifyService.removeTracksFromPlaylist(owner, playlistId, ttrwp);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
     public void shouldChangePlaylistDetails() throws Exception {
         final Type modelType = new TypeToken<Result>() {}.getType();
         final String body = ""; // Returns empty body
@@ -697,6 +774,71 @@ public class SpotifyServiceTest {
         options.put("public", isPublic);
 
         final Result result = mSpotifyService.changePlaylistDetails(owner, playlistId, options);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldFollowAPlaylist() throws Exception {
+        final Type modelType = new TypeToken<Result>() {}.getType();
+        final String body = ""; // Returns empty body
+        final Result fixture = mGson.fromJson(body, modelType);
+
+        final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+
+        final String owner = "thelinmichael";
+        final String playlistId = "4JPlPnLULieb2WPFKlLiRq";
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+            @Override
+            public boolean matches(Object argument) {
+                final Request request = (Request) argument;
+                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/followers",
+                        owner, playlistId)) &&
+                        "PUT".equals(request.getMethod());
+            }
+        }))).thenReturn(response);
+
+        final Result result = mSpotifyService.followPlaylist(owner, playlistId);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldFollowAPlaylistPrivately() throws Exception {
+        final Type modelType = new TypeToken<Result>() {}.getType();
+        final String body = ""; // Returns empty body
+        final Result fixture = mGson.fromJson(body, modelType);
+
+        final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+
+        final boolean isPublic = false;
+        final String owner = "thelinmichael";
+        final String playlistId = "4JPlPnLULieb2WPFKlLiRq";
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+            @Override
+            public boolean matches(Object argument) {
+                final Request request = (Request) argument;
+                final OutputStream outputStream = new ByteArrayOutputStream();
+                final TypedOutput output = request.getBody();
+                String body = null;
+                try {
+                    output.writeTo(outputStream);
+                    body = outputStream.toString();
+                } catch (IOException e) {
+                    fail("Could not read body");
+                }
+
+                final String expectedBody = String.format("{\"public\":%b}", isPublic);
+                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/followers",
+                        owner, playlistId)) &&
+                        JSONsContainSameData(expectedBody, body) &&
+                        "PUT".equals(request.getMethod());
+            }
+        }))).thenReturn(response);
+
+        PlaylistFollowPrivacy pfp = new PlaylistFollowPrivacy();
+        pfp.is_public = isPublic;
+        final Result result = mSpotifyService.followPlaylist(owner, playlistId, pfp);
         this.compareJSONWithoutNulls(body, result);
     }
 
