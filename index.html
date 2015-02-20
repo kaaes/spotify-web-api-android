@@ -6,9 +6,11 @@
   <meta name="description" content="Documentation for the Spotify Web API Android Wrapper" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+  html {
+    font-size: 16px;
+  }
   html, input, textarea, select, button {
   font-family: Helvetica,sans-serif;
-  font-size: 18px;
   line-height: 1.5;
   }
 
@@ -49,7 +51,7 @@
   }
 
   .header-intro {
-  font-size: 0.83333rem;
+  font-size: 1rem;
   color: #84bd00;
   text-transform: uppercase;
   font-weight: 200;
@@ -125,6 +127,15 @@
 
   footer img {
   vertical-align: middle;
+  }
+
+  @media(max-width: 500px) {
+    html {
+      font-size: 12px;
+    }
+    .header-content {
+      width: 90%;
+    }
   }
   </style>
 </head>
