@@ -887,7 +887,7 @@ public class SpotifyServiceTest {
         options.put("range_length", rangeLength);
         options.put("insert_before", insertBefore);
 
-        final SnapshotId result = mSpotifyService.reorderPlaylist(owner, playlistId, options);
+        final SnapshotId result = mSpotifyService.reorderPlaylistTracks(owner, playlistId, options);
         this.compareJSONWithoutNulls(body, result);
     }
 
