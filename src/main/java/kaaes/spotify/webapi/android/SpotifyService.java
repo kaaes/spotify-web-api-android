@@ -423,7 +423,7 @@ public interface SpotifyService {
     public Result unfollowPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
 
     /**
-     * Reorder a Playlist
+     * Reorder a Playlist's tracks
      * @param userId The Spotify user ID of the user who owns the playlist.
      * @param playlistId The Spotify ID of the playlist
      * @param body The body parameters. For list of supported parameters see <a href="https://developer.spotify.com/web-api/reorder-playlists-tracks/">endpoint documentation</a>
@@ -434,7 +434,7 @@ public interface SpotifyService {
     public SnapshotId reorderPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body Map<String, Object> body);
 
     /**
-     * Reorder a Playlist
+     * Reorder a Playlist's tracks
      * @param userId The Spotify user ID of the user who owns the playlist.
      * @param playlistId The Spotify ID of the playlist
      * @param body The body parameters. For list of supported parameters see <a href="https://developer.spotify.com/web-api/reorder-playlists-tracks/">endpoint documentation</a>
