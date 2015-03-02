@@ -422,6 +422,28 @@ public interface SpotifyService {
     @DELETE("/users/{user_id}/playlists/{playlist_id}/followers")
     public Result unfollowPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
 
+    /**
+     * Reorder a Playlist's tracks
+     * @param userId The Spotify user ID of the user who owns the playlist.
+     * @param playlistId The Spotify ID of the playlist
+     * @param body The body parameters. For list of supported parameters see <a href="https://developer.spotify.com/web-api/reorder-playlists-tracks/">endpoint documentation</a>
+     * @return A snapshot ID (the version of the playlist)
+     * @see <a href="https://developer.spotify.com/web-api/reorder-playlists-tracks/">Reorder a Playlist</a>
+     */
+    @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
+    public SnapshotId reorderPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body Map<String, Object> body);
+
+    /**
+     * Reorder a Playlist's tracks
+     * @param userId The Spotify user ID of the user who owns the playlist.
+     * @param playlistId The Spotify ID of the playlist
+     * @param body The body parameters. For list of supported parameters see <a href="https://developer.spotify.com/web-api/reorder-playlists-tracks/">endpoint documentation</a>
+     * @param callback Callback method
+     * @see <a href="https://developer.spotify.com/web-api/reorder-playlists-tracks/">Reorder a Playlist</a>
+     */
+    @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
+    public void reorderPlaylistTracks(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body Map<String, Object> body, Callback<SnapshotId> callback);
+
 
     /**********
      * Albums *

@@ -842,6 +842,55 @@ public class SpotifyServiceTest {
         this.compareJSONWithoutNulls(body, result);
     }
 
+    @Test
+    public void shouldReorderPlaylistsTracks() throws Exception
+    {
+        final Type modelType = new TypeToken<SnapshotId>() {
+        }.getType();
+        final String body = TestUtils.readTestData("snapshot-response.json");
+        final SnapshotId fixture = mGson.fromJson(body, modelType);
+
+        final Response response = TestUtils.getResponseFromModel(fixture, modelType);
+
+        final String owner = "thelinmichael";
+        final String playlistId = "4JPlPnLULieb2WPFKlLiRq";
+        final int rangeStart = 2;
+        final int rangeLength = 2;
+        final int insertBefore = 0;
+
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+            @Override
+            public boolean matches(Object argument) {
+                final Request request = (Request) argument;
+
+                final OutputStream outputStream = new ByteArrayOutputStream();
+                final TypedOutput output = request.getBody();
+                String body = null;
+                try {
+                    output.writeTo(outputStream);
+                    body = outputStream.toString();
+                } catch (IOException e) {
+                    fail("Could not read body");
+                }
+
+                final String expectedBody = String.format("{\"range_start\":%d,\"range_length\":%d,\"insert_before\":%d}",
+                        rangeStart, rangeLength, insertBefore);
+                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/tracks",
+                        owner, playlistId)) &&
+                        JSONsContainSameData(expectedBody, body) &&
+                        "PUT".equals(request.getMethod());
+            }
+        }))).thenReturn(response);
+
+        final Map<String, Object> options = new HashMap<String, Object>();
+        options.put("range_start", rangeStart);
+        options.put("range_length", rangeLength);
+        options.put("insert_before", insertBefore);
+
+        final SnapshotId result = mSpotifyService.reorderPlaylistTracks(owner, playlistId, options);
+        this.compareJSONWithoutNulls(body, result);
+    }
+
     /**
      * Compares the mapping fixture <-> object, ignoring NULL fields
      * This is useful to prevent issues with entities such as "Image" in
