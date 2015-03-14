@@ -10,7 +10,7 @@ import java.util.Map;
  * {@link kaaes.spotify.webapi.android.models.PlaylistSimple}
  */
 public abstract class PlaylistBase {
-    public boolean collaborative;
+    public Boolean collaborative;
     public Map<String, String> external_urls;
     public String href;
     public String id;

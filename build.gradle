@@ -41,4 +41,14 @@ task jarAll(type: Jar) {
     with jar
 }
 
+task generateDocs(type: Javadoc) {
+    title = "Spotify Web API Android Client - API Reference"
+    destinationDir = file("./build/docs/")
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+
+    options.links("http://docs.oracle.com/javase/7/docs/api/");
+    options.links("http://square.github.io/retrofit/javadoc/");
+}
+
 check.dependsOn jacocoTestReport

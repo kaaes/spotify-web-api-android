@@ -6,6 +6,8 @@ import java.util.Map;
 public class TrackSimple {
     public List<ArtistSimple> artists;
     public List<String> available_markets;
+    public Boolean is_playable;
+    public LinkedTrack linked_from;
     public int disc_number;
     public long duration_ms;
     public boolean explicit;
