@@ -1344,15 +1344,38 @@ public interface SpotifyService {
     /**
      * Starred
      */
-    @GET("/users/{user_id}/starred/tracks")
-    public void getStarredTracks(@Path("user_id") String userId, @Query("offset") int offset, @Query("limit") int limit, Callback<Pager<PlaylistTrack>> callback);
 
+    /**
+     * Get a list of the tracks starred by a user
+     * @param userId   The user's Spotify user ID.
+     * @param options  Optional parameters.
+     * @param callback Callback method
+     */
     @GET("/users/{user_id}/starred/tracks")
-    public Pager<PlaylistTrack> getStarredTracks(@Path("user_id") String userId, @Query("offset") int offset, @Query("limit") int limit);
+    public void getStarredTracks(@Path("user_id") String userId, @QueryMap Map<String, Object> options, Callback<Pager<PlaylistTrack>> callback);
 
+    /**
+     * Get a list of the tracks starred by a user
+     * @param userId   The user's Spotify user ID.
+     * @param options  Optional parameters.
+     * @return A paginated list of results
+     */
+    @GET("/users/{user_id}/starred/tracks")
+    public Pager<PlaylistTrack> getStarredTracks(@Path("user_id") String userId, @QueryMap Map<String, Object> options);
+
+    /**
+     * Get a list of the tracks starred by a user
+     * @param userId   The user's Spotify user ID.
+     * @param callback Callback method
+     */
     @GET("/users/{user_id}/starred/tracks")
     public void getStarredTracks(@Path("user_id") String userId, Callback<Pager<PlaylistTrack>> callback);
 
+    /**
+     * Get a list of the tracks starred by a user
+     * @param userId   The user's Spotify user ID.
+     * @return A paginated list of results
+     */
     @GET("/users/{user_id}/starred/tracks")
     public Pager<PlaylistTrack> getStarredTracks(@Path("user_id") String userId);
 }
