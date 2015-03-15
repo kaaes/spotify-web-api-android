@@ -1,0 +1,383 @@
+{
+  "artists" : [ {
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/artist/5cMVRrisBpDkXCVG48epED"
+    },
+    "followers" : {
+      "href" : null,
+      "total" : 31854
+    },
+    "genres" : [ ],
+    "href" : "https://api.spotify.com/v1/artists/5cMVRrisBpDkXCVG48epED",
+    "id" : "5cMVRrisBpDkXCVG48epED",
+    "images" : [ {
+      "height" : 563,
+      "url" : "https://i.scdn.co/image/840fc4c66706b0abe13602abf3cb9dd8b91a002d",
+      "width" : 1000
+    }, {
+      "height" : 360,
+      "url" : "https://i.scdn.co/image/800e9734af2ae3e66d2932682f5e4490654a1f85",
+      "width" : 640
+    }, {
+      "height" : 113,
+      "url" : "https://i.scdn.co/image/f542926fc5d739c59c8c2d527c7dfb919968fccd",
+      "width" : 200
+    }, {
+      "height" : 36,
+      "url" : "https://i.scdn.co/image/25a86a97214162b8f89fc5151e478f3808ae0643",
+      "width" : 64
+    } ],
+    "name" : "Jenny Lewis",
+    "popularity" : 62,
+    "type" : "artist",
+    "uri" : "spotify:artist:5cMVRrisBpDkXCVG48epED"
+  }, {
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/artist/3RosuARXNIOfNYoJXR7fzA"
+    },
+    "followers" : {
+      "href" : null,
+      "total" : 5705
+    },
+    "genres" : [ ],
+    "href" : "https://api.spotify.com/v1/artists/3RosuARXNIOfNYoJXR7fzA",
+    "id" : "3RosuARXNIOfNYoJXR7fzA",
+    "images" : [ {
+      "height" : 656,
+      "url" : "https://i.scdn.co/image/31d619df534edf1476afff8af6b2e1b8348f3ac9",
+      "width" : 1000
+    }, {
+      "height" : 420,
+      "url" : "https://i.scdn.co/image/2d393914951b4ffe146d4f95303d9ca3d9e0fe40",
+      "width" : 640
+    }, {
+      "height" : 131,
+      "url" : "https://i.scdn.co/image/b22338e73546bec4e14fe6ab76df31748c81a411",
+      "width" : 200
+    }, {
+      "height" : 42,
+      "url" : "https://i.scdn.co/image/1399a06208cf3e27e12f363f9a122ebf2a671bfa",
+      "width" : 64
+    } ],
+    "name" : "Tobias Jesso Jr.",
+    "popularity" : 57,
+    "type" : "artist",
+    "uri" : "spotify:artist:3RosuARXNIOfNYoJXR7fzA"
+  }, {
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/artist/6CWTBjOJK75cTE8Xv8u1kj"
+    },
+    "followers" : {
+      "href" : null,
+      "total" : 252970
+    },
+    "genres" : [ "chamber pop", "indie christmas", "indie pop" ],
+    "href" : "https://api.spotify.com/v1/artists/6CWTBjOJK75cTE8Xv8u1kj",
+    "id" : "6CWTBjOJK75cTE8Xv8u1kj",
+    "images" : [ {
+      "height" : 667,
+      "url" : "https://i.scdn.co/image/6083c35d720548877b60b8b2d79c32cb7ffab6a9",
+      "width" : 1000
+    }, {
+      "height" : 427,
+      "url" : "https://i.scdn.co/image/e36133963ab4797cc36d71c645c8a310485da842",
+      "width" : 640
+    }, {
+      "height" : 133,
+      "url" : "https://i.scdn.co/image/b2dc84d0492ea80ba8c57ee6de97be82d9c96e5a",
+      "width" : 200
+    }, {
+      "height" : 43,
+      "url" : "https://i.scdn.co/image/8c633bd144a0da4b95f4e31d3b428981525b838f",
+      "width" : 64
+    } ],
+    "name" : "Feist",
+    "popularity" : 70,
+    "type" : "artist",
+    "uri" : "spotify:artist:6CWTBjOJK75cTE8Xv8u1kj"
+  }, {
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/artist/5KTykbPcDB4GYS49jcHbWh"
+    },
+    "followers" : {
+      "href" : null,
+      "total" : 3879
+    },
+    "genres" : [ ],
+    "href" : "https://api.spotify.com/v1/artists/5KTykbPcDB4GYS49jcHbWh",
+    "id" : "5KTykbPcDB4GYS49jcHbWh",
+    "images" : [ {
+      "height" : 533,
+      "url" : "https://i.scdn.co/image/7e1a5f21b21f1660a280d0d20479546ca9439352",
+      "width" : 800
+    }, {
+      "height" : 426,
+      "url" : "https://i.scdn.co/image/b3281fc8157bb118e242e4f9c1d2cdf2fac242e8",
+      "width" : 639
+    }, {
+      "height" : 133,
+      "url" : "https://i.scdn.co/image/f66b842ecd793b65cd9557b84396ff22c98976bc",
+      "width" : 200
+    }, {
+      "height" : 43,
+      "url" : "https://i.scdn.co/image/1d4a891c918a152f29cccf819883368411e31b8d",
+      "width" : 64
+    } ],
+    "name" : "Jessica Pratt",
+    "popularity" : 46,
+    "type" : "artist",
+    "uri" : "spotify:artist:5KTykbPcDB4GYS49jcHbWh"
+  }, {
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/artist/6KQ9fTyi4ICTLtjhlpHyhv"
+    },
+    "followers" : {
+      "href" : null,
+      "total" : 5591
+    },
+    "genres" : [ "stomp and flutter" ],
+    "href" : "https://api.spotify.com/v1/artists/6KQ9fTyi4ICTLtjhlpHyhv",
+    "id" : "6KQ9fTyi4ICTLtjhlpHyhv",
+    "images" : [ {
+      "height" : 800,
+      "url" : "https://i.scdn.co/image/bcf02e38a28054194471fd1eae7fea76fe12ff9f",
+      "width" : 731
+    }, {
+      "height" : 700,
+      "url" : "https://i.scdn.co/image/c82c483146bc2d8d01f69f70f3d96cbb72379e01",
+      "width" : 640
+    }, {
+      "height" : 219,
+      "url" : "https://i.scdn.co/image/ddc8c3973514dc71b357999adf7fa6231196d696",
+      "width" : 200
+    }, {
+      "height" : 70,
+      "url" : "https://i.scdn.co/image/0422bb46ff6ab2cbbe9de0ffd638024d44f8946b",
+      "width" : 64
+    } ],
+    "name" : "Lady Lamb the Beekeeper",
+    "popularity" : 52,
+    "type" : "artist",
+    "uri" : "spotify:artist:6KQ9fTyi4ICTLtjhlpHyhv"
+  }, {
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/artist/3SmFJf7fxX3J0xXP0IlwK5"
+    },
+    "followers" : {
+      "href" : null,
+      "total" : 9749
+    },
+    "genres" : [ ],
+    "href" : "https://api.spotify.com/v1/artists/3SmFJf7fxX3J0xXP0IlwK5",
+    "id" : "3SmFJf7fxX3J0xXP0IlwK5",
+    "images" : [ {
+      "height" : 1004,
+      "url" : "https://i.scdn.co/image/5097acaf426c2b859b37bd598b3a380d39c2385e",
+      "width" : 670
+    }, {
+      "height" : 959,
+      "url" : "https://i.scdn.co/image/1597d9eec6ed7f966e8e5199426a3570cccc41b0",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/3c1551be24e6b9dd40faf5041effe2f2555a222a",
+      "width" : 200
+    }, {
+      "height" : 96,
+      "url" : "https://i.scdn.co/image/6cff0801850c218f11a23bd24eadc60d8bebc570",
+      "width" : 64
+    } ],
+    "name" : "Jessica Lea Mayfield",
+    "popularity" : 50,
+    "type" : "artist",
+    "uri" : "spotify:artist:3SmFJf7fxX3J0xXP0IlwK5"
+  }, {
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/artist/2BjFgj9Vg3IVRSG8ETwp9Q"
+    },
+    "followers" : {
+      "href" : null,
+      "total" : 2644
+    },
+    "genres" : [ ],
+    "href" : "https://api.spotify.com/v1/artists/2BjFgj9Vg3IVRSG8ETwp9Q",
+    "id" : "2BjFgj9Vg3IVRSG8ETwp9Q",
+    "images" : [ {
+      "height" : 1349,
+      "url" : "https://i.scdn.co/image/29b3507fc1beab3d1cffa01dc26fd71fc20a2bac",
+      "width" : 1000
+    }, {
+      "height" : 863,
+      "url" : "https://i.scdn.co/image/d159170b100c3a64b4f0f6de80c49def8022c0f0",
+      "width" : 640
+    }, {
+      "height" : 270,
+      "url" : "https://i.scdn.co/image/f9999bf7caca3669cb709b819794f425491774dd",
+      "width" : 200
+    }, {
+      "height" : 86,
+      "url" : "https://i.scdn.co/image/9ee9c89922bb300ff2fc15a673d78a4d7b9678da",
+      "width" : 64
+    } ],
+    "name" : "Haley Bonar",
+    "popularity" : 40,
+    "type" : "artist",
+    "uri" : "spotify:artist:2BjFgj9Vg3IVRSG8ETwp9Q"
+  }, {
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/artist/2wJ4vsxWd7df7dRU4KcoDe"
+    },
+    "followers" : {
+      "href" : null,
+      "total" : 60868
+    },
+    "genres" : [ ],
+    "href" : "https://api.spotify.com/v1/artists/2wJ4vsxWd7df7dRU4KcoDe",
+    "id" : "2wJ4vsxWd7df7dRU4KcoDe",
+    "images" : [ {
+      "height" : 1333,
+      "url" : "https://i.scdn.co/image/9ed654e27d8f99289a1475d0e23a56d68688fe88",
+      "width" : 1000
+    }, {
+      "height" : 853,
+      "url" : "https://i.scdn.co/image/61981390e27f2de703de793d2483420341e99174",
+      "width" : 640
+    }, {
+      "height" : 267,
+      "url" : "https://i.scdn.co/image/e7b3d2a91f318286f6ca45b4ad5979ab91a2eb74",
+      "width" : 200
+    }, {
+      "height" : 85,
+      "url" : "https://i.scdn.co/image/bcbe0aad100f96cf6cd4d54f855390cca03ba8b8",
+      "width" : 64
+    } ],
+    "name" : "Sharon Van Etten",
+    "popularity" : 66,
+    "type" : "artist",
+    "uri" : "spotify:artist:2wJ4vsxWd7df7dRU4KcoDe"
+  }, {
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/artist/58mMrwemoGIcDpvfHe46u4"
+    },
+    "followers" : {
+      "href" : null,
+      "total" : 7655
+    },
+    "genres" : [ ],
+    "href" : "https://api.spotify.com/v1/artists/58mMrwemoGIcDpvfHe46u4",
+    "id" : "58mMrwemoGIcDpvfHe46u4",
+    "images" : [ {
+      "height" : 811,
+      "url" : "https://i.scdn.co/image/f9d57e44e821114a10b661682386cc43456fc170",
+      "width" : 1000
+    }, {
+      "height" : 519,
+      "url" : "https://i.scdn.co/image/3a304507894e94f2d9e8c65bfbf1bf3799ed23ce",
+      "width" : 640
+    }, {
+      "height" : 162,
+      "url" : "https://i.scdn.co/image/df7dba75d0c8e2d8674d077b59b30c9c0f57fa18",
+      "width" : 200
+    }, {
+      "height" : 52,
+      "url" : "https://i.scdn.co/image/88911a7320fb8eebfae1ad22144289f6dd35adbc",
+      "width" : 64
+    } ],
+    "name" : "Matthew E. White",
+    "popularity" : 58,
+    "type" : "artist",
+    "uri" : "spotify:artist:58mMrwemoGIcDpvfHe46u4"
+  }, {
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/artist/3g2kUQ6tHLLbmkV7T4GPtL"
+    },
+    "followers" : {
+      "href" : null,
+      "total" : 170227
+    },
+    "genres" : [ ],
+    "href" : "https://api.spotify.com/v1/artists/3g2kUQ6tHLLbmkV7T4GPtL",
+    "id" : "3g2kUQ6tHLLbmkV7T4GPtL",
+    "images" : [ {
+      "height" : 1500,
+      "url" : "https://i.scdn.co/image/3e4279d983619ec259cea3aa6c7b5289c76f4ddc",
+      "width" : 1000
+    }, {
+      "height" : 960,
+      "url" : "https://i.scdn.co/image/06d39131207002a14ab47724cb81dff0a175b697",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/6920b5cdac9796345ba8a7750cbe37e8728abee5",
+      "width" : 200
+    }, {
+      "height" : 96,
+      "url" : "https://i.scdn.co/image/55f9e69f989a02ea0056240ce87162aa0679d373",
+      "width" : 64
+    } ],
+    "name" : "Fiona Apple",
+    "popularity" : 66,
+    "type" : "artist",
+    "uri" : "spotify:artist:3g2kUQ6tHLLbmkV7T4GPtL"
+  }, {
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/artist/1HhSYZFNNPTTZuOlSfZUJP"
+    },
+    "followers" : {
+      "href" : null,
+      "total" : 1857
+    },
+    "genres" : [ ],
+    "href" : "https://api.spotify.com/v1/artists/1HhSYZFNNPTTZuOlSfZUJP",
+    "id" : "1HhSYZFNNPTTZuOlSfZUJP",
+    "images" : [ {
+      "height" : 640,
+      "url" : "https://i.scdn.co/image/c2da621a619f25d8f2997e5ed06dab38a4f18f62",
+      "width" : 640
+    }, {
+      "height" : 300,
+      "url" : "https://i.scdn.co/image/f3286480f22e98ecf1cf79ab47d525578b933187",
+      "width" : 300
+    }, {
+      "height" : 64,
+      "url" : "https://i.scdn.co/image/719bb175009ca76475eaeb6c83dd7c9d45b7627a",
+      "width" : 64
+    } ],
+    "name" : "Salt Cathedral",
+    "popularity" : 51,
+    "type" : "artist",
+    "uri" : "spotify:artist:1HhSYZFNNPTTZuOlSfZUJP"
+  }, {
+    "external_urls" : {
+      "spotify" : "https://open.spotify.com/artist/6mKqFxGMS5TGDZI3XkT5Rt"
+    },
+    "followers" : {
+      "href" : null,
+      "total" : 25756
+    },
+    "genres" : [ ],
+    "href" : "https://api.spotify.com/v1/artists/6mKqFxGMS5TGDZI3XkT5Rt",
+    "id" : "6mKqFxGMS5TGDZI3XkT5Rt",
+    "images" : [ {
+      "height" : 1617,
+      "url" : "https://i.scdn.co/image/7c283ccee6445af27b55dc65c28d302bf8bfaa27",
+      "width" : 1000
+    }, {
+      "height" : 1035,
+      "url" : "https://i.scdn.co/image/b00160154147f6c885d4b10876c509bc974ad261",
+      "width" : 640
+    }, {
+      "height" : 323,
+      "url" : "https://i.scdn.co/image/c0d36390e0e16a06d31805dfe38f4b65d5c9fbf4",
+      "width" : 200
+    }, {
+      "height" : 103,
+      "url" : "https://i.scdn.co/image/7e99d85f853899a5c701e15adf979b8bb4aa256a",
+      "width" : 64
+    } ],
+    "name" : "Angel Olsen",
+    "popularity" : 59,
+    "type" : "artist",
+    "uri" : "spotify:artist:6mKqFxGMS5TGDZI3XkT5Rt"
+  } ]
+}

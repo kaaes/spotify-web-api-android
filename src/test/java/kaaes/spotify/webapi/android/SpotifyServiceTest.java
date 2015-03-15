@@ -922,6 +922,18 @@ public class SpotifyServiceTest {
         compareJSONWithoutNulls(body, tracks);
     }
 
+    @Test
+    public void shouldGetArtistRelatedArtists() throws Exception {
+        String body = TestUtils.readTestData("artist-related-artists.json");
+        Artists fixture = mGson.fromJson(body, Artists.class);
+
+        Response response = TestUtils.getResponseFromModel(fixture, Artists.class);
+        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+
+        Artists tracks = mSpotifyService.getRelatedArtists("test");
+        compareJSONWithoutNulls(body, tracks);
+    }
+
     /**
      * Compares the mapping fixture <-> object, ignoring NULL fields
      * This is useful to prevent issues with entities such as "Image" in
