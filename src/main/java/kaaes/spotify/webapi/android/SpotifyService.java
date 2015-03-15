@@ -700,7 +700,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/get-related-artists/">Get an Artist’s Related Artists</a>
      */
     @GET("/artists/{id}/related-artists")
-    public void getRelatedArtists(@Path("id") String artistId, Callback<Pager<Artist>> callback);
+    public void getRelatedArtists(@Path("id") String artistId, Callback<Artists> callback);
 
     /**
      * Get Spotify catalog information about artists similar to a given artist.
@@ -709,7 +709,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/get-related-artists/">Get an Artist’s Related Artists</a>
      */
     @GET("/artists/{id}/related-artists")
-    public Pager<Artist> getRelatedArtists(@Path("id") String artistId);
+    public Artists getRelatedArtists(@Path("id") String artistId);
 
 
     /**
