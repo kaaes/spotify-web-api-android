@@ -31,12 +31,12 @@ import retrofit.RetrofitError;
  * } catch (RetrofitError error) {
  *     SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
  * }
- * </pre>}* 
+ * </pre>}
  */
 public class SpotifyError extends Exception {
 
-    private RetrofitError mRetrofitError;
-    private ErrorDetails mErrorDetails;
+    private final RetrofitError mRetrofitError;
+    private final ErrorDetails mErrorDetails;
 
     public static SpotifyError fromRetrofitError(RetrofitError error) {
         ErrorResponse errorResponse = (ErrorResponse) error.getBodyAs(ErrorResponse.class);
@@ -50,7 +50,7 @@ public class SpotifyError extends Exception {
     }
 
     public SpotifyError(RetrofitError retrofitError, ErrorDetails errorDetails, String message) {
-        super(message);
+        super(message, retrofitError);
         mRetrofitError = retrofitError;
         mErrorDetails = errorDetails;
     }
@@ -58,6 +58,7 @@ public class SpotifyError extends Exception {
     public SpotifyError(RetrofitError retrofitError) {
         super(retrofitError);
         mRetrofitError = retrofitError;
+        mErrorDetails = null;
     }
 
     /**
