@@ -46,18 +46,23 @@ public class TestUtils {
         }
     }
 
+    public static <T> Response getResponseFromModel(int statusCode, T model, Class<T> modelClass) {
+        ResponseBody responseBody = new ResponseBody(gson.toJson(model, modelClass));
+        return createResponse(statusCode, responseBody);
+    }
+
     public static <T> Response getResponseFromModel(T model, Class<T> modelClass) {
         ResponseBody responseBody = new ResponseBody(gson.toJson(model, modelClass));
-        return createResponse(responseBody);
+        return createResponse(200, responseBody);
     }
 
     public static <T> Response getResponseFromModel(T model, Type modelType) {
         ResponseBody responseBody = new ResponseBody(gson.toJson(model, modelType));
-        return createResponse(responseBody);
+        return createResponse(200, responseBody);
     }
 
-    private static Response createResponse(ResponseBody responseBody) {
-        return new Response("", 200, "", new ArrayList<Header>(), responseBody);
+    private static Response createResponse(int statusCode, ResponseBody responseBody) {
+        return new Response("", statusCode, "", new ArrayList<Header>(), responseBody);
     }
 
     public static String readTestData(String fileName) throws IOException {

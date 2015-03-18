@@ -6,7 +6,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
-import kaaes.spotify.webapi.android.models.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,14 +19,46 @@ import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import kaaes.spotify.webapi.android.models.Album;
+import kaaes.spotify.webapi.android.models.Albums;
+import kaaes.spotify.webapi.android.models.AlbumsPager;
+import kaaes.spotify.webapi.android.models.Artist;
+import kaaes.spotify.webapi.android.models.Artists;
+import kaaes.spotify.webapi.android.models.ArtistsPager;
+import kaaes.spotify.webapi.android.models.CategoriesPager;
+import kaaes.spotify.webapi.android.models.Category;
+import kaaes.spotify.webapi.android.models.ErrorResponse;
+import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
+import kaaes.spotify.webapi.android.models.NewReleases;
+import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.Playlist;
+import kaaes.spotify.webapi.android.models.PlaylistFollowPrivacy;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import kaaes.spotify.webapi.android.models.PlaylistsPager;
+import kaaes.spotify.webapi.android.models.Result;
+import kaaes.spotify.webapi.android.models.SnapshotId;
+import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.TrackToRemove;
+import kaaes.spotify.webapi.android.models.TrackToRemoveWithPosition;
+import kaaes.spotify.webapi.android.models.Tracks;
+import kaaes.spotify.webapi.android.models.TracksPager;
+import kaaes.spotify.webapi.android.models.TracksToRemove;
+import kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition;
+import kaaes.spotify.webapi.android.models.User;
+import kaaes.spotify.webapi.android.models.UserSimple;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
 import retrofit.client.Client;
 import retrofit.client.Request;
 import retrofit.client.Response;
 import retrofit.mime.TypedOutput;
 
+import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.argThat;
@@ -889,6 +920,31 @@ public class SpotifyServiceTest {
 
         final SnapshotId result = mSpotifyService.reorderPlaylistTracks(owner, playlistId, options);
         this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldParseErrorResponse() throws Exception {
+        final String body = TestUtils.readTestData("error-unauthorized.json");
+        final ErrorResponse fixture = mGson.fromJson(body, ErrorResponse.class);
+
+        final Response response = TestUtils.getResponseFromModel(403, fixture, ErrorResponse.class);
+
+        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+
+        boolean errorReached = false;
+
+        try {
+            mSpotifyService.getMySavedTracks();
+        } catch (RetrofitError error) {
+            errorReached = true;
+
+            SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
+            assertEquals(fixture.error.status, spotifyError.getErrorDetails().status);
+            assertEquals(fixture.error.message, spotifyError.getErrorDetails().message);
+            assertEquals(403, spotifyError.getRetrofitError().getResponse().getStatus());
+        }
+
+        assertTrue(errorReached);
     }
 
     /**
