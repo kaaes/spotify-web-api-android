@@ -73,6 +73,38 @@ RestAdapter restAdapter = new RestAdapter.Builder()
 
 SpotifyService spotify = restAdapter.create(SpotifyService.class);
 ```
+## Error Handling
+
+When using Retrofit, errors are returned as [`RetrofitError`](http://square.github.io/retrofit/javadoc/retrofit/RetrofitError.html)
+objects. These objects, among others, contain HTTP status codes and their descriptions,
+for example `400 - Bad Request`.
+In many cases this will work well enough but in some cases Spotify Web API returns more detailed information,
+for example `400 - No search query`.
+
+To use the data returned in the response from the Web API `SpotifyCallback` object should be passed to the
+request method instead of regular Retrofit's `Callback`:
+```java
+spotify.getMySavedTracks(new SpotifyCallback<Pager<SavedTrack>>;() {
+    @Override
+    public void success(Pager<SavedTrack> savedTrackPager, Response response) {
+        // handle successful response
+    }
+
+    @Override
+    public void failure(SpotifyError error) {
+        // handle error
+    }
+});
+```
+For synchronous requests `RetrofitError` can be converted to `SpotifyError` if needed:
+```java
+try {
+    Pager<SavedTrack> mySavedTracks = spotify.getMySavedTracks();
+} catch (RetrofitError error) {
+    SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
+    // handle error
+}
+```
 
 ## Help
 
