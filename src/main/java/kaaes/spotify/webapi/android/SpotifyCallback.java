@@ -4,8 +4,9 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 
 /**
- * A convenience object converting {@link retrofit.RetrofitError}s to {@link SpotifyError}s.
- * Pass this object to the request method to receive it in the error callback:
+ * A convenience object converting {@link retrofit.RetrofitError}s to {@link SpotifyError}s
+ * in the error callbacks.
+ *
  * {code <pre>
  * spotify.getMySavedTracks(new SpotifyCallback&lt;Pager&lt;SavedTrack&gt;&gt;() {
  *     {@literal @}Override
