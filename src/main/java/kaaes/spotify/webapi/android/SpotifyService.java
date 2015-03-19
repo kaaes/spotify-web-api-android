@@ -82,6 +82,7 @@ public interface SpotifyService {
     /**
      * Get the currently logged in user profile information.
      * The contents of the User object may differ depending on application's scope.
+     *
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-current-users-profile/">Get Current User's Profile</a>
      */
@@ -91,6 +92,7 @@ public interface SpotifyService {
     /**
      * Get the currently logged in user profile information.
      * The contents of the User object may differ depending on application's scope.
+     *
      * @return The current user
      * @see <a href="https://developer.spotify.com/web-api/get-current-users-profile/">Get Current User's Profile</a>
      */
@@ -100,18 +102,20 @@ public interface SpotifyService {
 
     /**
      * Get a user's public profile information.
+     *
      * @param userId   The user's User ID
      * @param callback Callback method
-     * @see <a href"https://developer.spotify.com/web-api/get-users-profile/">Get User's Public Profile</a>
+     * @see <a href="https://developer.spotify.com/web-api/get-users-profile/">Get User's Public Profile</a>
      */
     @GET("/user/{id}")
     public void getUser(@Path("id") String userId, Callback<User> callback);
 
     /**
      * Get a user's public profile information.
+     *
      * @param userId The user's User ID
      * @return The user's public profile information.
-     * @see <a href"https://developer.spotify.com/web-api/get-users-profile/">Get User's Public Profile</a>
+     * @see <a href="https://developer.spotify.com/web-api/get-users-profile/">Get User's Public Profile</a>
      */
     @GET("/user/{id}")
     public User getUser(@Path("id") String userId);
@@ -123,6 +127,7 @@ public interface SpotifyService {
 
     /**
      * Get a list of the playlists owned or followed by a Spotify user.
+     *
      * @param userId   The user's Spotify user ID.
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-list-users-playlists/">endpoint documentation</a>
@@ -134,6 +139,7 @@ public interface SpotifyService {
 
     /**
      * Get a list of the playlists owned or followed by a Spotify user.
+     *
      * @param userId  The user's Spotify user ID.
      * @param options Optional parameters. For list of supported parameters see
      *                <a href="https://developer.spotify.com/web-api/get-list-users-playlists/">endpoint documentation</a>
@@ -145,6 +151,7 @@ public interface SpotifyService {
 
     /**
      * Get a list of the playlists owned or followed by a Spotify user.
+     *
      * @param userId   The user's Spotify user ID.
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-list-users-playlists/">Get a List of a User’s Playlists</a>
@@ -154,6 +161,7 @@ public interface SpotifyService {
 
     /**
      * Get a list of the playlists owned or followed by a Spotify user.
+     *
      * @param userId The user's Spotify user ID.
      * @return List of user's playlists wrapped in a {@code Pager} object
      * @see <a href="https://developer.spotify.com/web-api/get-list-users-playlists/">Get a List of a User’s Playlists</a>
@@ -164,6 +172,7 @@ public interface SpotifyService {
 
     /**
      * Get a playlist owned by a Spotify user.
+     *
      * @param userId     The user's Spotify user ID.
      * @param playlistId The Spotify ID for the playlist.
      * @param callback   Callback method
@@ -174,6 +183,7 @@ public interface SpotifyService {
 
     /**
      * Get a playlist owned by a Spotify user.
+     *
      * @param userId     The user's Spotify user ID.
      * @param playlistId The Spotify ID for the playlist.
      * @return Requested Playlist.
@@ -185,6 +195,7 @@ public interface SpotifyService {
 
     /**
      * Get full details of the tracks of a playlist owned by a Spotify user.
+     *
      * @param userId     The user's Spotify user ID.
      * @param playlistId The Spotify ID for the playlist.
      * @param options    Optional parameters. For list of supported parameters see
@@ -197,10 +208,12 @@ public interface SpotifyService {
 
     /**
      * Get full details of the tracks of a playlist owned by a Spotify user.
+     *
      * @param userId     The user's Spotify user ID.
      * @param playlistId The Spotify ID for the playlist.
      * @param options    Optional parameters. For list of supported parameters see
      *                   <a href="https://developer.spotify.com/web-api/get-playlists-tracks/">endpoint documentation</a>
+     * @return List of playlist's tracks wrapped in a {@code Pager} object
      * @see <a href="https://developer.spotify.com/web-api/get-playlists-tracks/">Get a Playlist’s Tracks</a>
      */
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
@@ -208,6 +221,7 @@ public interface SpotifyService {
 
     /**
      * Get full details of the tracks of a playlist owned by a Spotify user.
+     *
      * @param userId     The user's Spotify user ID.
      * @param playlistId The Spotify ID for the playlist.
      * @param callback   Callback method
@@ -218,8 +232,10 @@ public interface SpotifyService {
 
     /**
      * Get full details of the tracks of a playlist owned by a Spotify user.
+     *
      * @param userId     The user's Spotify user ID.
      * @param playlistId The Spotify ID for the playlist.
+     * @return List of playlist's tracks wrapped in a {@code Pager} object
      * @see <a href="https://developer.spotify.com/web-api/get-playlists-tracks/">Get a Playlist’s Tracks</a>
      */
     @GET("/users/{user_id}/playlists/{playlist_id}/tracks")
@@ -227,6 +243,7 @@ public interface SpotifyService {
 
     /**
      * Create a playlist
+     *
      * @param userId   The playlist's owner's User ID
      * @param body     The body parameters
      * @param callback Callback method
@@ -238,6 +255,7 @@ public interface SpotifyService {
 
     /**
      * Create a playlist
+     *
      * @param userId  The playlist's owner's User ID
      * @param options The body parameters
      * @return The created playlist
@@ -248,6 +266,7 @@ public interface SpotifyService {
 
     /**
      * Add tracks to a playlist
+     *
      * @param userId          The owner of the playlist
      * @param playlistId      The playlist's ID
      * @param queryParameters Query parameters
@@ -260,6 +279,7 @@ public interface SpotifyService {
 
     /**
      * Add tracks to a playlist
+     *
      * @param userId          The owner of the playlist
      * @param playlistId      The playlist's Id
      * @param queryParameters Query parameters
@@ -272,6 +292,7 @@ public interface SpotifyService {
 
     /**
      * Remove one or more tracks from a user’s playlist.
+     *
      * @param userId         The owner of the playlist
      * @param playlistId     The playlist's Id
      * @param tracksToRemove A list of tracks to remove
@@ -283,6 +304,7 @@ public interface SpotifyService {
 
     /**
      * Remove one or more tracks from a user’s playlist.
+     *
      * @param userId         The owner of the playlist
      * @param playlistId     The playlist's Id
      * @param tracksToRemove A list of tracks to remove
@@ -294,6 +316,7 @@ public interface SpotifyService {
 
     /**
      * Remove one or more tracks from a user’s playlist.
+     *
      * @param userId                     The owner of the playlist
      * @param playlistId                 The playlist's Id
      * @param tracksToRemoveWithPosition A list of tracks to remove, together with their specific positions
@@ -305,6 +328,7 @@ public interface SpotifyService {
 
     /**
      * Remove one or more tracks from a user’s playlist.
+     *
      * @param userId                     The owner of the playlist
      * @param playlistId                 The playlist's Id
      * @param tracksToRemoveWithPosition A list of tracks to remove, together with their specific positions
@@ -317,6 +341,7 @@ public interface SpotifyService {
     /**
      * Replace all the tracks in a playlist, overwriting its existing tracks. This powerful request can be useful for
      * replacing tracks, re-ordering existing tracks, or clearing the playlist.
+     *
      * @param userId     The owner of the playlist
      * @param playlistId The playlist's Id
      * @param trackUris  A list of comma-separated track uris
@@ -329,6 +354,7 @@ public interface SpotifyService {
     /**
      * Replace all the tracks in a playlist, overwriting its existing tracks. This powerful request can be useful for
      * replacing tracks, re-ordering existing tracks, or clearing the playlist.
+     *
      * @param userId     The owner of the playlist
      * @param playlistId The playlist's Id
      * @param trackUris  A list of comma-separated track uris
@@ -340,6 +366,7 @@ public interface SpotifyService {
 
     /**
      * Change a playlist’s name and public/private state. (The user must, of course, own the playlist.)
+     *
      * @param userId     The Spotify user ID of the user who owns the playlist.
      * @param playlistId The playlist's Id
      * @param body       The body parameters. For list of supported parameters see <a href="https://developer.spotify.com/web-api/change-playlist-details/">endpoint documentation</a>
@@ -351,6 +378,7 @@ public interface SpotifyService {
 
     /**
      * Change a playlist’s name and public/private state. (The user must, of course, own the playlist.)
+     *
      * @param userId     The Spotify user ID of the user who owns the playlist.
      * @param playlistId The playlist's Id
      * @param body       The body parameters. For list of supported parameters see <a href="https://developer.spotify.com/web-api/change-playlist-details/">endpoint documentation</a>
@@ -362,6 +390,7 @@ public interface SpotifyService {
 
     /**
      * Add the current user as a follower of a playlist.
+     *
      * @param userId     The Spotify user ID of the user who owns the playlist.
      * @param playlistId The Spotify ID of the playlist
      * @param callback   Callback method
@@ -372,6 +401,7 @@ public interface SpotifyService {
 
     /**
      * Add the current user as a follower of a playlist.
+     *
      * @param userId     The Spotify user ID of the user who owns the playlist.
      * @param playlistId The Spotify ID of the playlist
      * @return An empty result
@@ -382,6 +412,7 @@ public interface SpotifyService {
 
     /**
      * Add the current user as a follower of a playlist.
+     *
      * @param userId                The Spotify user ID of the user who owns the playlist.
      * @param playlistId            The Spotify ID of the playlist
      * @param playlistFollowPrivacy The privacy state of the playlist
@@ -393,6 +424,7 @@ public interface SpotifyService {
 
     /**
      * Add the current user as a follower of a playlist.
+     *
      * @param userId                The Spotify user ID of the user who owns the playlist.
      * @param playlistId            The Spotify ID of the playlist
      * @param playlistFollowPrivacy The privacy state of the playlist
@@ -404,9 +436,10 @@ public interface SpotifyService {
 
     /**
      * Unfollow a Playlist
-     * @param userId      The Spotify user ID of the user who owns the playlist.
-     * @param playlistId  The Spotify ID of the playlist
-     * @param callback    Callback method
+     *
+     * @param userId     The Spotify user ID of the user who owns the playlist.
+     * @param playlistId The Spotify ID of the playlist
+     * @param callback   Callback method
      * @see <a href="https://developer.spotify.com/web-api/unfollow-playlist/">Unfollow a Playlist</a>
      */
     @DELETE("/users/{user_id}/playlists/{playlist_id}/followers")
@@ -414,8 +447,9 @@ public interface SpotifyService {
 
     /**
      * Unfollow a Playlist
-     * @param userId      The Spotify user ID of the user who owns the playlist.
-     * @param playlistId  The Spotify ID of the playlist
+     *
+     * @param userId     The Spotify user ID of the user who owns the playlist.
+     * @param playlistId The Spotify ID of the playlist
      * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/unfollow-playlist/">Unfollow a Playlist</a>
      */
@@ -424,9 +458,10 @@ public interface SpotifyService {
 
     /**
      * Reorder a Playlist's tracks
-     * @param userId The Spotify user ID of the user who owns the playlist.
+     *
+     * @param userId     The Spotify user ID of the user who owns the playlist.
      * @param playlistId The Spotify ID of the playlist
-     * @param body The body parameters. For list of supported parameters see <a href="https://developer.spotify.com/web-api/reorder-playlists-tracks/">endpoint documentation</a>
+     * @param body       The body parameters. For list of supported parameters see <a href="https://developer.spotify.com/web-api/reorder-playlists-tracks/">endpoint documentation</a>
      * @return A snapshot ID (the version of the playlist)
      * @see <a href="https://developer.spotify.com/web-api/reorder-playlists-tracks/">Reorder a Playlist</a>
      */
@@ -435,10 +470,11 @@ public interface SpotifyService {
 
     /**
      * Reorder a Playlist's tracks
-     * @param userId The Spotify user ID of the user who owns the playlist.
+     *
+     * @param userId     The Spotify user ID of the user who owns the playlist.
      * @param playlistId The Spotify ID of the playlist
-     * @param body The body parameters. For list of supported parameters see <a href="https://developer.spotify.com/web-api/reorder-playlists-tracks/">endpoint documentation</a>
-     * @param callback Callback method
+     * @param body       The body parameters. For list of supported parameters see <a href="https://developer.spotify.com/web-api/reorder-playlists-tracks/">endpoint documentation</a>
+     * @param callback   Callback method
      * @see <a href="https://developer.spotify.com/web-api/reorder-playlists-tracks/">Reorder a Playlist</a>
      */
     @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
@@ -452,6 +488,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for a single album.
+     *
      * @param albumId  The Spotify ID for the album.
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-album/">Get an Album</a>
@@ -461,6 +498,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for a single album.
+     *
      * @param albumId The Spotify ID for the album.
      * @return Requested album information
      * @see <a href="https://developer.spotify.com/web-api/get-album/">Get an Album</a>
@@ -470,6 +508,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for a single album.
+     *
      * @param albumId  The Spotify ID for the album.
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-album/">endpoint documentation</a>
@@ -481,6 +520,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for a single album.
+     *
      * @param albumId The Spotify ID for the album.
      * @param options Optional parameters. For list of supported parameters see
      *                <a href="https://developer.spotify.com/web-api/get-album/">endpoint documentation</a>
@@ -502,6 +542,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for multiple albums identified by their Spotify IDs.
+     *
      * @param albumIds A comma-separated list of the Spotify IDs for the albums
      * @return Object whose key is "albums" and whose value is an array of album objects.
      * @see <a href="https://developer.spotify.com/web-api/get-several-albums/">Get Several Albums</a>
@@ -513,8 +554,8 @@ public interface SpotifyService {
      * Get Spotify catalog information for multiple albums identified by their Spotify IDs.
      *
      * @param albumIds A comma-separated list of the Spotify IDs for the albums
-     * @param options Optional parameters. For list of supported parameters see
-     *                <a href="https://developer.spotify.com/web-api/get-several-albums/">endpoint documentation</a>
+     * @param options  Optional parameters. For list of supported parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-several-albums/">endpoint documentation</a>
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-several-albums/">Get Several Albums</a>
      */
@@ -523,9 +564,10 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for multiple albums identified by their Spotify IDs.
+     *
      * @param albumIds A comma-separated list of the Spotify IDs for the albums
-     * @param options Optional parameters. For list of supported parameters see
-     *                <a href="https://developer.spotify.com/web-api/get-several-albums/">endpoint documentation</a>
+     * @param options  Optional parameters. For list of supported parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-several-albums/">endpoint documentation</a>
      * @return Object whose key is "albums" and whose value is an array of album objects.
      * @see <a href="https://developer.spotify.com/web-api/get-several-albums/">Get Several Albums</a>
      */
@@ -534,6 +576,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about an album’s tracks.
+     *
      * @param albumId The Spotify ID for the album.
      * @return List of simplified album objects wrapped in a Pager object
      * @see <a href="https://developer.spotify.com/web-api/get-albums-tracks/">Get an Album’s Tracks</a>
@@ -543,7 +586,9 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about an album’s tracks.
-     * @param albumId The Spotify ID for the album.
+     *
+     * @param albumId  The Spotify ID for the album.
+     * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-albums-tracks/">Get an Album’s Tracks</a>
      */
     @GET("/albums/{id}/tracks")
@@ -551,6 +596,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about an album’s tracks.
+     *
      * @param albumId  The Spotify ID for the album.
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-albums-tracks/">endpoint documentation</a>
@@ -562,6 +608,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about an album’s tracks.
+     *
      * @param albumId The Spotify ID for the album.
      * @param options Optional parameters. For list of supported parameters see
      *                <a href="https://developer.spotify.com/web-api/get-albums-tracks/">endpoint documentation</a>
@@ -579,6 +626,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for a single artist identified by their unique Spotify ID.
+     *
      * @param artistId The Spotify ID for the artist.
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-artist/">Get an Artist</a>
@@ -588,6 +636,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for a single artist identified by their unique Spotify ID.
+     *
      * @param artistId The Spotify ID for the artist.
      * @return Requested artist information
      * @see <a href="https://developer.spotify.com/web-api/get-artist/">Get an Artist</a>
@@ -597,6 +646,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for several artists based on their Spotify IDs.
+     *
      * @param artistIds A comma-separated list of the Spotify IDs for the artists
      * @param callback  Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-several-artists/">Get Several Artists</a>
@@ -606,6 +656,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for several artists based on their Spotify IDs.
+     *
      * @param artistIds A comma-separated list of the Spotify IDs for the artists
      * @return An object whose key is "artists" and whose value is an array of artist objects.
      * @see <a href="https://developer.spotify.com/web-api/get-several-artists/">Get Several Artists</a>
@@ -615,6 +666,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about an artist’s albums.
+     *
      * @param artistId The Spotify ID for the artist.
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-artists-albums/">Get an Artist's Albums</a>
@@ -624,6 +676,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about an artist’s albums.
+     *
      * @param artistId The Spotify ID for the artist.
      * @return An array of simplified album objects wrapped in a paging object.
      * @see <a href="https://developer.spotify.com/web-api/get-artists-albums/">Get an Artist's Albums</a>
@@ -633,6 +686,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about an artist’s albums.
+     *
      * @param artistId The Spotify ID for the artist.
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-artists-albums/">endpoint documentation</a>
@@ -644,6 +698,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about an artist’s albums.
+     *
      * @param artistId The Spotify ID for the artist.
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-artists-albums/">endpoint documentation</a>
@@ -655,6 +710,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about an artist’s top tracks by country.
+     *
      * @param artistId The Spotify ID for the artist.
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-artists-top-tracks/">endpoint documentation</a>
@@ -666,6 +722,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about an artist’s top tracks by country.
+     *
      * @param artistId The Spotify ID for the artist.
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-artists-top-tracks/">endpoint documentation</a>
@@ -677,6 +734,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about an artist’s top tracks by country.
+     *
      * @param artistId The Spotify ID for the artist.
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-artists-top-tracks/">Get an Artist’s Top Tracks</a>
@@ -686,6 +744,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about an artist’s top tracks by country.
+     *
      * @param artistId The Spotify ID for the artist.
      * @return An object whose key is "tracks" and whose value is an array of track objects.
      * @see <a href="https://developer.spotify.com/web-api/get-artists-top-tracks/">Get an Artist’s Top Tracks</a>
@@ -695,6 +754,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about artists similar to a given artist.
+     *
      * @param artistId The Spotify ID for the artist.
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/get-related-artists/">Get an Artist’s Related Artists</a>
@@ -704,6 +764,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about artists similar to a given artist.
+     *
      * @param artistId The Spotify ID for the artist.
      * @return An object whose key is "artists" and whose value is an array of artist objects.
      * @see <a href="https://developer.spotify.com/web-api/get-related-artists/">Get an Artist’s Related Artists</a>
@@ -719,7 +780,8 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for a single track identified by their unique Spotify ID.
-     * @param trackId The Spotify ID for the track.
+     *
+     * @param trackId  The Spotify ID for the track.
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-track/">Get a Track</a>
      */
@@ -728,6 +790,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for a single track identified by their unique Spotify ID.
+     *
      * @param trackId The Spotify ID for the track.
      * @return Requested track information
      * @see <a href="https://developer.spotify.com/web-api/get-track/">Get a Track</a>
@@ -737,6 +800,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for a single track identified by their unique Spotify ID.
+     *
      * @param trackId  The Spotify ID for the track.
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-track/">endpoint documentation</a>
@@ -748,6 +812,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information for a single track identified by their unique Spotify ID.
+     *
      * @param trackId The Spotify ID for the track.
      * @param options Optional parameters. For list of supported parameters see
      *                <a href="https://developer.spotify.com/web-api/get-track/">endpoint documentation</a>
@@ -759,6 +824,7 @@ public interface SpotifyService {
 
     /**
      * Get Several Tracks
+     *
      * @param trackIds A comma-separated list of the Spotify IDs for the tracks
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-several-tracks/">Get Several Tracks</a>
@@ -768,6 +834,7 @@ public interface SpotifyService {
 
     /**
      * Get Several Tracks
+     *
      * @param trackIds A comma-separated list of the Spotify IDs for the tracks
      * @return An object whose key is "tracks" and whose value is an array of track objects.
      * @see <a href="https://developer.spotify.com/web-api/get-several-tracks/">Get Several Tracks</a>
@@ -777,6 +844,7 @@ public interface SpotifyService {
 
     /**
      * Get Several Tracks
+     *
      * @param trackIds A comma-separated list of the Spotify IDs for the tracks
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-several-tracks/">endpoint documentation</a>
@@ -788,6 +856,7 @@ public interface SpotifyService {
 
     /**
      * Get Several Tracks
+     *
      * @param trackIds A comma-separated list of the Spotify IDs for the tracks
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-several-tracks/">endpoint documentation</a>
@@ -804,6 +873,7 @@ public interface SpotifyService {
 
     /**
      * Get a list of Spotify featured playlists (shown, for example, on a Spotify player’s “Browse” tab).
+     *
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-list-featured-playlists/">Get a List of Featured Playlists</a>
      */
@@ -812,6 +882,7 @@ public interface SpotifyService {
 
     /**
      * Get a list of Spotify featured playlists (shown, for example, on a Spotify player’s “Browse” tab).
+     *
      * @return A FeaturedPlaylists object with the featured playlists
      * @see <a href="https://developer.spotify.com/web-api/get-list-featured-playlists/">Get a List of Featured Playlists</a>
      */
@@ -820,7 +891,8 @@ public interface SpotifyService {
 
     /**
      * Get a list of Spotify featured playlists (shown, for example, on a Spotify player’s “Browse” tab).
-     * @param options Optional parameters. For list of supported parameters see
+     *
+     * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-list-featured-playlists/">endpoint documentation</a>
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-list-featured-playlists/">Get a List of Featured Playlists</a>
@@ -830,8 +902,9 @@ public interface SpotifyService {
 
     /**
      * Get a list of Spotify featured playlists (shown, for example, on a Spotify player’s “Browse” tab).
+     *
      * @param options Optional parameters. For list of supported parameters see
-     *                 <a href="https://developer.spotify.com/web-api/get-list-featured-playlists/">endpoint documentation</a>
+     *                <a href="https://developer.spotify.com/web-api/get-list-featured-playlists/">endpoint documentation</a>
      * @return n FeaturedPlaylists object with the featured playlists
      * @see <a href="https://developer.spotify.com/web-api/get-list-featured-playlists/">Get a List of Featured Playlists</a>
      */
@@ -840,6 +913,7 @@ public interface SpotifyService {
 
     /**
      * Get a list of new album releases featured in Spotify (shown, for example, on a Spotify player’s “Browse” tab).
+     *
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-list-new-releases/">Get a List of New Releases</a>
      */
@@ -848,6 +922,7 @@ public interface SpotifyService {
 
     /**
      * Get a list of new album releases featured in Spotify (shown, for example, on a Spotify player’s “Browse” tab).
+     *
      * @return A NewReleases object with the new album releases
      * @see <a href="https://developer.spotify.com/web-api/get-list-new-releases/">Get a List of New Releases</a>
      */
@@ -856,7 +931,8 @@ public interface SpotifyService {
 
     /**
      * Get a list of new album releases featured in Spotify (shown, for example, on a Spotify player’s “Browse” tab).
-     * @param options Optional parameters. For list of supported parameters see
+     *
+     * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-list-new-releases/">endpoint documentation</a>
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-list-new-releases/">Get a List of New Releases</a>
@@ -866,8 +942,9 @@ public interface SpotifyService {
 
     /**
      * Get a list of new album releases featured in Spotify (shown, for example, on a Spotify player’s “Browse” tab).
+     *
      * @param options Optional parameters. For list of supported parameters see
-     *                 <a href="https://developer.spotify.com/web-api/get-list-new-releases/">endpoint documentation</a>
+     *                <a href="https://developer.spotify.com/web-api/get-list-new-releases/">endpoint documentation</a>
      * @return A NewReleases object with the new album releases
      * @see <a href="https://developer.spotify.com/web-api/get-list-new-releases/">Get a List of New Releases</a>
      */
@@ -946,6 +1023,7 @@ public interface SpotifyService {
 
     /**
      * Get a list of the songs saved in the current Spotify user’s “Your Music” library.
+     *
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/get-users-saved-tracks/">Get a User’s Saved Tracks</a>
      */
@@ -954,6 +1032,7 @@ public interface SpotifyService {
 
     /**
      * Get a list of the songs saved in the current Spotify user’s “Your Music” library.
+     *
      * @return A paginated list of saved tracks
      * @see <a href="https://developer.spotify.com/web-api/get-users-saved-tracks/">Get a User’s Saved Tracks</a>
      */
@@ -962,7 +1041,8 @@ public interface SpotifyService {
 
     /**
      * Get a list of the songs saved in the current Spotify user’s “Your Music” library.
-     * @param options Optional parameters. For list of supported parameters see
+     *
+     * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-users-saved-tracks/">endpoint documentation</a>
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/get-users-saved-tracks/">Get a User’s Saved Tracks</a>
@@ -972,8 +1052,9 @@ public interface SpotifyService {
 
     /**
      * Get a list of the songs saved in the current Spotify user’s “Your Music” library.
+     *
      * @param options Optional parameters. For list of supported parameters see
-     *                 <a href="https://developer.spotify.com/web-api/get-users-saved-tracks/">endpoint documentation</a>
+     *                <a href="https://developer.spotify.com/web-api/get-users-saved-tracks/">endpoint documentation</a>
      * @return A paginated list of saved tracks
      * @see <a href="https://developer.spotify.com/web-api/get-users-saved-tracks/">Get a User’s Saved Tracks</a>
      */
@@ -982,6 +1063,7 @@ public interface SpotifyService {
 
     /**
      * Check if one or more tracks is already saved in the current Spotify user’s “Your Music” library.
+     *
      * @param ids      A comma-separated list of the Spotify IDs for the tracks
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/check-users-saved-tracks/">Check User’s Saved Tracks</a>
@@ -991,6 +1073,7 @@ public interface SpotifyService {
 
     /**
      * Check if one or more tracks is already saved in the current Spotify user’s “Your Music” library.
+     *
      * @param ids A comma-separated list of the Spotify IDs for the tracks
      * @return An array with boolean values that indicate whether the tracks are in the current Spotify user’s “Your Music” library.
      * @see <a href="https://developer.spotify.com/web-api/check-users-saved-tracks/">Check User’s Saved Tracks</a>
@@ -1000,6 +1083,7 @@ public interface SpotifyService {
 
     /**
      * Save one or more tracks to the current user’s “Your Music” library.
+     *
      * @param ids      A comma-separated list of the Spotify IDs for the tracks
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/save-tracks-user/">Save Tracks for User</a>
@@ -1009,6 +1093,7 @@ public interface SpotifyService {
 
     /**
      * Save one or more tracks to the current user’s “Your Music” library.
+     *
      * @param ids A comma-separated list of the Spotify IDs for the tracks
      * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/save-tracks-user/">Save Tracks for User</a>
@@ -1018,6 +1103,7 @@ public interface SpotifyService {
 
     /**
      * Remove one or more tracks from the current user’s “Your Music” library.
+     *
      * @param ids      A comma-separated list of the Spotify IDs for the tracks
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/remove-tracks-user/">Remove User’s Saved Tracks</a>
@@ -1027,6 +1113,7 @@ public interface SpotifyService {
 
     /**
      * Remove one or more tracks from the current user’s “Your Music” library.
+     *
      * @param ids A comma-separated list of the Spotify IDs for the tracks
      * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/remove-tracks-user/">Remove User’s Saved Tracks</a>
@@ -1042,6 +1129,7 @@ public interface SpotifyService {
 
     /**
      * Add the current user as a follower of one or more Spotify users.
+     *
      * @param ids      A comma-separated list of the Spotify IDs for the users
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/follow-artists-users/">Follow Artists or Users</a>
@@ -1051,6 +1139,7 @@ public interface SpotifyService {
 
     /**
      * Add the current user as a follower of one or more Spotify users.
+     *
      * @param ids A comma-separated list of the Spotify IDs for the users
      * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/follow-artists-users/">Follow Artists or Users</a>
@@ -1060,6 +1149,7 @@ public interface SpotifyService {
 
     /**
      * Add the current user as a follower of one or more artists.
+     *
      * @param ids      A comma-separated list of the Spotify IDs for the artists
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/follow-artists-users/">Follow Artists or Users</a>
@@ -1069,6 +1159,7 @@ public interface SpotifyService {
 
     /**
      * Add the current user as a follower of one or more Spotify artists.
+     *
      * @param ids A comma-separated list of the Spotify IDs for the artists
      * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/follow-artists-users/">Follow Artists or Users</a>
@@ -1078,6 +1169,7 @@ public interface SpotifyService {
 
     /**
      * Remove the current user as a follower of one or more Spotify users.
+     *
      * @param ids      A comma-separated list of the Spotify IDs for the users
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/unfollow-artists-users/">Unfollow Artists or Users</a>
@@ -1087,6 +1179,7 @@ public interface SpotifyService {
 
     /**
      * Remove the current user as a follower of one or more Spotify users.
+     *
      * @param ids A comma-separated list of the Spotify IDs for the users
      * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/unfollow-artists-users/">Unfollow Artists or Users</a>
@@ -1096,6 +1189,7 @@ public interface SpotifyService {
 
     /**
      * Remove the current user as a follower of one or more Spotify artists.
+     *
      * @param ids      A comma-separated list of the Spotify IDs for the artists
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/unfollow-artists-users/">Unfollow Artists or Users</a>
@@ -1105,6 +1199,7 @@ public interface SpotifyService {
 
     /**
      * Remove the current user as a follower of one or more Spotify artists.
+     *
      * @param ids A comma-separated list of the Spotify IDs for the artists
      * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/unfollow-artists-users/">Unfollow Artists or Users</a>
@@ -1114,6 +1209,7 @@ public interface SpotifyService {
 
     /**
      * Check to see if the current user is following one or more other Spotify users.
+     *
      * @param ids      A comma-separated list of the Spotify IDs for the users
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/check-current-user-follows/">Check if Current User Follows Artists or Users</a>
@@ -1123,6 +1219,7 @@ public interface SpotifyService {
 
     /**
      * Check to see if the current user is following one or more other Spotify users.
+     *
      * @param ids A comma-separated list of the Spotify IDs for the users
      * @return An array with boolean values indicating whether the users are followed
      * @see <a href="https://developer.spotify.com/web-api/check-current-user-follows/">Check if Current User Follows Artists or Users</a>
@@ -1132,6 +1229,7 @@ public interface SpotifyService {
 
     /**
      * Check to see if the current user is following one or more other Spotify artists.
+     *
      * @param ids      A comma-separated list of the Spotify IDs for the artists
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/check-current-user-follows/">Check if Current User Follows Artists or Users</a>
@@ -1141,6 +1239,7 @@ public interface SpotifyService {
 
     /**
      * Check to see if the current user is following one or more other Spotify artists.
+     *
      * @param ids A comma-separated list of the Spotify IDs for the artists
      * @return An array with boolean values indicating whether the artists are followed
      * @see <a href="https://developer.spotify.com/web-api/check-current-user-follows/">Check if Current User Follows Artists or Users</a>
@@ -1150,6 +1249,7 @@ public interface SpotifyService {
 
     /**
      * Check to see if one or more Spotify users are following a specified playlist.
+     *
      * @param userId     The Spotify user ID of the person who owns the playlist.
      * @param playlistId The Spotify ID of the playlist.
      * @param ids        A comma-separated list of the Spotify IDs for the users
@@ -1163,6 +1263,7 @@ public interface SpotifyService {
 
     /**
      * Check to see if one or more Spotify users are following a specified playlist.
+     *
      * @param userId     The Spotify user ID of the person who owns the playlist.
      * @param playlistId The Spotify ID of the playlist.
      * @param ids        A comma-separated list of the Spotify IDs for the users
@@ -1182,6 +1283,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about tracks that match a keyword string.
+     *
      * @param q        The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
@@ -1191,7 +1293,8 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about tracks that match a keyword string.
-     * @param q  The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
+     *
+     * @param q The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
      * @return A paginated list of results
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
      */
@@ -1200,8 +1303,9 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about tracks that match a keyword string.
-     * @param q       The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
-     * @param options Optional parameters. For list of supported parameters see
+     *
+     * @param q        The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
+     * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/search-item/">endpoint documentation</a>
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
@@ -1211,9 +1315,10 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about tracks that match a keyword string.
-     * @param q         The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
-     * @param options   Optional parameters. For list of supported parameters see
-     *                 <a href="https://developer.spotify.com/web-api/search-item/">endpoint documentation</a>
+     *
+     * @param q       The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
+     * @param options Optional parameters. For list of supported parameters see
+     *                <a href="https://developer.spotify.com/web-api/search-item/">endpoint documentation</a>
      * @return A paginated list of results
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
      */
@@ -1222,6 +1327,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about artists that match a keyword string.
+     *
      * @param q        The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
@@ -1231,6 +1337,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about artists that match a keyword string.
+     *
      * @param q The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
      * @return A paginated list of results
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
@@ -1240,9 +1347,10 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about artists that match a keyword string.
-     * @param q       The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
-     * @param options Optional parameters. For list of supported parameters see
-     *                <a href="https://developer.spotify.com/web-api/search-item/">endpoint documentation</a>
+     *
+     * @param q        The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
+     * @param options  Optional parameters. For list of supported parameters see
+     *                 <a href="https://developer.spotify.com/web-api/search-item/">endpoint documentation</a>
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
      */
@@ -1251,6 +1359,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about artists that match a keyword string.
+     *
      * @param q       The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
      * @param options Optional parameters. For list of supported parameters see
      *                <a href="https://developer.spotify.com/web-api/search-item/">endpoint documentation</a>
@@ -1262,6 +1371,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about albums that match a keyword string.
+     *
      * @param q        The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
@@ -1271,6 +1381,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about albums that match a keyword string.
+     *
      * @param q The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
      * @return A paginated list of results
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
@@ -1280,9 +1391,10 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about albums that match a keyword string.
-     * @param q       The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
-     * @param options Optional parameters. For list of supported parameters see
-     *                <a href="https://developer.spotify.com/web-api/search-item/">endpoint documentation</a>
+     *
+     * @param q        The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
+     * @param options  Optional parameters. For list of supported parameters see
+     *                 <a href="https://developer.spotify.com/web-api/search-item/">endpoint documentation</a>
      * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
      */
@@ -1291,6 +1403,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about albums that match a keyword string.
+     *
      * @param q       The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
      * @param options Optional parameters. For list of supported parameters see
      *                <a href="https://developer.spotify.com/web-api/search-item/">endpoint documentation</a>
@@ -1302,8 +1415,9 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about playlists that match a keyword string.
-     * @param q         The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
-     * @return A paginated list of results
+     *
+     * @param q        The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
+     * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
      */
     @GET("/search?type=playlist")
@@ -1311,7 +1425,8 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about playlists that match a keyword string.
-     * @param q         The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
+     *
+     * @param q The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
      * @return A paginated list of results
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
      */
@@ -1320,10 +1435,11 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about playlists that match a keyword string.
-     * @param q         The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
-     * @param options   Optional parameters. For list of supported parameters see
+     *
+     * @param q        The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
+     * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/search-item/">endpoint documentation</a>
-     * @param callback  Callback method.
+     * @param callback Callback method.
      * @see <a href="https://developer.spotify.com/web-api/search-item/">Search for an Item</a>
      */
     @GET("/search?type=playlist")
@@ -1331,6 +1447,7 @@ public interface SpotifyService {
 
     /**
      * Get Spotify catalog information about playlists that match a keyword string.
+     *
      * @param q       The search query's keywords (and optional field filters and operators), for example "roadhouse+blues"
      * @param options Optional parameters. For list of supported parameters see
      *                <a href="https://developer.spotify.com/web-api/search-item/">endpoint documentation</a>

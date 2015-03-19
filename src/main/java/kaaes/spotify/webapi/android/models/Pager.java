@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * <a href="https://developer.spotify.com/web-api/object-model/#paging-object">Paging object model</a>
  *
- * @param <T>
+ * @param <T> expected object that is paged
  */
 public class Pager<T> {
     public String href;

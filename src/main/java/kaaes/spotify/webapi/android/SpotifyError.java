@@ -10,28 +10,26 @@ import retrofit.RetrofitError;
  * <p>
  * To use with asynchronous requests pass {@link SpotifyCallback}
  * instead of {@link retrofit.Callback} when making the request:
- * {code <pre>
- * spotify.getMySavedTracks(new SpotifyCallback&lt;Pager&lt;SavedTrack&gt;&gt;() {
- *     {@literal @}Override
- *     public void success(Pager&lt;SavedTrack&gt; savedTrackPager, Response response) {
+ * <pre>{@code
+ * spotify.getMySavedTracks(new SpotifyCallback<Pager<SavedTrack>>() {
+ *     public void success(Pager<SavedTrack> savedTrackPager, Response response) {
  *         // handle successful response
  *     }
  *
- *     {@literal @}Override
  *     public void failure(SpotifyError error) {
  *         // handle error
  *     }
  * });
- * </pre>}
+ * }</pre>
  * <p>
  * To use with synchronous requests:
- * {@code <pre>
+ * <pre>{@code
  * try {
- *     Pager&lt;SavedTrack&gt; mySavedTracks = spotify.getMySavedTracks();
+ *     Pager<SavedTrack> mySavedTracks = spotify.getMySavedTracks();
  * } catch (RetrofitError error) {
  *     SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
  * }
- * </pre>}
+ * }</pre>
  */
 public class SpotifyError extends Exception {
 
