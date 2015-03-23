@@ -247,11 +247,10 @@ public interface SpotifyService {
      * @param userId   The playlist's owner's User ID
      * @param body     The body parameters
      * @param callback Callback method
-     * @return The created playlist
      * @see <a href="https://developer.spotify.com/web-api/create-playlist/">Create a Playlist</a>
      */
     @POST("/users/{user_id}/playlists")
-    public Playlist createPlaylist(@Path("user_id") String userId, @Body Map<String, Object> body, Callback<Playlist> callback);
+    public void createPlaylist(@Path("user_id") String userId, @Body Map<String, Object> body, Callback<Playlist> callback);
 
     /**
      * Create a playlist
