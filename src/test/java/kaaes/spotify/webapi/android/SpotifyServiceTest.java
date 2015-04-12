@@ -892,21 +892,6 @@ public class SpotifyServiceTest {
     }
 
     @Test
-    public void shouldGetStarredTracks() throws IOException {
-        Type modelType = new TypeToken<Pager<PlaylistTrack>>() {
-        }.getType();
-
-        String body = TestUtils.readTestData("starred-tracks.json");
-        Pager<PlaylistTrack> fixture = mGson.fromJson(body, modelType);
-
-        Response response = TestUtils.getResponseFromModel(fixture, modelType);
-        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
-
-        Pager<PlaylistTrack> playlistTracks = mSpotifyService.getStarredTracks("test");
-        compareJSONWithoutNulls(body, playlistTracks);
-    }
-
-    @Test
     public void shouldGetArtistTopTracksTracks() throws Exception {
         String body = TestUtils.readTestData("tracks-for-artist.json");
         Tracks fixture = mGson.fromJson(body, Tracks.class);
