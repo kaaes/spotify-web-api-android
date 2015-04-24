@@ -38,6 +38,7 @@ import kaaes.spotify.webapi.android.models.NewReleases;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistFollowPrivacy;
+import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.PlaylistsPager;
 import kaaes.spotify.webapi.android.models.Result;
@@ -973,6 +974,19 @@ public class SpotifyServiceTest {
 
         Artists tracks = mSpotifyService.getRelatedArtists("test");
         compareJSONWithoutNulls(body, tracks);
+    }
+
+    @Test
+    public void shouldGetUserPlaylists() throws Exception {
+        final Type modelType = new TypeToken<Pager<PlaylistSimple>>() {}.getType();
+        String body = TestUtils.readTestData("user-playlists.json");
+        Pager<PlaylistSimple> fixture = mGson.fromJson(body, modelType);
+
+        Response response = TestUtils.getResponseFromModel(fixture, modelType);
+        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+
+        Pager<PlaylistSimple> playlists = mSpotifyService.getPlaylists("test");
+        compareJSONWithoutNulls(body, playlists);
     }
 
     /**
