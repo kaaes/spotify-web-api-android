@@ -16,6 +16,7 @@ import kaaes.spotify.webapi.android.models.NewReleases;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistFollowPrivacy;
+import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.PlaylistsPager;
 import kaaes.spotify.webapi.android.models.Result;
@@ -135,7 +136,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/get-list-users-playlists/">Get a List of a User’s Playlists</a>
      */
     @GET("/users/{id}/playlists")
-    public void getPlaylists(@Path("id") String userId, @QueryMap Map<String, Object> options, Callback<Pager<Playlist>> callback);
+    public void getPlaylists(@Path("id") String userId, @QueryMap Map<String, Object> options, Callback<Pager<PlaylistSimple>> callback);
 
     /**
      * Get a list of the playlists owned or followed by a Spotify user.
@@ -147,7 +148,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/get-list-users-playlists/">Get a List of a User’s Playlists</a>
      */
     @GET("/users/{id}/playlists")
-    public Pager<Playlist> getPlaylists(@Path("id") String userId, @QueryMap Map<String, Object> options);
+    public Pager<PlaylistSimple> getPlaylists(@Path("id") String userId, @QueryMap Map<String, Object> options);
 
     /**
      * Get a list of the playlists owned or followed by a Spotify user.
@@ -157,7 +158,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/get-list-users-playlists/">Get a List of a User’s Playlists</a>
      */
     @GET("/users/{id}/playlists")
-    public void getPlaylists(@Path("id") String userId, Callback<Pager<Playlist>> callback);
+    public void getPlaylists(@Path("id") String userId, Callback<Pager<PlaylistSimple>> callback);
 
     /**
      * Get a list of the playlists owned or followed by a Spotify user.
@@ -167,7 +168,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/get-list-users-playlists/">Get a List of a User’s Playlists</a>
      */
     @GET("/users/{id}/playlists")
-    public Pager<Playlist> getPlaylists(@Path("id") String userId);
+    public Pager<PlaylistSimple> getPlaylists(@Path("id") String userId);
 
 
     /**
