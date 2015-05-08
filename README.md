@@ -73,6 +73,15 @@ RestAdapter restAdapter = new RestAdapter.Builder()
 
 SpotifyService spotify = restAdapter.create(SpotifyService.class);
 ```
+
+## Obtaining Access Tokens
+
+The most straightforward way to get the access token is to use the Authentication Library from the [Spotify Android SDK](https://github.com/spotify/android-sdk).
+Detailed information how to use it can be found in the [Spotify Android SDK Authentication Guide](https://developer.spotify.com/technologies/spotify-android-sdk/android-sdk-authentication-guide/).
+
+Feeling adventurous? You can implement the auth flow yourself, following the [Spotify Authorization Guide](https://developer.spotify.com/web-api/authorization-guide/).
+
+
 ## Error Handling
 
 When using Retrofit, errors are returned as [`RetrofitError`](http://square.github.io/retrofit/javadoc/retrofit/RetrofitError.html)
