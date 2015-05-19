@@ -48,17 +48,37 @@ public class SpotifyApi {
 
     private String mAccessToken;
 
-    public SpotifyApi() {
-        Executor executor = Executors.newSingleThreadExecutor();
-        RestAdapter restAdapter = new RestAdapter.Builder()
+    /**
+     * Create instance of SpotifyApi with given executors.
+     *
+     * @param httpExecutor executor for http request. Cannot be null.
+     * @param callbackExecutor executor for callbacks. If null is passed than the same
+     *                         thread that created the instance is used.
+     */
+    public SpotifyApi(Executor httpExecutor, Executor callbackExecutor) {
+        mSpotifyService = init(httpExecutor, callbackExecutor);
+    }
+
+    private SpotifyService init(Executor httpExecutor, Executor callbackExecutor) {
+
+        final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setLogLevel(RestAdapter.LogLevel.BASIC)
                 .setClient(new OkClient(new OkHttpClient()))
-                .setExecutors(executor, executor)
+                .setExecutors(httpExecutor, callbackExecutor)
                 .setEndpoint(SPOTIFY_WEB_API_ENDPOINT)
                 .setRequestInterceptor(new WebApiAuthenticator())
                 .build();
 
-        mSpotifyService = restAdapter.create(SpotifyService.class);
+         return restAdapter.create(SpotifyService.class);
+    }
+
+    /**
+     *  New instance of SpotifyApi,
+     *  with single thread executor both for http and callbacks.
+     */
+    public SpotifyApi() {
+        final Executor executor = Executors.newSingleThreadExecutor();
+        mSpotifyService = init(executor, executor);
     }
 
     /**
