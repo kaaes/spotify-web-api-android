@@ -1,13 +1,10 @@
 package kaaes.spotify.webapi.android;
 
-import com.squareup.okhttp.OkHttpClient;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.client.OkClient;
 
 /**
  * Creates and configures a REST adapter for Spotify Web API.
@@ -63,7 +60,6 @@ public class SpotifyApi {
 
         final RestAdapter restAdapter = new RestAdapter.Builder()
                 .setLogLevel(RestAdapter.LogLevel.BASIC)
-                .setClient(new OkClient(new OkHttpClient()))
                 .setExecutors(httpExecutor, callbackExecutor)
                 .setEndpoint(SPOTIFY_WEB_API_ENDPOINT)
                 .setRequestInterceptor(new WebApiAuthenticator())
