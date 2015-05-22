@@ -176,6 +176,32 @@ public interface SpotifyService {
      *
      * @param userId     The user's Spotify user ID.
      * @param playlistId The Spotify ID for the playlist.
+     * @param options Optional parameters. For list of supported parameters see
+     *                <a href="https://developer.spotify.com/web-api/get-playlist/">endpoint documentation</a>
+     * @param callback   Callback method
+     * @see <a href="https://developer.spotify.com/web-api/get-playlist/">Get a Playlist</a>
+     */
+    @GET("/users/{user_id}/playlists/{playlist_id}")
+    public void getPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, Object> options, Callback<Playlist> callback);
+
+    /**
+     * Get a playlist owned by a Spotify user.
+     *
+     * @param userId     The user's Spotify user ID.
+     * @param playlistId The Spotify ID for the playlist.
+     * @param options Optional parameters. For list of supported parameters see
+     *                <a href="https://developer.spotify.com/web-api/get-playlist/">endpoint documentation</a>
+     * @return Requested Playlist.
+     * @see <a href="https://developer.spotify.com/web-api/get-playlist/">Get a Playlist</a>
+     */
+    @GET("/users/{user_id}/playlists/{playlist_id}")
+    public Playlist getPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, Object> options);
+
+    /**
+     * Get a playlist owned by a Spotify user.
+     *
+     * @param userId     The user's Spotify user ID.
+     * @param playlistId The Spotify ID for the playlist.
      * @param callback   Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-playlist/">Get a Playlist</a>
      */
