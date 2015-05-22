@@ -117,6 +117,9 @@ try {
 
 ## Help
 
+#### Versioning policy
+We use [Semantic Versioning 2.0.0](http://semver.org/) as our versioning policy.
+
 #### Bugs, Feature requests
 Found a bug? Something that's missing? Feedback is an important part of improving the project, so please [open an issue](https://github.com/kaaes/spotify-web-api-android/issues).
 
