@@ -73,8 +73,8 @@ public class SpotifyApi {
      *  with single thread executor both for http and callbacks.
      */
     public SpotifyApi() {
-        final Executor executor = Executors.newSingleThreadExecutor();
-        mSpotifyService = init(executor, executor);
+        Executor httpExecutor = Executors.newSingleThreadExecutor();
+        mSpotifyService = init(httpExecutor, null);
     }
 
     /**
