@@ -1,16 +1,44 @@
-apply plugin: 'java'
-apply plugin: 'jacoco'
+//apply plugin: 'jacoco'
+//
+//jacoco {
+//    version = "0.7.1.201405082137"
+//}
 
-jacoco {
-    version = "0.7.1.201405082137"
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.3'
+        classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
+    }
 }
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
-version = '0.1.0'
+apply plugin: 'com.android.library'
+apply plugin: 'org.robolectric'
 
 repositories {
-    mavenCentral()
+    jcenter()
+}
+
+archivesBaseName="spotify-web-api-android"
+version="0.1.0"
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
+
+    libraryVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.aar')) {
+                def fileName = "${archivesBaseName}-${version}.aar"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
 }
 
 dependencies {
@@ -22,33 +50,24 @@ dependencies {
     }
 
     testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:2.4'
     testCompile 'org.mockito:mockito-core:1.9.5'
 }
 
-test {
-    outputs.upToDateWhen {false}
-}
+//task jarAll(type: Jar) {
+//    baseName = project.name + '-all'
+//    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+//    with jar
+//}
 
-jacocoTestReport {
-    reports {
-        html.destination "${buildDir}/reports/jacoco/html"
-    }
-}
+//task generateDocs(type: Javadoc) {
+//    title = "Spotify Web API Android Client - API Reference"
+//    destinationDir = file("./build/docs/")
+//    source = sourceSets.main.allJava
+//    classpath = configurations.compile
+//
+//    options.links("http://docs.oracle.com/javase/7/docs/api/");
+//    options.links("http://square.github.io/retrofit/javadoc/");
+//}
 
-task jarAll(type: Jar) {
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
-
-task generateDocs(type: Javadoc) {
-    title = "Spotify Web API Android Client - API Reference"
-    destinationDir = file("./build/docs/")
-    source = sourceSets.main.allJava
-    classpath = configurations.compile
-
-    options.links("http://docs.oracle.com/javase/7/docs/api/");
-    options.links("http://square.github.io/retrofit/javadoc/");
-}
-
-check.dependsOn jacocoTestReport
+//check.dependsOn jacocoTestReport
