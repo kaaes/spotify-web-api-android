@@ -1,10 +1,13 @@
-language: java
+language: android
+android:
+  components:
+    - build-tools-22.0.1
+
 env:
   global:
     secure: QpUtfmGzlk2j90qBzSFo35ALFwqjS4phh94JJonIb0KyF3JfpN5z8i915/M6mFhCIiVvCJR7zJYjS5C60OL0RL+HkLkXXZ2WP5VPB6wUzzvIVax5Q+7z+VvhDkPHQwpYG8KkXq6eHqgJGSD/R9cRbc/KhQEhrxxrqQD5fw/Gpkc=
 
-script:
-- ./gradlew assemble check generateDocs --info --stacktrace
+script: "./gradlew clean assemble check generateReleaseJavadoc --info --stacktrace"
 
 after_success:
 - .utility/publish-javadoc.sh

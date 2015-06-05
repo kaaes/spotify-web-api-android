@@ -1,16 +1,50 @@
-apply plugin: 'java'
-apply plugin: 'jacoco'
+buildscript {
+    repositories {
+        jcenter()
+    }
 
-jacoco {
-    version = "0.7.1.201405082137"
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.2.3'
+        classpath 'org.robolectric:robolectric-gradle-plugin:1.1.0'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+    }
 }
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
-version = '0.1.0'
+apply plugin: 'android-sdk-manager'
+apply plugin: 'com.android.library'
+apply plugin: 'org.robolectric'
 
 repositories {
-    mavenCentral()
+    jcenter()
+}
+
+archivesBaseName="spotify-web-api-android"
+version="0.1.0"
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
+
+    buildTypes {
+        release {
+            testCoverageEnabled = true
+        }
+    }
+
+    // make proper name for 'aar' file
+    libraryVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.aar')) {
+                def fileName = "${archivesBaseName}-${version}.aar"
+                output.outputFile = new File(outputFile.parent, fileName)
+            }
+        }
+    }
+
+    lintOptions {
+        warning 'InvalidPackage'
+    }
 }
 
 dependencies {
@@ -22,33 +56,56 @@ dependencies {
     }
 
     testCompile 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:2.4'
     testCompile 'org.mockito:mockito-core:1.9.5'
 }
 
-test {
-    outputs.upToDateWhen {false}
-}
+// javadoc { The name will be 'generateReleaseJavadoc' }
+android.libraryVariants.all { variant ->
+    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
 
-jacocoTestReport {
-    reports {
-        html.destination "${buildDir}/reports/jacoco/html"
+        title = "Spotify Web API Android Client - API Reference"
+        destinationDir = file("./build/docs/")
+        options.links("http://docs.oracle.com/javase/7/docs/api/");
+        options.links("http://square.github.io/retrofit/javadoc/");
+
+        source = variant.javaCompile.source
+        ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+        classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
     }
 }
 
-task jarAll(type: Jar) {
-    baseName = project.name + '-all'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
+/* jacoco {`./gradlew check` generates report `build/reports/jacoco` } */
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
 }
 
-task generateDocs(type: Javadoc) {
-    title = "Spotify Web API Android Client - API Reference"
-    destinationDir = file("./build/docs/")
-    source = sourceSets.main.allJava
-    classpath = configurations.compile
+def coverageSourceDirs = ['src/main/java' ]
 
-    options.links("http://docs.oracle.com/javase/7/docs/api/");
-    options.links("http://square.github.io/retrofit/javadoc/");
+task jacocoTestReport(type:JacocoReport, dependsOn: "testDebug") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: 'build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*$ViewInjector*.*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*']
+    )
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('build/jacoco/testDebug.exec')
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
 }
-
 check.dependsOn jacocoTestReport
+/* !jacoco */
