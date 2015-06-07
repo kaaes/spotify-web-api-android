@@ -7,4 +7,5 @@ public class PlaylistTrack {
     public String added_at;
     public UserSimple added_by;
     public Track track;
+    public Boolean is_local;
 }
