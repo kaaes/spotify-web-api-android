@@ -9,30 +9,20 @@ It uses [Retrofit](http://square.github.io/retrofit/) to create Java interfaces 
 This project is built using [Gradle](https://gradle.org/):
 
 1. Clone the repository: `git clone https://github.com/kaaes/spotify-web-api-android.git`
-2. Build: `./gradlew jar`
-3. Grab the jar and put it in your project. It can be found in `build/libs/spotify-web-api-android-0.1.0.jar`
+2. Build: `./gradlew assemble`
+3. Grab the `aar` that can be found in `build/outputs/aar/spotify-web-api-android-0.1.0.aar` and put it in the `libs` folder in your application
 
 #### Dependencies
 
-This project depends on `Retrofit 1.9.0` and `OkHttp 2.2.0`. When you build it using
-the command above it creates a aar that doesn't contain Retrofit and OkHttp files.
-To make your app work you'll need to include these dependencies in your app:
+This project depends on `Retrofit 1.9.0` and `OkHttp 2.2.0`. When you build it, it creates an `aar`
+that doesn't contain Retrofit and OkHttp files. To make your app work you'll need to include these
+dependencies in your app's `gradle.build` file.
 
-```java
-compile 'com.squareup.retrofit:retrofit:1.9.0'
-compile 'com.squareup.okhttp:okhttp:2.2.0'
-```
+The `repositories` section tells your application to look for the `spotify-web-api-android-0.1.0.aar`
+in the local repository in the `libs` folder.
 
-To build a project as an aar file:
+Add following to the `gradle.build` file in your app:
 
-`./gradlew assemble`
-
-the aar will be located in `build/outputs/aar/spotify-web-api-android-all-0.1.0.aar`
-
-Please apply the next changes to your project to add the library:
-
-* Put the aar file into 'libs' folder of your project
-* Apply next changes to your build.gradle
 ```groovy
 repositories {
     mavenCentral()
@@ -43,9 +33,12 @@ repositories {
 
 dependencies {
     compile(name:'spotify-web-api-android-0.1.0', ext:'aar')
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
+
+    // Other dependencies your app might use
 }
 ```
-* Use the API to build awesome things
 
 
 ## Usage
