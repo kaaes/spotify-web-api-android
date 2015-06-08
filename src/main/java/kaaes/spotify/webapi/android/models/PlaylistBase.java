@@ -19,6 +19,7 @@ public abstract class PlaylistBase {
     public UserSimple owner;
     @SerializedName("public")
     public Boolean is_public;
+    public String snapshot_id;
     public String type;
     public String uri;
 }
