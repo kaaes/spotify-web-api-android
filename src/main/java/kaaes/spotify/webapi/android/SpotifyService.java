@@ -27,7 +27,7 @@ import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.TracksPager;
 import kaaes.spotify.webapi.android.models.TracksToRemove;
 import kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition;
-import kaaes.spotify.webapi.android.models.User;
+import kaaes.spotify.webapi.android.models.UserPrivate;
 import kaaes.spotify.webapi.android.models.UserPublic;
 import retrofit.Callback;
 import retrofit.http.Body;
@@ -89,7 +89,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/get-current-users-profile/">Get Current User's Profile</a>
      */
     @GET("/me")
-    public void getMe(Callback<User> callback);
+    public void getMe(Callback<UserPrivate> callback);
 
     /**
      * Get the currently logged in user profile information.
@@ -99,7 +99,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/get-current-users-profile/">Get Current User's Profile</a>
      */
     @GET("/me")
-    public User getMe();
+    public UserPrivate getMe();
 
 
     /**

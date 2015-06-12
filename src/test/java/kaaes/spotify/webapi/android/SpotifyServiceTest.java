@@ -49,8 +49,8 @@ import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.TracksPager;
 import kaaes.spotify.webapi.android.models.TracksToRemove;
 import kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition;
-import kaaes.spotify.webapi.android.models.User;
-import kaaes.spotify.webapi.android.models.UserSimple;
+import kaaes.spotify.webapi.android.models.UserPrivate;
+import kaaes.spotify.webapi.android.models.UserPublic;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Client;
@@ -319,25 +319,25 @@ public class SpotifyServiceTest {
     @Test
     public void shouldGetUserData() throws IOException {
         String body = TestUtils.readTestData("user.json");
-        UserSimple fixture = mGson.fromJson(body, UserSimple.class);
+        UserPublic fixture = mGson.fromJson(body, UserPublic.class);
 
-        Response response = TestUtils.getResponseFromModel(fixture, UserSimple.class);
+        Response response = TestUtils.getResponseFromModel(fixture, UserPublic.class);
         when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
 
-        UserSimple userSimple = mSpotifyService.getUser(fixture.id);
+        UserPublic userSimple = mSpotifyService.getUser(fixture.id);
         this.compareJSONWithoutNulls(body, userSimple);
     }
 
     @Test
     public void shouldGetCurrentUserData() throws IOException {
         String body = TestUtils.readTestData("current-user.json");
-        User fixture = mGson.fromJson(body, User.class);
+        UserPrivate fixture = mGson.fromJson(body, UserPrivate.class);
 
-        Response response = TestUtils.getResponseFromModel(fixture, User.class);
+        Response response = TestUtils.getResponseFromModel(fixture, UserPrivate.class);
         when(mMockClient.execute(Matchers.<Request>any())).thenReturn(response);
 
-        User user = mSpotifyService.getMe();
-        this.compareJSONWithoutNulls(body, user);
+        UserPrivate userPrivate = mSpotifyService.getMe();
+        this.compareJSONWithoutNulls(body, userPrivate);
     }
 
     @Test

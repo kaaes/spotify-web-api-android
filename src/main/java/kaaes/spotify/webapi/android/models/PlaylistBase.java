@@ -16,7 +16,7 @@ public abstract class PlaylistBase {
     public String id;
     public List<Image> images;
     public String name;
-    public UserSimple owner;
+    public UserPublic owner;
     @SerializedName("public")
     public Boolean is_public;
     public String snapshot_id;
