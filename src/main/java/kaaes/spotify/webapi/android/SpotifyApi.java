@@ -5,6 +5,7 @@ import java.util.concurrent.Executors;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.android.MainThreadExecutor;
 
 /**
  * Creates and configures a REST adapter for Spotify Web API.
@@ -74,7 +75,8 @@ public class SpotifyApi {
      */
     public SpotifyApi() {
         Executor httpExecutor = Executors.newSingleThreadExecutor();
-        mSpotifyService = init(httpExecutor, null);
+        MainThreadExecutor callbackExecutor = new MainThreadExecutor();
+        mSpotifyService = init(httpExecutor, callbackExecutor);
     }
 
     /**
