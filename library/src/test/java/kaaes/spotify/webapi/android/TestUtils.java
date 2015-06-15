@@ -2,6 +2,8 @@ package kaaes.spotify.webapi.android;
 
 import com.google.gson.Gson;
 
+import org.robolectric.Robolectric;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
@@ -9,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.net.URISyntaxException;
 import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -18,7 +21,7 @@ import retrofit.client.Response;
 import retrofit.mime.TypedInput;
 
 public class TestUtils {
-    private static final String TEST_DATA_DIR = "src/test/fixtures/";
+    private static final String TEST_DATA_DIR = "/fixtures/";
     private static final int MAX_TEST_DATA_FILE_SIZE = 131072;
     private static final Gson gson = new Gson();
 
@@ -66,7 +69,12 @@ public class TestUtils {
     }
 
     public static String readTestData(String fileName) throws IOException {
-        return readFromFile(new File(TEST_DATA_DIR, fileName));
+        try {
+            String path = Robolectric.class.getResource("/fixtures/" + fileName).toURI().getPath();
+            return readFromFile(new File(path));
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static String readFromFile(File file) throws IOException {
