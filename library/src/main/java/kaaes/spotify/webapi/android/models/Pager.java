@@ -3,6 +3,7 @@ package kaaes.spotify.webapi.android.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  *
  * @param <T> expected object that is paged
  */
-public class Pager<T> implements Parcelable {
+public class Pager<T> implements Parcelable  {
     public String href;
     public List<T> items;
     public int limit;
@@ -19,7 +20,6 @@ public class Pager<T> implements Parcelable {
     public String previous;
     public int total;
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -27,15 +27,26 @@ public class Pager<T> implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        //todo(dima)
+        dest.writeString(href);
+        dest.writeList(items);
+        dest.writeInt(limit);
+        dest.writeString(next);
+        dest.writeInt(offset);
+        dest.writeString(previous);
+        dest.writeInt(total);
     }
 
     public Pager() {
-        //todo(dima)
     }
 
     protected Pager(Parcel in) {
-        //todo(dima)
+        this.href = in.readString();
+        this.items = in.readArrayList(ArrayList.class.getClassLoader());
+        this.limit = in.readInt();
+        this.next = in.readString();
+        this.offset = in.readInt();
+        this.previous = in.readString();
+        this.total = in.readInt();
     }
 
     public static final Parcelable.Creator<Pager> CREATOR = new Parcelable.Creator<Pager>() {
@@ -47,6 +58,5 @@ public class Pager<T> implements Parcelable {
             return new Pager[size];
         }
     };
-
 
 }

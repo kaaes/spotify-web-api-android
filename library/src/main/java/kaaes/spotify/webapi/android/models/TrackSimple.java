@@ -59,7 +59,7 @@ public class TrackSimple implements Parcelable {
         this.disc_number = in.readInt();
         this.duration_ms = in.readLong();
         this.explicit = in.readByte() != 0;
-        this.external_urls = in.readHashMap(ClassLoader.getSystemClassLoader());
+        this.external_urls = in.readHashMap(Map.class.getClassLoader());
         this.href = in.readString();
         this.id = in.readString();
         this.name = in.readString();
@@ -69,7 +69,7 @@ public class TrackSimple implements Parcelable {
         this.uri = in.readString();
     }
 
-    public static final Parcelable.Creator<TrackSimple> CREATOR = new Parcelable.Creator<TrackSimple>() {
+    public static final Creator<TrackSimple> CREATOR = new Creator<TrackSimple>() {
         public TrackSimple createFromParcel(Parcel source) {
             return new TrackSimple(source);
         }

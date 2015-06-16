@@ -14,6 +14,10 @@ public class ArtistSimple implements Parcelable {
     public String uri;
 
 
+    public ArtistSimple() {
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -29,11 +33,8 @@ public class ArtistSimple implements Parcelable {
         dest.writeString(this.uri);
     }
 
-    public ArtistSimple() {
-    }
-
     protected ArtistSimple(Parcel in) {
-        this.external_urls = in.readHashMap(ClassLoader.getSystemClassLoader());
+        this.external_urls = in.readHashMap(Map.class.getClassLoader());
         this.href = in.readString();
         this.id = in.readString();
         this.name = in.readString();
@@ -41,7 +42,7 @@ public class ArtistSimple implements Parcelable {
         this.uri = in.readString();
     }
 
-    public static final Parcelable.Creator<ArtistSimple> CREATOR = new Parcelable.Creator<ArtistSimple>() {
+    public static final Creator<ArtistSimple> CREATOR = new Creator<ArtistSimple>() {
         public ArtistSimple createFromParcel(Parcel source) {
             return new ArtistSimple(source);
         }
