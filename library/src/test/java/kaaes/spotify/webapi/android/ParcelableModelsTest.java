@@ -37,11 +37,13 @@ import kaaes.spotify.webapi.android.models.PlaylistFollowPrivacy;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.PlaylistTracksInformation;
+import kaaes.spotify.webapi.android.models.PlaylistsPager;
 import kaaes.spotify.webapi.android.models.Result;
 import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.SnapshotId;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.TrackSimple;
+import kaaes.spotify.webapi.android.models.TrackToRemove;
 import kaaes.spotify.webapi.android.models.TrackToRemoveWithPosition;
 import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.TracksPager;
@@ -92,6 +94,7 @@ public class ParcelableModelsTest {
                 Playlist.class,
                 PlaylistFollowPrivacy.class,
                 PlaylistSimple.class,
+                PlaylistsPager.class,
                 PlaylistTrack.class,
                 PlaylistTracksInformation.class,
                 Result.class,
@@ -101,10 +104,10 @@ public class ParcelableModelsTest {
                 Tracks.class,
                 TrackSimple.class,
                 TracksPager.class,
+                TrackToRemove.class,
+                TrackToRemoveWithPosition.class,
                 TracksToRemove.class,
                 TracksToRemoveWithPosition.class,
-                TracksToRemove.class,
-                TrackToRemoveWithPosition.class,
                 User.class,
                 UserSimple.class
         );
