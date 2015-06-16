@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.common.collect.Lists;
+import com.google.common.reflect.Invokable;
 import com.google.gson.GsonBuilder;
 
 import org.fest.util.Arrays;
@@ -55,12 +56,16 @@ import static org.fest.assertions.api.Assertions.assertThat;
 public class ParcelableModelsTest {
 
     @Test
-    public void allParcelables() throws IllegalAccessException, InstantiationException {
+    public void allParcelables() throws IllegalAccessException, InstantiationException, NoSuchFieldException {
         for (Class<? extends Parcelable> modelClass : getModelClasses()) {
             // TODO(dima) instantiate with random fields
             Parcelable instance = modelClass.newInstance();
             testSingleParcelable(instance);
             testParcelableArray(instance);
+
+            /* Trick to increase code coverage */
+            instance.describeContents();
+            ((Parcelable.Creator<?>)modelClass.getField("CREATOR").get(null)).newArray(13);
         }
     }
 
