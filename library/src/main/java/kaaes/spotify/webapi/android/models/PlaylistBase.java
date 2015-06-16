@@ -1,6 +1,5 @@
 package kaaes.spotify.webapi.android.models;
 
-import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;

@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.common.collect.Lists;
-import com.google.common.reflect.Invokable;
 import com.google.gson.GsonBuilder;
 
 import org.fest.util.Arrays;
