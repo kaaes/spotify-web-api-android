@@ -68,11 +68,11 @@ public class TestUtils {
         return new Response("", statusCode, "", new ArrayList<Header>(), responseBody);
     }
 
-    public static String readTestData(String fileName) throws IOException {
+    public static String readTestData(String fileName) {
         try {
             String path = Robolectric.class.getResource("/fixtures/" + fileName).toURI().getPath();
             return readFromFile(new File(path));
-        } catch (URISyntaxException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

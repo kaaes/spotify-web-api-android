@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.common.collect.Lists;
+import com.google.gson.GsonBuilder;
 
 import org.fest.util.Arrays;
 import org.junit.Test;
@@ -124,5 +125,26 @@ public class ParcelableModelsTest {
         assertThat(fromParcel).hasSize(2);
         assertThat(fromParcel[0]).isEqualsToByComparingFields(underTest);
         assertThat(fromParcel[1]).isEqualsToByComparingFields(underTest);
+    }
+
+    @Test
+    public void artistsAreGoodParcelableCitizen() {
+        String body = TestUtils.readTestData("artists.json");
+        Artists fixture = new GsonBuilder().create().fromJson(body, Artists.class);
+        testSingleParcelable(fixture);
+    }
+
+    @Test
+    public void albumsAreGoodParcelableCitizen() {
+        String body = TestUtils.readTestData("albums.json");
+        Albums fixture = new GsonBuilder().create().fromJson(body, Albums.class);
+        testSingleParcelable(fixture);
+    }
+
+    @Test
+    public void tracksAreGoodParcelableCitizen() {
+        String body = TestUtils.readTestData("tracks.json");
+        Tracks fixture = new GsonBuilder().create().fromJson(body, Tracks.class);
+        testSingleParcelable(fixture);
     }
 }
