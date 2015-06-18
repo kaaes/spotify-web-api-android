@@ -27,7 +27,8 @@ import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.TracksPager;
 import kaaes.spotify.webapi.android.models.TracksToRemove;
 import kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition;
-import kaaes.spotify.webapi.android.models.User;
+import kaaes.spotify.webapi.android.models.UserPrivate;
+import kaaes.spotify.webapi.android.models.UserPublic;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
@@ -88,7 +89,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/get-current-users-profile/">Get Current User's Profile</a>
      */
     @GET("/me")
-    public void getMe(Callback<User> callback);
+    public void getMe(Callback<UserPrivate> callback);
 
     /**
      * Get the currently logged in user profile information.
@@ -98,7 +99,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/get-current-users-profile/">Get Current User's Profile</a>
      */
     @GET("/me")
-    public User getMe();
+    public UserPrivate getMe();
 
 
     /**
@@ -108,8 +109,8 @@ public interface SpotifyService {
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-users-profile/">Get User's Public Profile</a>
      */
-    @GET("/user/{id}")
-    public void getUser(@Path("id") String userId, Callback<User> callback);
+    @GET("/users/{id}")
+    public void getUser(@Path("id") String userId, Callback<UserPublic> callback);
 
     /**
      * Get a user's public profile information.
@@ -118,8 +119,8 @@ public interface SpotifyService {
      * @return The user's public profile information.
      * @see <a href="https://developer.spotify.com/web-api/get-users-profile/">Get User's Public Profile</a>
      */
-    @GET("/user/{id}")
-    public User getUser(@Path("id") String userId);
+    @GET("/users/{id}")
+    public UserPublic getUser(@Path("id") String userId);
 
 
     /*************
