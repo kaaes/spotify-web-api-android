@@ -48,8 +48,8 @@ import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.TracksPager;
 import kaaes.spotify.webapi.android.models.TracksToRemove;
 import kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition;
-import kaaes.spotify.webapi.android.models.User;
-import kaaes.spotify.webapi.android.models.UserSimple;
+import kaaes.spotify.webapi.android.models.UserPrivate;
+import kaaes.spotify.webapi.android.models.UserPublic;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -107,8 +107,8 @@ public class ParcelableModelsTest {
                 TrackToRemoveWithPosition.class,
                 TracksToRemove.class,
                 TracksToRemoveWithPosition.class,
-                User.class,
-                UserSimple.class
+                UserPrivate.class,
+                UserPublic.class
         );
     }
 
@@ -154,4 +154,16 @@ public class ParcelableModelsTest {
         Tracks fixture = new GsonBuilder().create().fromJson(body, Tracks.class);
         testSingleParcelable(fixture);
     }
+
+    @Test
+    public void usersAreGoodParcelableCitizens() {
+        String body = TestUtils.readTestData("user.json");
+        UserPublic userPublic  = new GsonBuilder().create().fromJson(body, UserPublic.class);
+        testSingleParcelable(userPublic);
+
+        body = TestUtils.readTestData("current-user.json");
+        UserPublic userPrivate = new GsonBuilder().create().fromJson(body, UserPublic.class);
+        testSingleParcelable(userPrivate);
+    }
+
 }

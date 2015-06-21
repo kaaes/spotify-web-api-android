@@ -30,7 +30,7 @@ public class PlaylistTrack implements Parcelable {
 
     protected PlaylistTrack(Parcel in) {
         this.added_at = in.readString();
-        this.added_by = in.readParcelable(UserSimple.class.getClassLoader());
+        this.added_by = in.readParcelable(UserPublic.class.getClassLoader());
         this.track = in.readParcelable(Track.class.getClassLoader());
         this.is_local = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
