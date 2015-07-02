@@ -42,7 +42,7 @@ import retrofit.http.QueryMap;
 public interface SpotifyService {
 
     /**
-     * The maximum number of objects to return..
+     * The maximum number of objects to return.
      */
     String LIMIT = "limit";
 
@@ -72,7 +72,7 @@ public interface SpotifyService {
 
     /**
      * The desired language, consisting of a lowercase ISO 639 language code
-     * * and an uppercase ISO 3166-1 alpha-2 country code, joined by an underscore.
+     * and an uppercase ISO 3166-1 alpha-2 country code, joined by an underscore.
      * For example: es_MX, meaning "Spanish (Mexico)".
      */
     String LOCALE = "locale";
@@ -89,6 +89,7 @@ public interface SpotifyService {
      * and time in the day. If not provided, the response defaults to the current UTC time
      */
     String TIMESTAMP = "timestamp";
+
 
     /************
      * Profiles *
@@ -113,7 +114,6 @@ public interface SpotifyService {
      */
     @GET("/me")
     UserPrivate getMe();
-
 
     /**
      * Get a user's profile information.
@@ -184,14 +184,13 @@ public interface SpotifyService {
     @GET("/users/{id}/playlists")
     Pager<PlaylistSimple> getPlaylists(@Path("id") String userId);
 
-
     /**
      * Get a playlist owned by a Spotify user.
      *
      * @param userId     The user's Spotify user ID.
      * @param playlistId The Spotify ID for the playlist.
-     * @param options Optional parameters. For list of supported parameters see
-     *                <a href="https://developer.spotify.com/web-api/get-playlist/">endpoint documentation</a>
+     * @param options    Optional parameters. For list of supported parameters see
+     *                   <a href="https://developer.spotify.com/web-api/get-playlist/">endpoint documentation</a>
      * @param callback   Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-playlist/">Get a Playlist</a>
      */
@@ -203,8 +202,8 @@ public interface SpotifyService {
      *
      * @param userId     The user's Spotify user ID.
      * @param playlistId The Spotify ID for the playlist.
-     * @param options Optional parameters. For list of supported parameters see
-     *                <a href="https://developer.spotify.com/web-api/get-playlist/">endpoint documentation</a>
+     * @param options    Optional parameters. For list of supported parameters see
+     *                   <a href="https://developer.spotify.com/web-api/get-playlist/">endpoint documentation</a>
      * @return Requested Playlist.
      * @see <a href="https://developer.spotify.com/web-api/get-playlist/">Get a Playlist</a>
      */
@@ -232,7 +231,6 @@ public interface SpotifyService {
      */
     @GET("/users/{user_id}/playlists/{playlist_id}")
     Playlist getPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId);
-
 
     /**
      * Get full details of the tracks of a playlist owned by a Spotify user.
@@ -525,7 +523,6 @@ public interface SpotifyService {
      * Albums *
      **********/
 
-
     /**
      * Get Spotify catalog information for a single album.
      *
@@ -662,7 +659,6 @@ public interface SpotifyService {
     /***********
      * Artists *
      ***********/
-
 
     /**
      * Get Spotify catalog information for a single artist identified by their unique Spotify ID.
@@ -813,10 +809,9 @@ public interface SpotifyService {
     Artists getRelatedArtists(@Path("id") String artistId);
 
 
-    /**
-     * Tracks
-     */
-
+    /**********
+     * Tracks *
+     **********/
 
     /**
      * Get Spotify catalog information for a single track identified by their unique Spotify ID.
@@ -907,9 +902,9 @@ public interface SpotifyService {
     Tracks getTracks(@Query("ids") String trackIds, @QueryMap Map<String, Object> options);
 
 
-    /**
-     * Browse
-     */
+    /**********
+     * Browse *
+     **********/
 
     /**
      * Get a list of Spotify featured playlists (shown, for example, on a Spotify player’s “Browse” tab).
@@ -1057,9 +1052,10 @@ public interface SpotifyService {
     @GET("/browse/categories/{category_id}/playlists")
     PlaylistsPager getPlaylistsForCategory(@Path("category_id") String categoryId, @QueryMap Map<String, Object> options);
 
-    /**
-     * Library / Your Music
-     */
+
+    /************************
+     * Library / Your Music *
+     ************************/
 
     /**
      * Get a list of the songs saved in the current Spotify user’s “Your Music” library.
@@ -1162,10 +1158,9 @@ public interface SpotifyService {
     Result removeFromMySavedTracks(@Query("ids") String ids);
 
 
-    /**
-     * Follow
-     */
-
+    /**********
+     * Follow *
+     **********/
 
     /**
      * Add the current user as a follower of one or more Spotify users.
@@ -1297,9 +1292,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/check-user-following-playlist/">Check if Users Follow a Playlist</a>
      */
     @GET("/users/{user_id}/playlists/{playlist_id}/followers/contains")
-    Boolean[] areFollowingPlaylist(@Path("user_id") String userId,
-                                          @Path("playlist_id") String playlistId,
-                                          @Query("ids") String ids);
+    Boolean[] areFollowingPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("ids") String ids);
 
     /**
      * Check to see if one or more Spotify users are following a specified playlist.
@@ -1311,15 +1304,12 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/check-user-following-playlist/">Check if Users Follow a Playlist</a>
      */
     @GET("/users/{user_id}/playlists/{playlist_id}/followers/contains")
-    void areFollowingPlaylist(@Path("user_id") String userId,
-                                     @Path("playlist_id") String playlistId,
-                                     @Query("ids") String ids, Callback<boolean[]> callback);
+    void areFollowingPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("ids") String ids, Callback<boolean[]> callback);
 
 
-    /**
-     * Search
-     */
-
+    /**********
+     * Search *
+     **********/
 
     /**
      * Get Spotify catalog information about tracks that match a keyword string.
