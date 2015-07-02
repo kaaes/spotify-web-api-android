@@ -77,6 +77,19 @@ public interface SpotifyService {
      */
     String LOCALE = "locale";
 
+    /**
+     * Filters for the query: a comma-separated list of the fields to return.
+     * If omitted, all fields are returned.
+     */
+    String FIELDS = "fields";
+
+    /**
+     * A timestamp in ISO 8601 format: yyyy-MM-ddTHH:mm:ss. Use this parameter to
+     * specify the user's local time to get results tailored for that specific date
+     * and time in the day. If not provided, the response defaults to the current UTC time
+     */
+    String TIMESTAMP = "timestamp";
+
     /************
      * Profiles *
      ************/
