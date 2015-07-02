@@ -44,38 +44,38 @@ public interface SpotifyService {
     /**
      * The maximum number of objects to return..
      */
-    public static final String LIMIT = "limit";
+    String LIMIT = "limit";
 
     /**
      * The index of the first playlist to return. Default: 0 (the first object).
      * Use with limit to get the next set of objects (albums, playlists, etc).
      */
-    public static final String OFFSET = "offset";
+    String OFFSET = "offset";
 
     /**
      * A comma-separated list of keywords that will be used to filter the response.
      * Valid values are: {@code album}, {@code single}, {@code appears_on}, {@code compilation}
      */
-    public static final String ALBUM_TYPE = "album_type";
+    String ALBUM_TYPE = "album_type";
 
     /**
      * The country: an ISO 3166-1 alpha-2 country code.
      * Limit the response to one particular geographical market.
      * Synonym to {@link #COUNTRY}
      */
-    public static final String MARKET = "market";
+    String MARKET = "market";
 
     /**
      * Same as {@link #MARKET}
      */
-    public static final String COUNTRY = "country";
+    String COUNTRY = "country";
 
     /**
      * The desired language, consisting of a lowercase ISO 639 language code
      * * and an uppercase ISO 3166-1 alpha-2 country code, joined by an underscore.
      * For example: es_MX, meaning "Spanish (Mexico)".
      */
-    public static final String LOCALE = "locale";
+    String LOCALE = "locale";
 
     /************
      * Profiles *
