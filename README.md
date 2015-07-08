@@ -5,23 +5,20 @@
 This project is a wrapper for the [Spotify Web API](https://developer.spotify.com/web-api/).
 It uses [Retrofit](http://square.github.io/retrofit/) to create Java interfaces from API endpoints.
 
-## Building
+## <a name="building"></a>Building
 This project is built using [Gradle](https://gradle.org/):
 
 1. Clone the repository: `git clone https://github.com/kaaes/spotify-web-api-android.git`
 2. Build: `./gradlew assemble`
-3. Grab the `aar` that can be found in `build/outputs/aar/spotify-web-api-android-0.1.0.aar` and put it in the `libs` folder in your application
+3. Grab the `aar` that can be found in `spotify-api/build/outputs/aar/spotify-web-api-android-0.1.1.aar` and put it in the `libs` folder in your application
 
-#### Dependencies
+## Integration into your project
 
-This project depends on `Retrofit 1.9.0` and `OkHttp 2.2.0`. When you build it, it creates an `aar`
+This project depends on `Retrofit 1.9.0` and `OkHttp 2.2.0`. When you [build it](#building), it creates an `aar`
 that doesn't contain Retrofit and OkHttp files. To make your app work you'll need to include these
-dependencies in your app's `gradle.build` file.
+dependencies in your app's `build.gradle` file.
 
-The `repositories` section tells your application to look for the `spotify-web-api-android-0.1.0.aar`
-in the local repository in the `libs` folder.
-
-Add following to the `gradle.build` file in your app:
+Add following to the `build.gradle` file in your app:
 
 ```groovy
 repositories {
@@ -40,10 +37,12 @@ dependencies {
 }
 ```
 
+The `repositories` section tells your application to look for the `spotify-web-api-android-0.1.1.aar`
+in the local repository in the `libs` folder.
 
 ## Usage
 
-Out of the box it uses [OkHttp](http://square.github.io/okhttp/) HTTP client and a [single thread executor](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executors.html#newSingleThreadExecutor()).
+Out of the box it uses [OkHttp](http://square.github.io/okhttp/) HTTP client and a [single thread executor](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executors.html).
 
 ```java
 SpotifyApi api = new SpotifyApi();

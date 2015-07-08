@@ -1,0 +1,60 @@
+// javadoc { The name will be 'generateReleaseJavadoc' }
+android.libraryVariants.all { variant ->
+    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
+
+        title = "Spotify Web API Android Client - API Reference"
+        destinationDir = file("./build/docs/")
+        options.links("http://docs.oracle.com/javase/7/docs/api/");
+        options.links("http://square.github.io/retrofit/javadoc/");
+
+        source = variant.javaCompile.source
+        ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+        classpath = files(variant.javaCompile.classpath.files) + files(ext.androidJar)
+    }
+}
+
+// make proper name for 'aar' file
+android.libraryVariants.all { variant ->
+    variant.outputs.each { output ->
+        def outputFile = output.outputFile
+        if (outputFile != null && outputFile.name.endsWith('.aar')) {
+            def fileName = "${BASE_NAME}-${version}.aar"
+            output.outputFile = new File(outputFile.parent, fileName)
+        }
+    }
+}
+
+/* jacoco {`./gradlew check` generates report `build/reports/jacoco` } */
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+
+def coverageSourceDirs = ['src/main/java' ]
+
+task jacocoTestReport(type:JacocoReport, dependsOn: "testDebug") {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: 'build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*$ViewInjector*.*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*']
+    )
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('build/jacoco/testDebug.exec')
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+}
+check.dependsOn jacocoTestReport
+/* !jacoco */
