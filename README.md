@@ -104,7 +104,7 @@ for example `400 - No search query`.
 To use the data returned in the response from the Web API `SpotifyCallback` object should be passed to the
 request method instead of regular Retrofit's `Callback`:
 ```java
-spotify.getMySavedTracks(new SpotifyCallback<Pager<SavedTrack>>;() {
+spotify.getMySavedTracks(new SpotifyCallback<Pager<SavedTrack>>() {
     @Override
     public void success(Pager<SavedTrack> savedTrackPager, Response response) {
         // handle successful response
