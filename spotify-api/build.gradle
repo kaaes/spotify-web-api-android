@@ -1,0 +1,55 @@
+apply plugin: 'android-sdk-manager'
+apply plugin: 'com.android.library'
+apply plugin: 'org.robolectric'
+
+project.group = GROUP
+version = VERSION_NAME
+
+dependencies {
+    compile('com.squareup.retrofit:retrofit:1.9.0')
+    compile('com.squareup.okhttp:okhttp:2.2.0')
+
+    testCompile("org.robolectric:robolectric:${ROBOLECTRIC_VERSION}") {
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    testCompile  "com.google.guava:guava:${GUAVA_VERSION}"
+    testCompile "junit:junit:${JUNIT_VERSION}"
+    testCompile "org.easytesting:fest-assert-core:${FEST_ASSERT_CORE_VERSION}"
+    testCompile "org.mockito:mockito-core:${MOCKITO_CORE_VERSION}"
+}
+
+apply from: rootProject.file('release.gradle')
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
+
+    lintOptions {
+        disable 'InvalidPackage' // for okio-1.2.0
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
+    }
+}
+
+android.testOptions.unitTests.all {
+    // Configure includes / excludes
+    include '**/*Test.class'
+    exclude '**/espresso/**/*.class'
+
+    maxHeapSize = '2048m'
+    jvmArgs '-XX:MaxPermSize=512m', '-XX:-UseSplitVerifier'
+    maxParallelForks = 4
+    forkEvery = 150
+
+    afterTest { descriptor, result ->
+        println "Executing test for ${descriptor.name} with result: ${result.resultType}"
+    }
+}
+
+
