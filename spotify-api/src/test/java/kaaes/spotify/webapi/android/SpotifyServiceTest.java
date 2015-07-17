@@ -956,11 +956,7 @@ public class SpotifyServiceTest {
         Response response = TestUtils.getResponseFromModel(fixture, Tracks.class);
         when(mMockClient.execute(isA(Request.class))).thenReturn(response);
 
-        final Map<String, Object> options = new HashMap<String, Object>();
-        options.put(SpotifyService.OFFSET, 0);
-        options.put(SpotifyService.LIMIT, 10);
-        options.put(SpotifyService.COUNTRY, "SE");
-        Tracks tracks = mSpotifyService.getArtistTopTrack("test", options);
+        Tracks tracks = mSpotifyService.getArtistTopTrack("test", "SE");
         compareJSONWithoutNulls(body, tracks);
     }
 

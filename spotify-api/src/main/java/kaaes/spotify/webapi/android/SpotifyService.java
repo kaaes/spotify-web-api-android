@@ -739,45 +739,23 @@ public interface SpotifyService {
      * Get Spotify catalog information about an artist’s top tracks by country.
      *
      * @param artistId The Spotify ID for the artist.
-     * @param options  Optional parameters. For list of supported parameters see
-     *                 <a href="https://developer.spotify.com/web-api/get-artists-top-tracks/">endpoint documentation</a>
+     * @param country  The country: an ISO 3166-1 alpha-2 country code.
      * @param callback Callback method
      * @see <a href="https://developer.spotify.com/web-api/get-artists-top-tracks/">Get an Artist’s Top Tracks</a>
      */
     @GET("/artists/{id}/top-tracks")
-    public void getArtistTopTrack(@Path("id") String artistId, @QueryMap Map<String, Object> options, Callback<Tracks> callback);
+    public void getArtistTopTrack(@Path("id") String artistId, @Query("country") String country, Callback<Tracks> callback);
 
     /**
      * Get Spotify catalog information about an artist’s top tracks by country.
      *
      * @param artistId The Spotify ID for the artist.
-     * @param options  Optional parameters. For list of supported parameters see
-     *                 <a href="https://developer.spotify.com/web-api/get-artists-top-tracks/">endpoint documentation</a>
+     * @param country  The country: an ISO 3166-1 alpha-2 country code.
      * @return An object whose key is "tracks" and whose value is an array of track objects.
      * @see <a href="https://developer.spotify.com/web-api/get-artists-top-tracks/">Get an Artist’s Top Tracks</a>
      */
     @GET("/artists/{id}/top-tracks")
-    public Tracks getArtistTopTrack(@Path("id") String artistId, @QueryMap Map<String, Object> options);
-
-    /**
-     * Get Spotify catalog information about an artist’s top tracks by country.
-     *
-     * @param artistId The Spotify ID for the artist.
-     * @param callback Callback method
-     * @see <a href="https://developer.spotify.com/web-api/get-artists-top-tracks/">Get an Artist’s Top Tracks</a>
-     */
-    @GET("/artists/{id}/top-tracks")
-    public void getArtistTopTrack(@Path("id") String artistId, Callback<Tracks> callback);
-
-    /**
-     * Get Spotify catalog information about an artist’s top tracks by country.
-     *
-     * @param artistId The Spotify ID for the artist.
-     * @return An object whose key is "tracks" and whose value is an array of track objects.
-     * @see <a href="https://developer.spotify.com/web-api/get-artists-top-tracks/">Get an Artist’s Top Tracks</a>
-     */
-    @GET("/artists/{id}/top-tracks")
-    public Tracks getArtistTopTrack(@Path("id") String artistId);
+    public Tracks getArtistTopTrack(@Path("id") String artistId, @Query("country") String country);
 
     /**
      * Get Spotify catalog information about artists similar to a given artist.
