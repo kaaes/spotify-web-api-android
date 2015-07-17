@@ -13,7 +13,7 @@ public class TrackSimple implements Parcelable {
     public LinkedTrack linked_from;
     public int disc_number;
     public long duration_ms;
-    public boolean explicit;
+    public Boolean explicit;
     public Map<String, String> external_urls;
     public String href;
     public String id;
