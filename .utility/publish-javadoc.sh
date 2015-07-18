@@ -4,7 +4,7 @@ if [ "$TRAVIS_REPO_SLUG" == "kaaes/spotify-web-api-android" ] && [ "$TRAVIS_PULL
 
   echo -e "Merged new code into master branch. Publishing Javadoc to GH Pages...\n"
 
-  cp -R build/docs $HOME/javadoc-latest
+  cp -R spotify-api/build/docs $HOME/javadoc-latest
 
   cd $HOME
   git config --global user.email "travis@travis-ci.org"
