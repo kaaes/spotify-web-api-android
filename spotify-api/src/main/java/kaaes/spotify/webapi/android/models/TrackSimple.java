@@ -37,7 +37,7 @@ public class TrackSimple implements Parcelable {
         dest.writeParcelable(this.linked_from, 0);
         dest.writeInt(this.disc_number);
         dest.writeLong(this.duration_ms);
-        dest.writeByte(explicit ? (byte) 1 : (byte) 0);
+        dest.writeValue(this.explicit);
         dest.writeMap(this.external_urls);
         dest.writeString(this.href);
         dest.writeString(this.id);
@@ -58,7 +58,7 @@ public class TrackSimple implements Parcelable {
         this.linked_from = in.readParcelable(LinkedTrack.class.getClassLoader());
         this.disc_number = in.readInt();
         this.duration_ms = in.readLong();
-        this.explicit = in.readByte() != 0;
+        this.explicit = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.external_urls = in.readHashMap(Map.class.getClassLoader());
         this.href = in.readString();
         this.id = in.readString();
