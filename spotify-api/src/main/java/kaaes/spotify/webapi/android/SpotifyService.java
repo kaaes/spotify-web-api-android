@@ -3,32 +3,7 @@ package kaaes.spotify.webapi.android;
 import java.util.Map;
 
 import kaaes.spotify.webapi.android.annotations.DELETEWITHBODY;
-import kaaes.spotify.webapi.android.models.Album;
-import kaaes.spotify.webapi.android.models.Albums;
-import kaaes.spotify.webapi.android.models.AlbumsPager;
-import kaaes.spotify.webapi.android.models.Artist;
-import kaaes.spotify.webapi.android.models.Artists;
-import kaaes.spotify.webapi.android.models.ArtistsPager;
-import kaaes.spotify.webapi.android.models.CategoriesPager;
-import kaaes.spotify.webapi.android.models.Category;
-import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
-import kaaes.spotify.webapi.android.models.NewReleases;
-import kaaes.spotify.webapi.android.models.Pager;
-import kaaes.spotify.webapi.android.models.Playlist;
-import kaaes.spotify.webapi.android.models.PlaylistFollowPrivacy;
-import kaaes.spotify.webapi.android.models.PlaylistSimple;
-import kaaes.spotify.webapi.android.models.PlaylistTrack;
-import kaaes.spotify.webapi.android.models.PlaylistsPager;
-import kaaes.spotify.webapi.android.models.Result;
-import kaaes.spotify.webapi.android.models.SavedTrack;
-import kaaes.spotify.webapi.android.models.SnapshotId;
-import kaaes.spotify.webapi.android.models.Track;
-import kaaes.spotify.webapi.android.models.Tracks;
-import kaaes.spotify.webapi.android.models.TracksPager;
-import kaaes.spotify.webapi.android.models.TracksToRemove;
-import kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition;
-import kaaes.spotify.webapi.android.models.UserPrivate;
-import kaaes.spotify.webapi.android.models.UserPublic;
+import kaaes.spotify.webapi.android.models.*;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
@@ -1280,6 +1255,45 @@ public interface SpotifyService {
                                      @Path("playlist_id") String playlistId,
                                      @Query("ids") String ids, Callback<boolean[]> callback);
 
+    /**
+     * Get the current user's followed artists.
+     *
+     * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
+     */
+    @GET("/me/following?type=artist")
+    public ArtistsCursorPager getFollowedArtists();
+
+    /**
+     * Get the current user's followed artists.
+     *
+     * @param callback   Callback method.
+     * @return An empty result
+     * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
+     */
+    @GET("/me/following?type=artist")
+    public Result getFollowedArtists(Callback<ArtistsCursorPager> callback);
+
+    /**
+     * Get the current user's followed artists.
+     *
+     * @param options  Optional parameters. For list of supported parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-followed-artists/">endpoint documentation</a>
+     * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
+     */
+    @GET("/me/following?type=artist")
+    public ArtistsCursorPager getFollowedArtists(@QueryMap Map<String, Object> options);
+
+    /**
+     * Get the current user's followed artists.
+     *
+     * @param options  Optional parameters. For list of supported parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-followed-artists/">endpoint documentation</a>
+     * @param callback   Callback method.
+     * @return An empty result
+     * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
+     */
+    @GET("/me/following?type=artist")
+    public Result getFollowedArtists(@QueryMap Map<String, Object> options, Callback<ArtistsCursorPager> callback);
 
     /**
      * Search
