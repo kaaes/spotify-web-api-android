@@ -10,4 +10,6 @@ env:
 script: "./gradlew clean assemble check generateReleaseJavadoc --info --stacktrace"
 
 after_success:
-- .utility/publish-javadoc.sh
+  - .utility/publish-javadoc.sh
+
+sudo: false
