@@ -29,9 +29,11 @@ import kaaes.spotify.webapi.android.models.Albums;
 import kaaes.spotify.webapi.android.models.AlbumsPager;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.Artists;
+import kaaes.spotify.webapi.android.models.ArtistsCursorPager;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
 import kaaes.spotify.webapi.android.models.CategoriesPager;
 import kaaes.spotify.webapi.android.models.Category;
+import kaaes.spotify.webapi.android.models.CursorPager;
 import kaaes.spotify.webapi.android.models.ErrorResponse;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
 import kaaes.spotify.webapi.android.models.NewReleases;
@@ -389,6 +391,24 @@ public class SpotifyServiceTest {
 
         Boolean[] result = mSpotifyService.isFollowingArtists(artistIds);
         this.compareJSONWithoutNulls(body, result);
+    }
+
+    @Test
+    public void shouldCheckFollowedArtists() throws IOException {
+
+        String body = TestUtils.readTestData("followed-artists.json");
+        ArtistsCursorPager fixture = mGson.fromJson(body, ArtistsCursorPager.class);
+
+        Response response = TestUtils.getResponseFromModel(fixture, ArtistsCursorPager.class);
+        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+            @Override
+            public boolean matches(Object argument) {
+                return ((Request) argument).getUrl().contains("type=artist");
+            }
+        }))).thenReturn(response);
+
+        ArtistsCursorPager result = mSpotifyService.getFollowedArtists();
+        compareJSONWithoutNulls(body, result);
     }
 
     @Test
