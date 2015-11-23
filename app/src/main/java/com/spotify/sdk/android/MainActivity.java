@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchResultsAdapter mAdapter;
     private SpotifyService mSpotifyService;
     private String mCurrentQuery;
-    private PlayerService mPlayer;
+    private Player mPlayer;
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //logMessage("query text change " + newText);
                 return false;
             }
         });
@@ -111,13 +110,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mResultsList.setLayoutManager(layoutManager);
         mResultsList.setAdapter(mAdapter);
         mResultsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                Log.d(TAG, "scrolled " + dx + " " + dy);
+
+                int itemCount = layoutManager.getItemCount();
+                int itemPosition = layoutManager.findLastVisibleItemPosition();
+
+                if (itemCount <= itemPosition) {
+                    Log.d(TAG, "bottom hit");
+                }
             }
         });
     }
@@ -151,8 +158,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupPlayer() {
-        Intent intent = new Intent(this, PlayerService.class);
-        bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
+        bindService(PlayerService.getIntent(this), mServiceConnection, BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        startService(PlayerService.getIntent(this));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        stopService(PlayerService.getIntent(this));
     }
 
     @Override
