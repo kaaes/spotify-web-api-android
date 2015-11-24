@@ -3,7 +3,34 @@ package kaaes.spotify.webapi.android;
 import java.util.Map;
 
 import kaaes.spotify.webapi.android.annotations.DELETEWITHBODY;
-import kaaes.spotify.webapi.android.models.*;
+import kaaes.spotify.webapi.android.models.Album;
+import kaaes.spotify.webapi.android.models.Albums;
+import kaaes.spotify.webapi.android.models.AlbumsPager;
+import kaaes.spotify.webapi.android.models.Artist;
+import kaaes.spotify.webapi.android.models.Artists;
+import kaaes.spotify.webapi.android.models.ArtistsCursorPager;
+import kaaes.spotify.webapi.android.models.ArtistsPager;
+import kaaes.spotify.webapi.android.models.CategoriesPager;
+import kaaes.spotify.webapi.android.models.Category;
+import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
+import kaaes.spotify.webapi.android.models.NewReleases;
+import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.Playlist;
+import kaaes.spotify.webapi.android.models.PlaylistFollowPrivacy;
+import kaaes.spotify.webapi.android.models.PlaylistSimple;
+import kaaes.spotify.webapi.android.models.PlaylistTrack;
+import kaaes.spotify.webapi.android.models.PlaylistsPager;
+import kaaes.spotify.webapi.android.models.Result;
+import kaaes.spotify.webapi.android.models.SavedAlbum;
+import kaaes.spotify.webapi.android.models.SavedTrack;
+import kaaes.spotify.webapi.android.models.SnapshotId;
+import kaaes.spotify.webapi.android.models.Track;
+import kaaes.spotify.webapi.android.models.Tracks;
+import kaaes.spotify.webapi.android.models.TracksPager;
+import kaaes.spotify.webapi.android.models.TracksToRemove;
+import kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition;
+import kaaes.spotify.webapi.android.models.UserPrivate;
+import kaaes.spotify.webapi.android.models.UserPublic;
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.DELETE;
@@ -1110,6 +1137,105 @@ public interface SpotifyService {
     @DELETE("/me/tracks")
     Result removeFromMySavedTracks(@Query("ids") String ids);
 
+    /**
+     * Get a list of the albums saved in the current Spotify user’s “Your Music” library.
+     *
+     * @param callback Callback method.
+     * @see <a href="https://developer.spotify.com/web-api/get-users-saved-albums/">Get a User’s Saved Albums</a>
+     */
+    @GET("/me/albums")
+    void getMySavedAlbums(Callback<Pager<SavedAlbum>> callback);
+
+    /**
+     * Get a list of the albums saved in the current Spotify user’s “Your Music” library.
+     *
+     * @return A paginated list of saved albums
+     * @see <a href="https://developer.spotify.com/web-api/get-users-saved-albums/">Get a User’s Saved Albums</a>
+     */
+    @GET("/me/albums")
+    Pager<SavedAlbum> getMySavedAlbums();
+
+    /**
+     * Get a list of the albums saved in the current Spotify user’s “Your Music” library.
+     *
+     * @param options  Optional parameters. For list of supported parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-users-saved-albums/">endpoint documentation</a>
+     * @param callback Callback method.
+     * @see <a href="https://developer.spotify.com/web-api/get-users-saved-albums/">Get a User’s Saved Albums</a>
+     */
+    @GET("/me/albums")
+    void getMySavedAlbums(@QueryMap Map<String, Object> options, Callback<Pager<SavedAlbum>> callback);
+
+    /**
+     * Get a list of the albums saved in the current Spotify user’s “Your Music” library.
+     *
+     * @param options Optional parameters. For list of supported parameters see
+     *                <a href="https://developer.spotify.com/web-api/get-users-saved-albums/">endpoint documentation</a>
+     * @return A paginated list of saved albums
+     * @see <a href="https://developer.spotify.com/web-api/get-users-saved-albums/">Get a User’s Saved Albums</a>
+     */
+    @GET("/me/albums")
+    Pager<SavedAlbum> getMySavedAlbums(@QueryMap Map<String, Object> options);
+
+    /**
+     * Check if one or more albums is already saved in the current Spotify user’s “Your Music” library.
+     *
+     * @param ids      A comma-separated list of the Spotify IDs for the albums
+     * @param callback Callback method.
+     * @see <a href="https://developer.spotify.com/web-api/check-users-saved-albums/">Check User’s Saved Albums</a>
+     */
+    @GET("/me/albums/contains")
+    void containsMySavedAlbums(@Query("ids") String ids, Callback<boolean[]> callback);
+
+    /**
+     * Check if one or more albums is already saved in the current Spotify user’s “Your Music” library.
+     *
+     * @param ids A comma-separated list of the Spotify IDs for the albums
+     * @return An array with boolean values that indicate whether the albums are in the current Spotify user’s “Your Music” library.
+     * @see <a href="https://developer.spotify.com/web-api/check-users-saved-albums/">Check User’s Saved Albums</a>
+     */
+    @GET("/me/albums/contains")
+    Boolean[] containsMySavedAlbums(@Query("ids") String ids);
+
+    /**
+     * Save one or more albums to the current user’s “Your Music” library.
+     *
+     * @param ids      A comma-separated list of the Spotify IDs for the albums
+     * @param callback Callback method.
+     * @see <a href="https://developer.spotify.com/web-api/save-albums-user/">Save Albums for User</a>
+     */
+    @PUT("/me/albums")
+    void addToMySavedAlbums(@Query("ids") String ids, Callback<Object> callback);
+
+    /**
+     * Save one or more albums to the current user’s “Your Music” library.
+     *
+     * @param ids A comma-separated list of the Spotify IDs for the albums
+     * @return An empty result
+     * @see <a href="https://developer.spotify.com/web-api/save-albums-user/">Save Albums for User</a>
+     */
+    @PUT("/me/albums")
+    Result addToMySavedAlbums(@Query("ids") String ids);
+
+    /**
+     * Remove one or more albums from the current user’s “Your Music” library.
+     *
+     * @param ids      A comma-separated list of the Spotify IDs for the albums
+     * @param callback Callback method.
+     * @see <a href="https://developer.spotify.com/web-api/remove-albums-user/">Remove User’s Saved Albums</a>
+     */
+    @DELETE("/me/albums")
+    void removeFromMySavedAlbums(@Query("ids") String ids, Callback<Object> callback);
+
+    /**
+     * Remove one or more albums from the current user’s “Your Music” library.
+     *
+     * @param ids A comma-separated list of the Spotify IDs for the albums
+     * @return An empty result
+     * @see <a href="https://developer.spotify.com/web-api/remove-albums-user/">Remove User’s Saved Albums</a>
+     */
+    @DELETE("/me/albums")
+    Result removeFromMySavedAlbums(@Query("ids") String ids);
 
     /**********
      * Follow *
