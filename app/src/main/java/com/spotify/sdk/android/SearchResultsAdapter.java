@@ -13,7 +13,9 @@ import com.google.common.base.Joiner;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.ArtistSimple;
@@ -33,6 +35,10 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
     private final SpotifyService mSpotifyApi;
     private final ItemSelectedListener mListener;
     private int mOffset;
+    private String mQuery;
+    private int mLimit;
+
+    private boolean mHasMoreItems = true;
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -65,20 +71,37 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultsAdap
         mListener = listener;
     }
 
-    public void setData(List<Track> items) {
+    private void clearData() {
         mItems.clear();
+    }
+
+    private void addData(List<Track> items) {
         mItems.addAll(items);
         notifyDataSetChanged();
     }
 
-    public void searchTracks(String query) {
+    public void getNextPage() {
+        mOffset += mLimit;
+        getData();
+    }
+
+    public void searchTracks(String query, int pageSize) {
+        mQuery = query;
+        mLimit = pageSize;
         mOffset = 0;
-        mSpotifyApi.searchTracks(query, new Callback<TracksPager>() {
+        clearData();
+        getData();
+    }
+
+    private void getData( ) {
+        Map<String, Object> options = new HashMap<>();
+        options.put(SpotifyService.OFFSET, mOffset);
+        options.put(SpotifyService.LIMIT, mLimit);
+        mSpotifyApi.searchTracks(mQuery, options, new Callback<TracksPager>() {
             @Override
             public void success(TracksPager tracksPager, Response response) {
-                setData(tracksPager.tracks.items);
-                mOffset = tracksPager.tracks.offset + tracksPager.tracks.limit;
-                Log.d(TAG, "Whoops success " + mOffset);
+                mHasMoreItems = tracksPager.tracks.total > tracksPager.tracks.offset + tracksPager.tracks.limit;
+                addData(tracksPager.tracks.items);
             }
 
             @Override

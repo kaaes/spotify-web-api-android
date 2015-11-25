@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private SpotifyService mSpotifyService;
     private String mCurrentQuery;
     private Player mPlayer;
+
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -43,6 +44,23 @@ public class MainActivity extends AppCompatActivity {
             mPlayer = null;
         }
     };
+
+    private LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+    private ScrollListener mScrollListener = new ScrollListener(mLayoutManager);
+    ;
+
+    private class ScrollListener extends ResultListScrollListener {
+
+        public ScrollListener(LinearLayoutManager layoutManager) {
+            super(layoutManager);
+        }
+
+        @Override
+        public void onLoadMore() {
+            Log.d(TAG, "Load more...");
+            mAdapter.getNextPage();
+        }
+    }
 
     public static Intent createIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -92,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 logMessage("query text submit " + query);
                 search(query);
-                return false;
+                return true;
             }
 
             @Override
@@ -110,29 +128,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        mResultsList.setLayoutManager(layoutManager);
+        mResultsList.setLayoutManager(mLayoutManager);
         mResultsList.setAdapter(mAdapter);
-        mResultsList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                Log.d(TAG, "scrolled " + dx + " " + dy);
-
-                int itemCount = layoutManager.getItemCount();
-                int itemPosition = layoutManager.findLastVisibleItemPosition();
-
-                if (itemCount <= itemPosition) {
-                    Log.d(TAG, "bottom hit");
-                }
-            }
-        });
+        mResultsList.addOnScrollListener(mScrollListener);
     }
 
     private void search(@NonNull String query) {
-        if (!query.isEmpty()) {
-            mAdapter.searchTracks(query);
+        if (!query.isEmpty() && !query.equals(mCurrentQuery)) {
             mCurrentQuery = query;
+            mScrollListener.reset();
+            mAdapter.searchTracks(query, 20);
         }
     }
 
@@ -196,4 +201,5 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
         Log.d(TAG, msg);
     }
+
 }
