@@ -29,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    compile(name:'spotify-web-api-android-0.1.0', ext:'aar')
+    compile(name:'spotify-web-api-android-0.1.1', ext:'aar')
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.okhttp:okhttp:2.2.0'
 
