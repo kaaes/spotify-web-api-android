@@ -53,11 +53,12 @@ public class MainActivity extends AppCompatActivity implements Search.View {
         mActionListener.init(token);
 
         // Setup search field
-        SearchView searchView = (SearchView) findViewById(R.id.search_view);
+        final SearchView searchView = (SearchView) findViewById(R.id.search_view);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mActionListener.search(query);
+                searchView.clearFocus();
                 return true;
             }
 

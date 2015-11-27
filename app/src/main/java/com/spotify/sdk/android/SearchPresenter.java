@@ -76,7 +76,7 @@ public class SearchPresenter implements Search.ActionListener {
 
                 @Override
                 public void onError(Throwable error) {
-                    Log.e(TAG, error.getMessage());
+                    logError(error.getMessage());
                 }
             };
             mSearchPager.getFirstPage(searchQuery, PAGE_SIZE, mSearchListener);
