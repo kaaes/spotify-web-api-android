@@ -74,8 +74,6 @@ public class MainActivity extends AppCompatActivity implements Search.View {
             @Override
             public void onItemSelected(View itemView, Track item) {
                 mActionListener.selectTrack(item);
-                itemView.setSelected(true);
-                itemView.setActivated(true);
             }
         });
 
