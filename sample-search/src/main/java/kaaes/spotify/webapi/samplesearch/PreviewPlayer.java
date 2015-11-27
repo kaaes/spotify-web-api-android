@@ -1,4 +1,4 @@
-package com.spotify.sdk.android;
+package kaaes.spotify.webapi.samplesearch;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;

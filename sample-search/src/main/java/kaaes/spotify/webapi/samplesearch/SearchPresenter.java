@@ -1,4 +1,4 @@
-package com.spotify.sdk.android;
+package kaaes.spotify.webapi.samplesearch;
 
 import android.app.Activity;
 import android.content.ComponentName;

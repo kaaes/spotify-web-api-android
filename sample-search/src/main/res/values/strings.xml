@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SDK Example</string>
+    <string name="app_name">Web API Search Example</string>
     <string name="login_button">Login to Spotify</string>
     <string name="access_token_prefs">com.spotify.sdk.android.access_token</string>
     <string name="access_token">access_token</string>

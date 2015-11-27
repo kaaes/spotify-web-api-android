@@ -1,1 +1,1 @@
-include ':spotify-api', ':app'
+include ':spotify-api', ':sample-search'
