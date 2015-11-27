@@ -48,7 +48,6 @@ public class SearchPager {
         mSpotifyApi.searchTracks(query, options, new SpotifyCallback<TracksPager>() {
             @Override
             public void success(TracksPager tracksPager, Response response) {
-//                mHasMoreItems = tracksPager.tracks.total > tracksPager.tracks.offset + tracksPager.tracks.limit;
                 listener.onComplete(tracksPager.tracks.items);
             }
 
