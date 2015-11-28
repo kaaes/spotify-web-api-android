@@ -1,6 +1,5 @@
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.library'
-apply plugin: 'org.robolectric'
 apply plugin: 'com.github.dcendents.android-maven'
 
 project.group = GROUP
@@ -8,14 +7,13 @@ version = VERSION_NAME
 
 dependencies {
     compile('com.squareup.retrofit:retrofit:1.9.0')
-    compile('com.squareup.okhttp:okhttp:2.2.0')
 
     testCompile("org.robolectric:robolectric:${ROBOLECTRIC_VERSION}") {
         exclude group: 'com.android.support', module: 'support-v4'
         exclude group: 'commons-logging', module: 'commons-logging'
         exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     }
-    testCompile  "com.google.guava:guava:${GUAVA_VERSION}"
+    testCompile "com.google.guava:guava:${GUAVA_VERSION}"
     testCompile "junit:junit:${JUNIT_VERSION}"
     testCompile "org.easytesting:fest-assert-core:${FEST_ASSERT_CORE_VERSION}"
     testCompile "org.mockito:mockito-core:${MOCKITO_CORE_VERSION}"
@@ -26,10 +24,6 @@ apply from: rootProject.file('release.gradle')
 android {
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
-
-    lintOptions {
-        disable 'InvalidPackage' // for okio-1.2.0
-    }
 
     buildTypes {
         debug {
