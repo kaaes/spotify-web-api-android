@@ -1,6 +1,7 @@
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.library'
 apply plugin: 'org.robolectric'
+apply plugin: 'com.github.dcendents.android-maven'
 
 project.group = GROUP
 version = VERSION_NAME
