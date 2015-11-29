@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.kaaes:spotify-web-api-android:0.2'
+    compile 'com.github.kaaes:spotify-web-api-android:0.2.0'
 
     // Other dependencies your app might use
 }
