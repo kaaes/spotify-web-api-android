@@ -1388,42 +1388,44 @@ public interface SpotifyService {
     /**
      * Get the current user's followed artists.
      *
+     * @return Object containing a list of artists that user follows wrapped in a cursor object.
      * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
      */
     @GET("/me/following?type=artist")
-    public ArtistsCursorPager getFollowedArtists();
+    ArtistsCursorPager getFollowedArtists();
 
     /**
      * Get the current user's followed artists.
      *
-     * @param callback   Callback method.
+     * @param callback Callback method.
      * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
      */
     @GET("/me/following?type=artist")
-    public Result getFollowedArtists(Callback<ArtistsCursorPager> callback);
+    Result getFollowedArtists(Callback<ArtistsCursorPager> callback);
+
+    /**
+     * Get the current user's followed artists.
+     *
+     * @param options Optional parameters. For list of supported parameters see
+     *                <a href="https://developer.spotify.com/web-api/get-followed-artists/">endpoint documentation</a>
+     * @return Object containing a list of artists that user follows wrapped in a cursor object.
+     * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
+     */
+    @GET("/me/following?type=artist")
+    ArtistsCursorPager getFollowedArtists(@QueryMap Map<String, Object> options);
 
     /**
      * Get the current user's followed artists.
      *
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-followed-artists/">endpoint documentation</a>
-     * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
-     */
-    @GET("/me/following?type=artist")
-    public ArtistsCursorPager getFollowedArtists(@QueryMap Map<String, Object> options);
-
-    /**
-     * Get the current user's followed artists.
-     *
-     * @param options  Optional parameters. For list of supported parameters see
-     *                 <a href="https://developer.spotify.com/web-api/get-followed-artists/">endpoint documentation</a>
-     * @param callback   Callback method.
+     * @param callback Callback method.
      * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
      */
     @GET("/me/following?type=artist")
-    public Result getFollowedArtists(@QueryMap Map<String, Object> options, Callback<ArtistsCursorPager> callback);
+    Result getFollowedArtists(@QueryMap Map<String, Object> options, Callback<ArtistsCursorPager> callback);
 
     /**********
      * Search *

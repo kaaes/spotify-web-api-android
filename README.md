@@ -1,44 +1,35 @@
 [![Build Status](https://travis-ci.org/kaaes/spotify-web-api-android.svg?branch=master)](https://travis-ci.org/kaaes/spotify-web-api-android)
+[![Release](https://img.shields.io/github/release/kaaes/spotify-web-api-android.svg?label=maven)](https://jitpack.io/#kaaes/spotify-web-api-android)
 
 # Spotify Web API for Android
 
 This project is a wrapper for the [Spotify Web API](https://developer.spotify.com/web-api/).
 It uses [Retrofit](http://square.github.io/retrofit/) to create Java interfaces from API endpoints.
 
-## <a name="building"></a>Building
-This project is built using [Gradle](https://gradle.org/):
+## Integrating into your project
 
-1. Clone the repository: `git clone https://github.com/kaaes/spotify-web-api-android.git`
-2. Build: `./gradlew assemble`
-3. Grab the `aar` that can be found in `spotify-api/build/outputs/aar/spotify-web-api-android-0.1.1.aar` and put it in the `libs` folder in your application
-
-## Integration into your project
-
-This project depends on `Retrofit 1.9.0` and `OkHttp 2.2.0`. When you [build it](#building), it creates an `aar`
-that doesn't contain Retrofit and OkHttp files. To make your app work you'll need to include these
-dependencies in your app's `build.gradle` file.
-
-Add following to the `build.gradle` file in your app:
+This library is available in [JitPack.io](https://jitpack.io/) repository.
+To use it make sure that repository's url is added to the `build.gradle` file in your app:
 
 ```groovy
 repositories {
     mavenCentral()
-    flatDir {
-        dirs 'libs'
-    }
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
-    compile(name:'spotify-web-api-android-0.1.1', ext:'aar')
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.squareup.okhttp:okhttp:2.2.0'
+    compile 'com.github.kaaes:spotify-web-api-android:0.2'
 
     // Other dependencies your app might use
 }
 ```
 
-The `repositories` section tells your application to look for the `spotify-web-api-android-0.1.1.aar`
-in the local repository in the `libs` folder.
+## <a name="building"></a>Building
+This project is built using [Gradle](https://gradle.org/):
+
+1. Clone the repository: `git clone https://github.com/kaaes/spotify-web-api-android.git`
+2. Build: `./gradlew assemble`
+3. Grab the `aar` that can be found in `spotify-api/build/outputs/aar/spotify-web-api-android-0.2.0.aar`
 
 ## Usage
 
