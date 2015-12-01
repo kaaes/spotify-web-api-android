@@ -143,6 +143,42 @@ public interface SpotifyService {
      *************/
 
     /**
+     * Get a list of the playlists owned or followed by the current Spotify user.
+     *
+     * @param callback Callback method.
+     */
+    @GET("/me/playlists")
+    void getMyPlaylists(Callback<Pager<PlaylistSimple>> callback);
+
+    /**
+     * Get a list of the playlists owned or followed by the current Spotify user.
+     *
+     * @return List of user's playlists wrapped in a {@code Pager} object
+     */
+    @GET("/me/playlists")
+    Pager<PlaylistSimple> getMyPlaylists();
+
+    /**
+     * Get a list of the playlists owned or followed by the current Spotify user.
+     *
+     * @param options  Optional parameters. For list of supported parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-a-list-of-current-users-playlists/">endpoint documentation</a>
+     * @param callback Callback method.
+     */
+    @GET("/me/playlists")
+    void getMyPlaylists(@QueryMap Map<String, Object> options, Callback<Pager<PlaylistSimple>> callback);
+
+    /**
+     * Get a list of the playlists owned or followed by the current Spotify user.
+     *
+     * @param options Optional parameters. For list of supported parameters see
+     *                <a href="https://developer.spotify.com/web-api/get-a-list-of-current-users-playlists/">endpoint documentation</a>
+     * @return List of user's playlists wrapped in a {@code Pager} object
+     */
+    @GET("/me/playlists")
+    Pager<PlaylistSimple> getMyPlaylists(@QueryMap Map<String, Object> options);
+
+    /**
      * Get a list of the playlists owned or followed by a Spotify user.
      *
      * @param userId   The user's Spotify user ID.
