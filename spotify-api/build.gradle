@@ -17,6 +17,9 @@ dependencies {
     testCompile "junit:junit:${JUNIT_VERSION}"
     testCompile "org.easytesting:fest-assert-core:${FEST_ASSERT_CORE_VERSION}"
     testCompile "org.mockito:mockito-core:${MOCKITO_CORE_VERSION}"
+
+    androidTestCompile 'com.android.support.test:runner:0.2'
+    androidTestCompile 'com.squareup.okhttp:okhttp:2.2.0'
 }
 
 apply from: rootProject.file('release.gradle')
@@ -24,6 +27,13 @@ apply from: rootProject.file('release.gradle')
 android {
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 23
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
 
     buildTypes {
         debug {
