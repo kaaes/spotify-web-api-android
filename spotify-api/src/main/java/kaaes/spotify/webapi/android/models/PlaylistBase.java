@@ -38,46 +38,30 @@ public abstract class PlaylistBase implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte((byte) (collaborative == null ? 0 : collaborative ? 1 : 0));
-        dest.writeInt(external_urls.size());
-        for(Map.Entry<String, String> entry : external_urls.entrySet()) {
-            dest.writeString(entry.getKey());
-            dest.writeString(entry.getValue());
-        }
-
-        dest.writeString(href);
-        dest.writeString(id);
-        dest.writeList(images);
-        dest.writeString(name);
+        dest.writeValue(this.collaborative);
+        dest.writeMap(this.external_urls);
+        dest.writeValue(this.href);
+        dest.writeValue(this.id);
+        dest.writeTypedList(this.images);
+        dest.writeValue(this.name);
         dest.writeParcelable(owner, flags);
-        dest.writeByte((byte) (is_public == null ? 1 : is_public ? 1 : 0));
-        dest.writeString(snapshot_id);
-        dest.writeString(type);
-        dest.writeString(uri);
+        dest.writeValue(is_public);
+        dest.writeValue(snapshot_id);
+        dest.writeValue(type);
+        dest.writeValue(uri);
     }
 
     protected PlaylistBase(Parcel in) {
-        this.collaborative = in.readByte() != 0;
-
-        int size = in.readInt();
-        external_urls = new HashMap<>();
-        for(int i = 0; i < size; i++) {
-            String key = in.readString();
-            String val = in.readString();
-            this.external_urls.put(key, val);
-        }
-
-        this.href = in.readString();
-        this.id = in.readString();
-
-        images = new ArrayList<>();
-        in.readList(images, Image.class.getClassLoader());
-
-        this.name = in.readString();
-        this.owner = in.readParcelable(Image.class.getClassLoader());
-        this.is_public = in.readByte() != 0;
-        this.snapshot_id = in.readString();
-        this.type = in.readString();
-        this.uri = in.readString();
+        this.collaborative = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.external_urls = in.readHashMap(Map.class.getClassLoader());
+        this.href = (String) in.readValue(String.class.getClassLoader());
+        this.id = (String) in.readValue(String.class.getClassLoader());
+        this.images = in.createTypedArrayList(Image.CREATOR);
+        this.name = (String) in.readValue(String.class.getClassLoader());
+        this.owner = in.readParcelable(UserPublic.class.getClassLoader());
+        this.is_public = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.snapshot_id = (String) in.readValue(String.class.getClassLoader());
+        this.type = (String) in.readValue(String.class.getClassLoader());
+        this.uri = (String) in.readValue(String.class.getClassLoader());
     }
 }
