@@ -38,8 +38,7 @@ public abstract class PlaylistBase implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte((byte) (collaborative ? 1 : 0));
-
+        dest.writeByte((byte) (collaborative == null ? 0 : collaborative ? 1 : 0));
         dest.writeInt(external_urls.size());
         for(Map.Entry<String, String> entry : external_urls.entrySet()) {
             dest.writeString(entry.getKey());
@@ -51,7 +50,7 @@ public abstract class PlaylistBase implements Parcelable {
         dest.writeList(images);
         dest.writeString(name);
         dest.writeParcelable(owner, flags);
-        dest.writeByte((byte) (is_public ? 1 : 0));
+        dest.writeByte((byte) (is_public == null ? 1 : is_public ? 1 : 0));
         dest.writeString(snapshot_id);
         dest.writeString(type);
         dest.writeString(uri);
