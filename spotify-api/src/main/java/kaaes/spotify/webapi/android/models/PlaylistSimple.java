@@ -15,13 +15,16 @@ public class PlaylistSimple extends PlaylistBase {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
         dest.writeParcelable(this.tracks, flags);
     }
 
     public PlaylistSimple() {
+        super();
     }
 
     protected PlaylistSimple(Parcel in) {
+        super(in);
         this.tracks = in.readParcelable(PlaylistTracksInformation.class.getClassLoader());
     }
 

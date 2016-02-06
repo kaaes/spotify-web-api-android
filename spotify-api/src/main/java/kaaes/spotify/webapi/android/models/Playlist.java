@@ -18,15 +18,18 @@ public class Playlist extends PlaylistBase {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
         dest.writeString(this.description);
         dest.writeParcelable(this.followers, 0);
         dest.writeParcelable(this.tracks, 0);
     }
 
     public Playlist() {
+        super();
     }
 
     protected Playlist(Parcel in) {
+        super(in);
         this.description = in.readString();
         this.followers = in.readParcelable(Followers.class.getClassLoader());
         this.tracks = in.readParcelable(Pager.class.getClassLoader());
