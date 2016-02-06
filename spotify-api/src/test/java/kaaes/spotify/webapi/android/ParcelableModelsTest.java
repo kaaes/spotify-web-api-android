@@ -58,15 +58,19 @@ public class ParcelableModelsTest {
 
     @Test
     public void allParcelables() throws IllegalAccessException, InstantiationException, NoSuchFieldException {
+
+        ModelPopulator populator = new ModelPopulator("CREATOR", "$jacocoData");
+
         for (Class<? extends Parcelable> modelClass : getModelClasses()) {
-            // TODO(dima) instantiate with random fields
-            Parcelable instance = modelClass.newInstance();
+
+            Parcelable instance = populator.populateWithRandomValues(modelClass);
+
             testSingleParcelable(instance);
             testParcelableArray(instance);
 
             /* Trick to increase code coverage */
             instance.describeContents();
-            ((Parcelable.Creator<?>)modelClass.getField("CREATOR").get(null)).newArray(13);
+            ((Parcelable.Creator<?>) modelClass.getField("CREATOR").get(null)).newArray(13);
         }
     }
 
@@ -119,7 +123,7 @@ public class ParcelableModelsTest {
         parcel.setDataPosition(0);
         T fromParcel = parcel.readParcelable(underTest.getClass().getClassLoader());
 
-        assertThat(fromParcel).isEqualsToByComparingFields(underTest);
+        ModelAssert.assertThat(fromParcel).isEqualByComparingFields(underTest);
     }
 
     <T extends Parcelable> void testParcelableArray(T underTest) {
@@ -158,11 +162,11 @@ public class ParcelableModelsTest {
     @Test
     public void usersAreGoodParcelableCitizens() {
         String body = TestUtils.readTestData("user.json");
-        UserPublic userPublic  = new GsonBuilder().create().fromJson(body, UserPublic.class);
+        UserPublic userPublic = new GsonBuilder().create().fromJson(body, UserPublic.class);
         testSingleParcelable(userPublic);
 
         body = TestUtils.readTestData("current-user.json");
-        UserPublic userPrivate = new GsonBuilder().create().fromJson(body, UserPublic.class);
+        UserPrivate userPrivate = new GsonBuilder().create().fromJson(body, UserPrivate.class);
         testSingleParcelable(userPrivate);
     }
 
