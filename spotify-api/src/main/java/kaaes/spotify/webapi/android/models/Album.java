@@ -27,6 +27,7 @@ public class Album extends AlbumSimple implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
         dest.writeTypedList(artists);
         dest.writeTypedList(copyrights);
         dest.writeMap(this.external_ids);
@@ -41,6 +42,7 @@ public class Album extends AlbumSimple implements Parcelable {
     }
 
     protected Album(Parcel in) {
+        super(in);
         this.artists = in.createTypedArrayList(ArtistSimple.CREATOR);
         this.copyrights = in.createTypedArrayList(Copyright.CREATOR);
         this.external_ids = in.readHashMap(ClassLoader.getSystemClassLoader());

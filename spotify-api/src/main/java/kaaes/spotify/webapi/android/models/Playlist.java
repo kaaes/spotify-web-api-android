@@ -25,7 +25,6 @@ public class Playlist extends PlaylistBase {
     }
 
     public Playlist() {
-        super();
     }
 
     protected Playlist(Parcel in) {

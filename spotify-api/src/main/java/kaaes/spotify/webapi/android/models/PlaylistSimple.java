@@ -20,7 +20,6 @@ public class PlaylistSimple extends PlaylistBase {
     }
 
     public PlaylistSimple() {
-        super();
     }
 
     protected PlaylistSimple(Parcel in) {
