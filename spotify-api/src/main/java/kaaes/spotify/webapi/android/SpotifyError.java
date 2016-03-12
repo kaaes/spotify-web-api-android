@@ -37,7 +37,13 @@ public class SpotifyError extends Exception {
     private final ErrorDetails mErrorDetails;
 
     public static SpotifyError fromRetrofitError(RetrofitError error) {
-        ErrorResponse errorResponse = (ErrorResponse) error.getBodyAs(ErrorResponse.class);
+        ErrorResponse errorResponse = null;
+
+        try {
+            errorResponse = (ErrorResponse) error.getBodyAs(ErrorResponse.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (errorResponse != null && errorResponse.error != null) {
             String message = errorResponse.error.status + " " + errorResponse.error.message;
