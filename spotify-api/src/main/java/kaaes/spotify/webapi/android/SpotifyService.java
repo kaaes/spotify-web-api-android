@@ -1438,7 +1438,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
      */
     @GET("/me/following?type=artist")
-    Result getFollowedArtists(Callback<ArtistsCursorPager> callback);
+    void getFollowedArtists(Callback<ArtistsCursorPager> callback);
 
     /**
      * Get the current user's followed artists.
@@ -1461,7 +1461,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
      */
     @GET("/me/following?type=artist")
-    Result getFollowedArtists(@QueryMap Map<String, Object> options, Callback<ArtistsCursorPager> callback);
+    void getFollowedArtists(@QueryMap Map<String, Object> options, Callback<ArtistsCursorPager> callback);
 
     /**********
      * Search *
