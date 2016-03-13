@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.kaaes:spotify-web-api-android:0.2.0'
+    compile 'com.github.kaaes:spotify-web-api-android:0.3.0'
 
     // Other dependencies your app might use
 }
@@ -29,7 +29,7 @@ This project is built using [Gradle](https://gradle.org/):
 
 1. Clone the repository: `git clone https://github.com/kaaes/spotify-web-api-android.git`
 2. Build: `./gradlew assemble`
-3. Grab the `aar` that can be found in `spotify-api/build/outputs/aar/spotify-web-api-android-0.2.0.aar`
+3. Grab the `aar` that can be found in `spotify-api/build/outputs/aar/spotify-web-api-android-0.3.0.aar`
 
 ## Usage
 
