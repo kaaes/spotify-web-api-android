@@ -16,14 +16,22 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.AlbumsPager;
 import kaaes.spotify.webapi.android.models.Artist;
+import kaaes.spotify.webapi.android.models.ArtistsCursorPager;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
+import retrofit.Callback;
+import retrofit.RetrofitError;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -36,7 +44,7 @@ import static junit.framework.Assert.assertEquals;
  * Running the tests:
  * ./gradlew :spotify-api:connectedAndroidTest -Pandroid.testInstrumentationRunnerArguments.access_token=valid_access_token
  */
-public class SpotifyServiceTest {
+public class SpotifyServiceAndroidTest {
 
     private Gson mGson = new GsonBuilder().create();
     private OkHttpClient mClient = new OkHttpClient();
@@ -165,6 +173,74 @@ public class SpotifyServiceTest {
         assertEquals(200, response.code());
 
         compareAsJSON(response, playlist);
+    }
+
+    @Test
+    public void getFollowedArtists() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        final ArtistsCursorPager[] payload = {null};
+
+        mService.getFollowedArtists(new Callback<ArtistsCursorPager>() {
+            @Override
+            public void success(ArtistsCursorPager artistsCursorPager, retrofit.client.Response response) {
+                payload[0] = artistsCursorPager;
+                latch.countDown();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                latch.countDown();
+            }
+        });
+
+        latch.await(1, TimeUnit.SECONDS);
+
+        Request request = new Request.Builder()
+                .get()
+                .headers(mAuthHeader)
+                .url("https://api.spotify.com/v1/me/following?type=artist")
+                .build();
+
+        Response response = mClient.newCall(request).execute();
+        assertEquals(200, response.code());
+
+        compareAsJSON(response, payload[0]);
+    }
+
+    @Test
+    public void getFollowedArtistsWithOptions() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        final ArtistsCursorPager[] payload = {null};
+
+        Map<String, Object> options = new HashMap<>();
+        options.put(SpotifyService.LIMIT, 45);
+        mService.getFollowedArtists(options, new Callback<ArtistsCursorPager>() {
+            @Override
+            public void success(ArtistsCursorPager artistsCursorPager, retrofit.client.Response response) {
+                payload[0] = artistsCursorPager;
+                latch.countDown();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                latch.countDown();
+            }
+        });
+
+        latch.await(1, TimeUnit.SECONDS);
+
+        Request request = new Request.Builder()
+                .get()
+                .headers(mAuthHeader)
+                .url("https://api.spotify.com/v1/me/following?type=artist&limit=45")
+                .build();
+
+        Response response = mClient.newCall(request).execute();
+        assertEquals(200, response.code());
+
+        compareAsJSON(response, payload[0]);
     }
 
     private void compareAsJSON(Response response, Object model) throws Exception {
