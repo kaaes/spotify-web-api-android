@@ -25,6 +25,7 @@ import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.AlbumsPager;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.ArtistsCursorPager;
+import kaaes.spotify.webapi.android.models.AudioFeature;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
@@ -241,6 +242,21 @@ public class SpotifyServiceAndroidTest {
         assertEquals(200, response.code());
 
         compareAsJSON(response, payload[0]);
+    }
+
+    @Test
+    public void getAudioFeature() throws Exception {
+        AudioFeature track = mService.getAudioFeature("6Fer9IcKzs4G3nu0MYQmn4");
+
+        Request request = new Request.Builder()
+                .get()
+                .url("https://api.spotify.com/v1/audio-features/6Fer9IcKzs4G3nu0MYQmn4")
+                .build();
+
+        Response response = mClient.newCall(request).execute();
+        assertEquals(200, response.code());
+
+        compareAsJSON(response, track);
     }
 
     private void compareAsJSON(Response response, Object model) throws Exception {
