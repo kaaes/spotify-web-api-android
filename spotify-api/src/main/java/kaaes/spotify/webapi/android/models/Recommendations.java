@@ -9,14 +9,14 @@ public class Recommendations implements Parcelable {
 
     public List<Seed> seeds;
 
-    public List<TrackSimple> tracks;
+    public List<Track> tracks;
 
     public Recommendations() {
     }
 
     protected Recommendations(Parcel in) {
         seeds = in.createTypedArrayList(Seed.CREATOR);
-        tracks = in.createTypedArrayList(TrackSimple.CREATOR);
+        tracks = in.createTypedArrayList(Track.CREATOR);
     }
 
     @Override
