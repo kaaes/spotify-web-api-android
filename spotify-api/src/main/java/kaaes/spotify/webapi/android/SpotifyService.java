@@ -431,7 +431,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/replace-playlists-tracks/">Replace a Playlist’s Tracks</a>
      */
     @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
-    void replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, Callback<Result> callback);
+    void replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, @Body Object body, Callback<Result> callback);
 
     /**
      * Replace all the tracks in a playlist, overwriting its existing tracks. This powerful request can be useful for
@@ -444,7 +444,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/replace-playlists-tracks/">Replace a Playlist’s Tracks</a>
      */
     @PUT("/users/{user_id}/playlists/{playlist_id}/tracks")
-    Result replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris);
+    Result replaceTracksInPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Query("uris") String trackUris, @Body Object body);
 
     /**
      * Change a playlist’s name and public/private state. (The user must, of course, own the playlist.)
