@@ -6,34 +6,36 @@ import android.support.test.InstrumentationRegistry;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.AlbumsPager;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.ArtistsCursorPager;
+import kaaes.spotify.webapi.android.models.AudioFeaturesTrack;
+import kaaes.spotify.webapi.android.models.AudioFeaturesTracks;
 import kaaes.spotify.webapi.android.models.Pager;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
+import kaaes.spotify.webapi.android.models.Recommendations;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
-import retrofit.Callback;
-import retrofit.RetrofitError;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 /**
  * These are functional tests that make actual requests to the Spotify Web API endpoints and
@@ -46,7 +48,6 @@ import static junit.framework.Assert.assertEquals;
  */
 public class SpotifyServiceAndroidTest {
 
-    private Gson mGson = new GsonBuilder().create();
     private OkHttpClient mClient = new OkHttpClient();
     private SpotifyService mService;
     private Headers mAuthHeader;
@@ -69,7 +70,7 @@ public class SpotifyServiceAndroidTest {
     @Test
     public void getAlbum() throws Exception {
 
-        Album album = mService.getAlbum("4Mewe6A62ZpJKmVzcaOixy");
+        Album payload = mService.getAlbum("4Mewe6A62ZpJKmVzcaOixy");
 
         Request request = new Request.Builder()
                 .get()
@@ -79,12 +80,12 @@ public class SpotifyServiceAndroidTest {
         Response response = mClient.newCall(request).execute();
         assertEquals(200, response.code());
 
-        compareAsJSON(response, album);
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
     }
 
     @Test
     public void getTrack() throws Exception {
-        Track track = mService.getTrack("6Fer9IcKzs4G3nu0MYQmn4");
+        Track payload = mService.getTrack("6Fer9IcKzs4G3nu0MYQmn4");
 
         Request request = new Request.Builder()
                 .get()
@@ -94,12 +95,12 @@ public class SpotifyServiceAndroidTest {
         Response response = mClient.newCall(request).execute();
         assertEquals(200, response.code());
 
-        compareAsJSON(response, track);
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
     }
 
     @Test
     public void getArtist() throws Exception {
-        Artist artist = mService.getArtist("54KCNI7URCrG6yjQK3Ukow");
+        Artist payload = mService.getArtist("54KCNI7URCrG6yjQK3Ukow");
 
         Request request = new Request.Builder()
                 .get()
@@ -109,12 +110,12 @@ public class SpotifyServiceAndroidTest {
         Response response = mClient.newCall(request).execute();
         assertEquals(200, response.code());
 
-        compareAsJSON(response, artist);
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
     }
 
     @Test
     public void getPlaylist() throws Exception {
-        Playlist playlist = mService.getPlaylist("spotify", "3Jlo5JoAA9pMUQfhLaLG5u");
+        Playlist payload = mService.getPlaylist("spotify", "3Jlo5JoAA9pMUQfhLaLG5u");
 
         Request request = new Request.Builder()
                 .get()
@@ -125,12 +126,12 @@ public class SpotifyServiceAndroidTest {
         Response response = mClient.newCall(request).execute();
         assertEquals(200, response.code());
 
-        compareAsJSON(response, playlist);
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
     }
 
     @Test
     public void getArtistTopTracks() throws Exception {
-        Tracks tracks = mService.getArtistTopTrack("54KCNI7URCrG6yjQK3Ukow", "SE");
+        Tracks payload = mService.getArtistTopTrack("54KCNI7URCrG6yjQK3Ukow", "SE");
 
         Request request = new Request.Builder()
                 .get()
@@ -140,28 +141,29 @@ public class SpotifyServiceAndroidTest {
         Response response = mClient.newCall(request).execute();
         assertEquals(200, response.code());
 
-        compareAsJSON(response, tracks);
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
     }
 
     @Test
     public void getAlbumSearch() throws Exception {
 
-        AlbumsPager search = mService.searchAlbums("XX");
+        AlbumsPager payload = mService.searchAlbums("XX");
 
         Request request = new Request.Builder()
                 .get()
+                .headers(mAuthHeader)
                 .url("https://api.spotify.com/v1/search?type=album&q=XX")
                 .build();
 
         Response response = mClient.newCall(request).execute();
         assertEquals(200, response.code());
 
-        compareAsJSON(response, search);
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
     }
 
     @Test
     public void getMyPlaylist() throws Exception {
-        Pager<PlaylistSimple> playlist = mService.getMyPlaylists();
+        Pager<PlaylistSimple> payload = mService.getMyPlaylists();
 
         Request request = new Request.Builder()
                 .get()
@@ -172,29 +174,13 @@ public class SpotifyServiceAndroidTest {
         Response response = mClient.newCall(request).execute();
         assertEquals(200, response.code());
 
-        compareAsJSON(response, playlist);
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
     }
 
     @Test
     public void getFollowedArtists() throws Exception {
-        final CountDownLatch latch = new CountDownLatch(1);
 
-        final ArtistsCursorPager[] payload = {null};
-
-        mService.getFollowedArtists(new Callback<ArtistsCursorPager>() {
-            @Override
-            public void success(ArtistsCursorPager artistsCursorPager, retrofit.client.Response response) {
-                payload[0] = artistsCursorPager;
-                latch.countDown();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                latch.countDown();
-            }
-        });
-
-        latch.await(1, TimeUnit.SECONDS);
+        ArtistsCursorPager payload = mService.getFollowedArtists();
 
         Request request = new Request.Builder()
                 .get()
@@ -205,31 +191,14 @@ public class SpotifyServiceAndroidTest {
         Response response = mClient.newCall(request).execute();
         assertEquals(200, response.code());
 
-        compareAsJSON(response, payload[0]);
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
     }
 
     @Test
     public void getFollowedArtistsWithOptions() throws Exception {
-        final CountDownLatch latch = new CountDownLatch(1);
-
-        final ArtistsCursorPager[] payload = {null};
-
         Map<String, Object> options = new HashMap<>();
         options.put(SpotifyService.LIMIT, 45);
-        mService.getFollowedArtists(options, new Callback<ArtistsCursorPager>() {
-            @Override
-            public void success(ArtistsCursorPager artistsCursorPager, retrofit.client.Response response) {
-                payload[0] = artistsCursorPager;
-                latch.countDown();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                latch.countDown();
-            }
-        });
-
-        latch.await(1, TimeUnit.SECONDS);
+        ArtistsCursorPager payload = mService.getFollowedArtists(options);
 
         Request request = new Request.Builder()
                 .get()
@@ -240,19 +209,119 @@ public class SpotifyServiceAndroidTest {
         Response response = mClient.newCall(request).execute();
         assertEquals(200, response.code());
 
-        compareAsJSON(response, payload[0]);
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
     }
 
-    private void compareAsJSON(Response response, Object model) throws Exception {
-        JsonParser parser = new JsonParser();
+    @Ignore("Need a better way to compare the json - current doesn't really work on floats")
+    @Test
+    public void getAudioFeaturesForTrack() throws Exception {
+        AudioFeaturesTrack payload = mService.getTrackAudioFeatures("6Fer9IcKzs4G3nu0MYQmn4");
 
-        JsonElement responseJsonElement = parser.parse(response.body().string());
-        String fixtureWithoutNulls = mGson.toJson(responseJsonElement);
-        responseJsonElement = parser.parse(fixtureWithoutNulls);
+        Request request = new Request.Builder()
+                .get()
+                .headers(mAuthHeader)
+                .url("https://api.spotify.com/v1/audio-features/6Fer9IcKzs4G3nu0MYQmn4")
+                .build();
 
-        JsonElement modelJsonElement = mGson.toJsonTree(model);
+        Response response = mClient.newCall(request).execute();
+        assertEquals(200, response.code());
 
-        assertEquals(responseJsonElement, modelJsonElement);
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
     }
 
+    @Ignore("Need a better way to compare the json - current doesn't really work on floats")
+    @Test
+    public void getAudioFeaturesForTracks() throws Exception {
+        AudioFeaturesTracks payload = mService.getTracksAudioFeatures("6Fer9IcKzs4G3nu0MYQmn4,24NwBd5vZ2CK8VOQVnqdxr,7cy1bEJV6FCtDaYpsk8aG6");
+
+        Request request = new Request.Builder()
+                .get()
+                .headers(mAuthHeader)
+                .url("https://api.spotify.com/v1/audio-features?ids=6Fer9IcKzs4G3nu0MYQmn4,24NwBd5vZ2CK8VOQVnqdxr,7cy1bEJV6FCtDaYpsk8aG6")
+                .build();
+
+        Response response = mClient.newCall(request).execute();
+        assertEquals(200, response.code());
+
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
+    }
+
+    @Test
+    public void getUserTopArtists() throws Exception {
+        Pager<Artist> payload = mService.getTopArtists();
+
+        Request request = new Request.Builder()
+                .get()
+                .headers(mAuthHeader)
+                .url("https://api.spotify.com/v1/me/top/artists")
+                .build();
+
+        Response response = mClient.newCall(request).execute();
+        assertEquals(200, response.code());
+
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
+    }
+
+    @Test
+    public void getUserTopTracks() throws Exception {
+        Pager<Track> payload = mService.getTopTracks();
+
+        Request request = new Request.Builder()
+                .get()
+                .headers(mAuthHeader)
+                .url("https://api.spotify.com/v1/me/top/tracks")
+                .build();
+
+        Response response = mClient.newCall(request).execute();
+        assertEquals(200, response.code());
+
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
+    }
+
+
+    @Ignore("something fishy at this endpoint, the results change between requests")
+    @Test
+    public void getRecommendations() throws Exception {
+        Map<String, Object> options = new HashMap<>();
+        options.put("seed_artists", "4cJKxS7uOPhwb5UQ70sYpN,6UUrUCIZtQeOf8tC0WuzRy");
+        Recommendations payload = mService.getRecommendations(options);
+
+        Request request = new Request.Builder()
+                .get()
+                .headers(mAuthHeader)
+                .url("https://api.spotify.com/v1/recommendations?seed_artists=4cJKxS7uOPhwb5UQ70sYpN,6UUrUCIZtQeOf8tC0WuzRy")
+                .build();
+
+        Response response = mClient.newCall(request).execute();
+        assertEquals(200, response.code());
+
+        assertThat(payload, JsonEquals.jsonEquals(response.body().string()));
+    }
+
+    private static class JsonEquals extends BaseMatcher<Object> {
+
+        private static Gson sGson = new GsonBuilder().create();
+        private final JsonElement mExpectedJsonElement;
+
+        public JsonEquals(String expected) {
+            mExpectedJsonElement = sGson.fromJson(expected, JsonElement.class);
+        }
+
+        @Override
+        public boolean matches(Object actualRaw) {
+            JsonElement actualJsonElement = sGson.toJsonTree(actualRaw);
+            String withoutNulls = sGson.toJson(mExpectedJsonElement);
+            JsonElement expectedJsonElementWithoutNulls = sGson.fromJson(withoutNulls, JsonElement.class);
+            return expectedJsonElementWithoutNulls.equals(actualJsonElement);
+        }
+
+        @Override
+        public void describeTo(Description description) {
+            description.appendText(mExpectedJsonElement.toString());
+        }
+
+        static JsonEquals jsonEquals(String expected) {
+            return new JsonEquals(expected);
+        }
+    }
 }

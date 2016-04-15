@@ -8,8 +8,7 @@ import android.os.Parcelable;
  */
 public class Followers implements Parcelable {
     public String href;
-    public int total;
-
+    public Integer total;
 
     @Override
     public int describeContents() {

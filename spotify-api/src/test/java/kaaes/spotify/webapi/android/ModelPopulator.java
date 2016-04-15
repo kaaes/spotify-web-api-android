@@ -170,6 +170,11 @@ public class ModelPopulator {
             return RANDOM.nextLong();
         }
 
+        /* Float */
+        if (type.equals(Float.TYPE) || type.equals(Float.class)) {
+            return RANDOM.nextFloat();
+        }
+
         /* Boolean */
         if (type.equals(Boolean.TYPE) || type.equals(Boolean.class)) {
             return RANDOM.nextBoolean();

@@ -10,6 +10,8 @@ import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.Artists;
 import kaaes.spotify.webapi.android.models.ArtistsCursorPager;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
+import kaaes.spotify.webapi.android.models.AudioFeaturesTrack;
+import kaaes.spotify.webapi.android.models.AudioFeaturesTracks;
 import kaaes.spotify.webapi.android.models.CategoriesPager;
 import kaaes.spotify.webapi.android.models.Category;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
@@ -20,9 +22,11 @@ import kaaes.spotify.webapi.android.models.PlaylistFollowPrivacy;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.PlaylistsPager;
+import kaaes.spotify.webapi.android.models.Recommendations;
 import kaaes.spotify.webapi.android.models.Result;
 import kaaes.spotify.webapi.android.models.SavedAlbum;
 import kaaes.spotify.webapi.android.models.SavedTrack;
+import kaaes.spotify.webapi.android.models.SeedsGenres;
 import kaaes.spotify.webapi.android.models.SnapshotId;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
@@ -91,6 +95,8 @@ public interface SpotifyService {
      * and time in the day. If not provided, the response defaults to the current UTC time
      */
     String TIMESTAMP = "timestamp";
+
+    String TIME_RANGE = "time_range";
 
 
     /************
@@ -1642,4 +1648,166 @@ public interface SpotifyService {
      */
     @GET("/search?type=playlist")
     PlaylistsPager searchPlaylists(@Query("q") String q, @QueryMap Map<String, Object> options);
+
+    /******************
+     * Audio features *
+     ******************/
+
+    /**
+     * Get audio features for multiple tracks based on their Spotify IDs.
+     *
+     * @param ids      A comma-separated list of the Spotify IDs for the tracks. Maximum: 100 IDs
+     * @param callback Callback method
+     */
+    @GET("/audio-features")
+    void getTracksAudioFeatures(@Query("ids") String ids, Callback<AudioFeaturesTracks> callback);
+
+    /**
+     * Get audio features for multiple tracks based on their Spotify IDs.
+     *
+     * @param ids A comma-separated list of the Spotify IDs for the tracks. Maximum: 100 IDs
+     * @return An object whose key is "audio_features" and whose value is an array of audio features objects.
+     */
+    @GET("/audio-features")
+    AudioFeaturesTracks getTracksAudioFeatures(@Query("ids") String ids);
+
+    /**
+     * Get audio feature information for a single track identified by its unique Spotify ID.
+     *
+     * @param id       The Spotify ID for the track.
+     * @param callback Callback method
+     */
+    @GET("/audio-features/{id}")
+    void getTrackAudioFeatures(@Path("id") String id, Callback<AudioFeaturesTrack> callback);
+
+    /**
+     * Get audio feature information for a single track identified by its unique Spotify ID.
+     *
+     * @param id The Spotify ID for the track.
+     * @return Audio features object
+     */
+    @GET("/audio-features/{id}")
+    AudioFeaturesTrack getTrackAudioFeatures(@Path("id") String id);
+
+    /*******************
+     * Recommendations *
+     *******************/
+
+    /**
+     * Create a playlist-style listening experience based on seed artists, tracks and genres.
+     *
+     * @param options Optional parameters. For list of available parameters see
+     *                <a href="https://developer.spotify.com/web-api/get-recommendations/">endpoint documentation</a>
+     * @return Recommendations response object
+     */
+    @GET("/recommendations")
+    Recommendations getRecommendations(@QueryMap Map<String, Object> options);
+
+    /**
+     * Create a playlist-style listening experience based on seed artists, tracks and genres.
+     *
+     * @param options  Optional parameters. For list of available parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-recommendations/">endpoint documentation</a>
+     * @param callback callback method
+     */
+    @GET("/recommendations")
+    void getRecommendations(@QueryMap Map<String, Object> options, Callback<Recommendations> callback);
+
+    /**
+     * Retrieve a list of available genres seed parameter values for recommendations.
+     *
+     * @return An object whose key is "genres" and whose value is an array of available genres.
+     */
+    @GET("/recommendations/available-genre-seeds")
+    SeedsGenres getSeedsGenres();
+
+    /**
+     * Retrieve a list of available genres seed parameter values for recommendations.
+     *
+     * @param callback callback method
+     */
+    @GET("/recommendations/available-genre-seeds")
+    void getSeedsGenres(Callback<SeedsGenres> callback);
+
+
+    /*****************************
+     * User Top Artists & Tracks *
+     *****************************/
+
+    /**
+     * Get the current user’s top artists based on calculated affinity.
+     *
+     * @return The objects whose response body contains an artists or tracks object.
+     * The object in turn contains a paging object of Artists or Tracks
+     */
+    @GET("/me/top/artists")
+    Pager<Artist> getTopArtists();
+
+    /**
+     * Get the current user’s top artists based on calculated affinity.
+     *
+     * @param callback callback method
+     */
+    @GET("/me/top/artists")
+    void getTopArtists(Callback<Pager<Artist>> callback);
+
+    /**
+     * Get the current user’s top artists based on calculated affinity.
+     *
+     * @param options Optional parameters. For list of available parameters see
+     *                <a href="https://developer.spotify.com/web-api/get-users-top-artists-and-tracks/">endpoint documentation</a>
+     * @return The objects whose response body contains an artists or tracks object.
+     * The object in turn contains a paging object of Artists or Tracks
+     */
+    @GET("/me/top/artists")
+    Pager<Artist> getTopArtists(@QueryMap Map<String, Object> options);
+
+    /**
+     * Get the current user’s top artists based on calculated affinity.
+     *
+     * @param options  Optional parameters. For list of available parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-users-top-artists-and-tracks/">endpoint documentation</a>
+     * @param callback Callback method
+     */
+    @GET("/me/top/artists")
+    void getTopArtists(@QueryMap Map<String, Object> options, Callback<Pager<Artist>> callback);
+
+    /**
+     * Get the current user’s top tracks based on calculated affinity.
+     *
+     * @return The objects whose response body contains an artists or tracks object.
+     * The object in turn contains a paging object of Artists or Tracks
+     */
+    @GET("/me/top/tracks")
+    Pager<Track> getTopTracks();
+
+    /**
+     * Get the current user’s top tracks based on calculated affinity.
+     *
+     * @param callback callback method
+     */
+    @GET("/me/top/tracks")
+    void getTopTracks(Callback<Pager<Track>> callback);
+
+    /**
+     * Get the current user’s top tracks based on calculated affinity.
+     *
+     * @param options Optional parameters. For list of available parameters see
+     *                <a href="https://developer.spotify.com/web-api/get-users-top-artists-and-tracks/">endpoint documentation</a>
+     * @return The objects whose response body contains an artists or tracks object.
+     * The object in turn contains a paging object of Artists or Tracks
+     */
+    @GET("/me/top/tracks")
+    Pager<Track> getTopTracks(@QueryMap Map<String, Object> options);
+
+    /**
+     * Get the current user’s top tracks based on calculated affinity.
+     *
+     * @param options  Optional parameters. For list of available parameters see
+     *                 <a href="https://developer.spotify.com/web-api/get-users-top-artists-and-tracks/">endpoint documentation</a>
+     * @param callback Callback method
+     */
+    @GET("/me/top/artists")
+    void getTopTracks(@QueryMap Map<String, Object> options, Callback<Pager<Track>> callback);
+
 }
