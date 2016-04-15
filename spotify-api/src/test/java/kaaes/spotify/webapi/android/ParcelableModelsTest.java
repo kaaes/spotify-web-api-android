@@ -21,6 +21,8 @@ import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.ArtistSimple;
 import kaaes.spotify.webapi.android.models.Artists;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
+import kaaes.spotify.webapi.android.models.AudioFeaturesTrack;
+import kaaes.spotify.webapi.android.models.AudioFeaturesTracks;
 import kaaes.spotify.webapi.android.models.CategoriesPager;
 import kaaes.spotify.webapi.android.models.Category;
 import kaaes.spotify.webapi.android.models.Copyright;
@@ -37,8 +39,11 @@ import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.PlaylistTracksInformation;
 import kaaes.spotify.webapi.android.models.PlaylistsPager;
+import kaaes.spotify.webapi.android.models.Recommendations;
 import kaaes.spotify.webapi.android.models.Result;
 import kaaes.spotify.webapi.android.models.SavedTrack;
+import kaaes.spotify.webapi.android.models.Seed;
+import kaaes.spotify.webapi.android.models.SeedsGenres;
 import kaaes.spotify.webapi.android.models.SnapshotId;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.TrackSimple;
@@ -84,6 +89,8 @@ public class ParcelableModelsTest {
                 Artists.class,
                 ArtistSimple.class,
                 ArtistsPager.class,
+                AudioFeaturesTrack.class,
+                AudioFeaturesTracks.class,
                 CategoriesPager.class,
                 Category.class,
                 Copyright.class,
@@ -100,7 +107,10 @@ public class ParcelableModelsTest {
                 PlaylistsPager.class,
                 PlaylistTrack.class,
                 PlaylistTracksInformation.class,
+                Recommendations.class,
                 Result.class,
+                Seed.class,
+                SeedsGenres.class,
                 SavedTrack.class,
                 SnapshotId.class,
                 Track.class,
