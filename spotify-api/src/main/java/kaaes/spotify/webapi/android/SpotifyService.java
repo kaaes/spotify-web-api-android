@@ -1807,7 +1807,7 @@ public interface SpotifyService {
      *                 <a href="https://developer.spotify.com/web-api/get-users-top-artists-and-tracks/">endpoint documentation</a>
      * @param callback Callback method
      */
-    @GET("/me/top/artists")
+    @GET("/me/top/tracks")
     void getTopTracks(@QueryMap Map<String, Object> options, Callback<Pager<Track>> callback);
 
 }
