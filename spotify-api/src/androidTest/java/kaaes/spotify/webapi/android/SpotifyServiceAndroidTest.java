@@ -257,6 +257,7 @@ public class SpotifyServiceAndroidTest {
         assertEquals(200, response.code());
 
         compareAsJSON(response, track);
+
     }
 
     private void compareAsJSON(Response response, Object model) throws Exception {

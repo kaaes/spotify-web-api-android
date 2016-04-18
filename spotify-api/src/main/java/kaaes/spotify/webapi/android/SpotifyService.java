@@ -11,6 +11,7 @@ import kaaes.spotify.webapi.android.models.Artists;
 import kaaes.spotify.webapi.android.models.ArtistsCursorPager;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
 import kaaes.spotify.webapi.android.models.AudioFeature;
+import kaaes.spotify.webapi.android.models.AudioFeatures;
 import kaaes.spotify.webapi.android.models.CategoriesPager;
 import kaaes.spotify.webapi.android.models.Category;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
@@ -1667,4 +1668,24 @@ public interface SpotifyService {
      */
     @GET("/audio-features/{id}")
     AudioFeature getAudioFeature(@Path("id") String trackId);
+
+    /**
+     * Get Spotify catalog information for several artists based on their Spotify IDs.
+     *
+     * @param trackIds A comma-separated list of the Spotify IDs for the artists
+     * @param callback  Callback method
+     * @see <a href="https://developer.spotify.com/web-api/get-audio-features/">Get Several Artists</a>
+     */
+    @GET("/audio-features")
+    void getAudioFeatures(@Query("ids") String trackIds, Callback<AudioFeatures> callback);
+
+    /**
+     * Get Spotify catalog information for several artists based on their Spotify IDs.
+     *
+     * @param trackIds A comma-separated list of the Spotify IDs for the artists
+     * @return An object whose key is "audio_features" and whose value is an array of audiofeature objects.
+     * @see <a href="https://developer.spotify.com/web-api/get-audio-features/s/">Get Several Artists</a>
+     */
+    @GET("/audio-features")
+    AudioFeatures getAudioFeatures(@Query("ids") String trackIds);
 }

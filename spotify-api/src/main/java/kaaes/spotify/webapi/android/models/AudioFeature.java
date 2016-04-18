@@ -3,8 +3,6 @@ package kaaes.spotify.webapi.android.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
-import java.util.Map;
 
 /**
  * <a href="https://developer.spotify.com/web-api/object-model/#audio-features-object">Audio Features object model</a>
