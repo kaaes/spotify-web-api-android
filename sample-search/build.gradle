@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "kaaes.spotify.webapi.samplesearch"
+        applicationId "io.github.kaaes.spotify.webapi.samplesearch"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
@@ -28,10 +28,11 @@ repositories {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:recyclerview-v7:23.2.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.guava:guava:18.0'
-    compile project(':spotify-api')
+    compile project(':spotify-api-core')
+    compile project(':spotify-api-retrofit2')
     compile(name: 'spotify-auth-1.0.0-beta12', ext: 'aar')
 }
