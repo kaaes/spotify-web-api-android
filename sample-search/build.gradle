@@ -17,6 +17,11 @@ android {
             minifyEnabled false
         }
     }
+
+    // Workaround for https://github.com/square/okio/issues/58
+    lintOptions {
+        warning 'InvalidPackage'
+    }
 }
 
 repositories {
@@ -24,6 +29,7 @@ repositories {
     flatDir {
         dirs 'libs'
     }
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -32,7 +38,9 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.2.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.google.guava:guava:18.0'
-    compile project(':spotify-api-core')
+
+    // The way to use dependency from the remote repo
+    // compile 'com.github.kaaes.spotify-web-api-android:spotify-api-retrofit2:retrofit_2-SNAPSHOT'
     compile project(':spotify-api-retrofit2')
     compile(name: 'spotify-auth-1.0.0-beta12', ext: 'aar')
 }
