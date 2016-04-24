@@ -1,0 +1,33 @@
+{
+  "external_urls" : {
+    "spotify" : "https://open.spotify.com/artist/0LcJLqbBmaGUft1e9Mm8HV"
+  },
+  "followers" : {
+    "href" : null,
+    "total" : 360076
+  },
+  "genres" : [ ],
+  "href" : "https://api.spotify.com/v1/artists/0LcJLqbBmaGUft1e9Mm8HV",
+  "id" : "0LcJLqbBmaGUft1e9Mm8HV",
+  "images" : [ {
+    "height" : 934,
+    "url" : "https://i.scdn.co/image/1ace43eddbf6010d417d53ce77b584bd6aa11428",
+    "width" : 936
+  }, {
+    "height" : 639,
+    "url" : "https://i.scdn.co/image/c8bf08f8ffc0402b930154368258369612b67e88",
+    "width" : 640
+  }, {
+    "height" : 200,
+    "url" : "https://i.scdn.co/image/2e4302151e258b731a731d909f148c99606a0e3c",
+    "width" : 200
+  }, {
+    "height" : 64,
+    "url" : "https://i.scdn.co/image/7cccb8fe572f8d76e7d3e11e249688ed3c028aed",
+    "width" : 64
+  } ],
+  "name" : "ABBA",
+  "popularity" : 65,
+  "type" : "artist",
+  "uri" : "spotify:artist:0LcJLqbBmaGUft1e9Mm8HV"
+}

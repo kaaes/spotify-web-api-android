@@ -1,1 +1,1 @@
-include ':spotify-api-retrofit', ':sample-search', ':spotify-api-core', ':spotify-api-retrofit2'
+include ':api-retrofit', ':sample-search', ':api-core', ':api-retrofit2'

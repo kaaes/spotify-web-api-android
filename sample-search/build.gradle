@@ -40,7 +40,7 @@ dependencies {
     compile 'com.google.guava:guava:18.0'
 
     // The way to use dependency from the remote repo
-    // compile 'com.github.kaaes.spotify-web-api-android:spotify-api-retrofit2:retrofit_2-SNAPSHOT'
-    compile project(':spotify-api-retrofit2')
+    // compile 'com.github.kaaes.spotify-web-api-android:api-retrofit2:retrofit_2-SNAPSHOT'
+    compile project(':api-retrofit2')
     compile(name: 'spotify-auth-1.0.0-beta12', ext: 'aar')
 }

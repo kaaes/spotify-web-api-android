@@ -1,0 +1,61 @@
+{
+  "playlists" : {
+    "href" : "https://api.spotify.com/v1/search?query=Muse&offset=0&limit=2&type=playlist&market=US",
+    "items" : [ {
+      "collaborative" : false,
+      "external_urls" : {
+        "spotify" : "http://open.spotify.com/user/iagomiudito/playlist/2jzQr499soI17D5ESWijqD"
+      },
+      "href" : "https://api.spotify.com/v1/users/iagomiudito/playlists/2jzQr499soI17D5ESWijqD",
+      "id" : "2jzQr499soI17D5ESWijqD",
+      "images" : [ ],
+      "name" : "muse,placebo,etc",
+      "owner" : {
+        "external_urls" : {
+          "spotify" : "http://open.spotify.com/user/iagomiudito"
+        },
+        "href" : "https://api.spotify.com/v1/users/iagomiudito",
+        "id" : "iagomiudito",
+        "type" : "user",
+        "uri" : "spotify:user:iagomiudito"
+      },
+      "public" : null,
+      "tracks" : {
+        "href" : "https://api.spotify.com/v1/users/iagomiudito/playlists/2jzQr499soI17D5ESWijqD/tracks",
+        "total" : 766
+      },
+      "type" : "playlist",
+      "uri" : "spotify:user:iagomiudito:playlist:2jzQr499soI17D5ESWijqD"
+    }, {
+      "collaborative" : false,
+      "external_urls" : {
+        "spotify" : "http://open.spotify.com/user/bt09ol8/playlist/65BAMKWBE4AlvKTtIH1xYp"
+      },
+      "href" : "https://api.spotify.com/v1/users/bt09ol8/playlists/65BAMKWBE4AlvKTtIH1xYp",
+      "id" : "65BAMKWBE4AlvKTtIH1xYp",
+      "images" : [ ],
+      "name" : "Coldplay/The Killers/Muse/Oasis",
+      "owner" : {
+        "external_urls" : {
+          "spotify" : "http://open.spotify.com/user/bt09ol8"
+        },
+        "href" : "https://api.spotify.com/v1/users/bt09ol8",
+        "id" : "bt09ol8",
+        "type" : "user",
+        "uri" : "spotify:user:bt09ol8"
+      },
+      "public" : null,
+      "tracks" : {
+        "href" : "https://api.spotify.com/v1/users/bt09ol8/playlists/65BAMKWBE4AlvKTtIH1xYp/tracks",
+        "total" : 76
+      },
+      "type" : "playlist",
+      "uri" : "spotify:user:bt09ol8:playlist:65BAMKWBE4AlvKTtIH1xYp"
+    } ],
+    "limit" : 2,
+    "next" : "https://api.spotify.com/v1/search?query=Muse&offset=2&limit=2&type=playlist&market=US",
+    "offset" : 0,
+    "previous" : null,
+    "total" : 829
+  }
+}

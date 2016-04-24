@@ -1,0 +1,131 @@
+{
+  "albums" : {
+    "href" : "https://api.spotify.com/v1/browse/new-releases?country=SE&offset=0&limit=5",
+    "items" : [ {
+      "album_type" : "album",
+      "available_markets" : [ "AD", "AU", "BE", "DE", "ES", "FR", "GB", "HK", "IE", "IT", "LI", "LU", "MC", "MY", "NZ", "PH", "PT", "SE", "SG", "TW" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/1ptk2Jtcr40GKPYSnUl7l8"
+      },
+      "href" : "https://api.spotify.com/v1/albums/1ptk2Jtcr40GKPYSnUl7l8",
+      "id" : "1ptk2Jtcr40GKPYSnUl7l8",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/4e6d63a2efc6a5f0f2365382836890366764d09a",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/c9bd67a3bc608329b0f0e774f3a028a1850ae049",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/6f377688b36f24e6a2002f991cb7924837759ca6",
+        "width" : 64
+      } ],
+      "name" : "The Blow Up",
+      "type" : "album",
+      "uri" : "spotify:album:1ptk2Jtcr40GKPYSnUl7l8"
+    }, {
+      "album_type" : "single",
+      "available_markets" : [ "AD", "AR", "AT", "AU", "BE", "BG", "BO", "BR", "CA", "CH", "CL", "CO", "CR", "CY", "CZ", "DE", "DK", "DO", "EC", "EE", "ES", "FI", "FR", "GB", "GR", "GT", "HK", "HN", "HU", "IE", "IS", "IT", "LI", "LT", "LU", "LV", "MC", "MT", "MX", "MY", "NI", "NL", "NO", "NZ", "PA", "PE", "PH", "PL", "PT", "PY", "RO", "SE", "SG", "SI", "SK", "SV", "TR", "TW", "US", "UY" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/2lLHODs4KPGdDGl8QoGmgx"
+      },
+      "href" : "https://api.spotify.com/v1/albums/2lLHODs4KPGdDGl8QoGmgx",
+      "id" : "2lLHODs4KPGdDGl8QoGmgx",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/64bdffa0463df562098531a0624af10fd58b7dda",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/78ce706e9446c5d174512c99ca9f39c397fd34e4",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/eeb6769d3b75f2284628fc26d5e8479a0a9fe5e7",
+        "width" : 64
+      } ],
+      "name" : "You're On",
+      "type" : "album",
+      "uri" : "spotify:album:2lLHODs4KPGdDGl8QoGmgx"
+    }, {
+      "album_type" : "single",
+      "available_markets" : [ "AD", "AR", "AT", "AU", "BE", "BG", "BO", "BR", "CH", "CL", "CO", "CR", "CY", "CZ", "DE", "DK", "DO", "EC", "EE", "ES", "FI", "FR", "GR", "GT", "HK", "HN", "HU", "IS", "IT", "LI", "LT", "LU", "LV", "MC", "MT", "MY", "NI", "NL", "NO", "NZ", "PA", "PE", "PH", "PL", "PT", "PY", "RO", "SE", "SG", "SI", "SK", "SV", "TR", "TW", "UY" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/0rzWZZ3EYQBxfHyKK9o7Cz"
+      },
+      "href" : "https://api.spotify.com/v1/albums/0rzWZZ3EYQBxfHyKK9o7Cz",
+      "id" : "0rzWZZ3EYQBxfHyKK9o7Cz",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/2a510878a0323b5fba4054154a96abde248e69c9",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/4e592c7e200f61f52968397314af0f0f78a2b9d0",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/1554c915ab2cf6b523b13391c042e5a103a314b4",
+        "width" : 64
+      } ],
+      "name" : "Heroes (we could be) [The Remixes]",
+      "type" : "album",
+      "uri" : "spotify:album:0rzWZZ3EYQBxfHyKK9o7Cz"
+    }, {
+      "album_type" : "single",
+      "available_markets" : [ "AD", "AR", "AT", "BE", "BG", "BO", "BR", "CH", "CL", "CO", "CY", "CZ", "DE", "DK", "EC", "EE", "ES", "FI", "FR", "GB", "GR", "HK", "HU", "IE", "IS", "IT", "LI", "LT", "LU", "LV", "MC", "MT", "MY", "NL", "NO", "PE", "PH", "PL", "PT", "PY", "RO", "SE", "SG", "SI", "SK", "TR", "TW", "UY" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/3T4Y53fOwcrKsBaClpTbQW"
+      },
+      "href" : "https://api.spotify.com/v1/albums/3T4Y53fOwcrKsBaClpTbQW",
+      "id" : "3T4Y53fOwcrKsBaClpTbQW",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/f1703556e1d4a48cbc2973f6e941aac4b5a124a5",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/b7a02deb3ca2550ae47cec0b0efb9776e1fc21b7",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/4cbce00cf65aed958e8c21c9b676f8760235fdf9",
+        "width" : 64
+      } ],
+      "name" : "Spotify Session (Live in Berlin)",
+      "type" : "album",
+      "uri" : "spotify:album:3T4Y53fOwcrKsBaClpTbQW"
+    }, {
+      "album_type" : "single",
+      "available_markets" : [ "AD", "AR", "AT", "AU", "BE", "BG", "BO", "BR", "CA", "CH", "CL", "CO", "CR", "CY", "CZ", "DE", "DK", "DO", "EC", "EE", "ES", "FI", "FR", "GB", "GR", "GT", "HK", "HN", "HU", "IE", "IS", "IT", "LI", "LT", "LU", "LV", "MC", "MT", "MX", "MY", "NI", "NL", "NO", "NZ", "PA", "PE", "PH", "PL", "PT", "PY", "RO", "SE", "SG", "SI", "SK", "SV", "TR", "TW", "US", "UY" ],
+      "external_urls" : {
+        "spotify" : "https://open.spotify.com/album/3E2AlkIqkpESKzqnjpNlVP"
+      },
+      "href" : "https://api.spotify.com/v1/albums/3E2AlkIqkpESKzqnjpNlVP",
+      "id" : "3E2AlkIqkpESKzqnjpNlVP",
+      "images" : [ {
+        "height" : 640,
+        "url" : "https://i.scdn.co/image/692a659dcb6d6727f36e210bf151b8c575440f89",
+        "width" : 640
+      }, {
+        "height" : 300,
+        "url" : "https://i.scdn.co/image/b0907a3aff359928f2deafc86dfa9e5703229ea4",
+        "width" : 300
+      }, {
+        "height" : 64,
+        "url" : "https://i.scdn.co/image/fc613337e6587925346872bffbbcbe345897f0f2",
+        "width" : 64
+      } ],
+      "name" : "Smöriga julsånger",
+      "type" : "album",
+      "uri" : "spotify:album:3E2AlkIqkpESKzqnjpNlVP"
+    } ],
+    "limit" : 5,
+    "next" : "https://api.spotify.com/v1/browse/new-releases?country=SE&offset=5&limit=5",
+    "offset" : 0,
+    "previous" : null,
+    "total" : 500
+  }
+}
