@@ -24,5 +24,12 @@ android {
 
 dependencies {
     testCompile "junit:junit:${JUNIT_VERSION}"
+    testCompile("org.robolectric:robolectric:${ROBOLECTRIC_VERSION}") {
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    testCompile "org.easytesting:fest-assert-core:${FEST_ASSERT_CORE_VERSION}"
+
     compile 'com.google.code.gson:gson:2.6.1'
 }
