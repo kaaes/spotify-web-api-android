@@ -6,73 +6,87 @@
 This project is a wrapper for the [Spotify Web API](https://developer.spotify.com/web-api/).
 It uses [Retrofit](http://square.github.io/retrofit/) to create Java interfaces from API endpoints.
 
+This library supports both Retrofit 1.9 and Retrofit 2.0 (experimental).
+
 ## Integrating into your project
 
 This library is available in [JitPack.io](https://jitpack.io/) repository.
 To use it make sure that repository's url is added to the `build.gradle` file in your app:
 
 ```groovy
+
 repositories {
     mavenCentral()
     maven { url "https://jitpack.io" }
 }
 
 dependencies {
-    compile 'com.github.kaaes:spotify-web-api-android:0.4.1'
+    // To import for Retrofit 1.9
+    compile 'com.github.kaaes.spotify-web-api-android:api-retrofit:0.4.1'
+
+    // To import for Retrofit 2.0 (experimantal)
+    compile 'com.github.kaaes.spotify-web-api-android:api-retrofit2:0.4.1'
 
     // Other dependencies your app might use
 }
 ```
 
-## <a name="building"></a>Building
-This project is built using [Gradle](https://gradle.org/):
+## Using with Retrofit 2.0
 
-1. Clone the repository: `git clone https://github.com/kaaes/spotify-web-api-android.git`
-2. Build: `./gradlew assemble`
-3. Grab the `aar` that can be found in `spotify-api/build/outputs/aar/spotify-web-api-android-0.4.1.aar`
-
-## Usage
-
-Out of the box it uses [OkHttp](http://square.github.io/okhttp/) HTTP client and a [single thread executor](https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/Executors.html).
+Basic usage
 
 ```java
-SpotifyApi api = new SpotifyApi();
+SpotifyService spotifyService = Spotify.createAuthenticatedService(accessToken);
 
-// Most (but not all) of the Spotify Web API endpoints require authorisation.
-// If you know you'll only use the ones that don't require authorisation you can skip this step
-api.setAccessToken("myAccessToken");
+// Access token is strongly advised but optional for certain endpoints
+// so if you know you'll only use the ones that don't require authorisation
+// you can use unauthenticated service instead:
 
-SpotifyService spotify = api.getService();
+SpotifyService spotifyService = Spotify.createNotAuthenticatedService()
 
-spotify.getAlbum("2dIGnmEIy1WZIcZCFSj6i8", new Callback<Album>() {
-    @Override
-    public void success(Album album, Response response) {
-        Log.d("Album success", album.name);
-    }
-
-    @Override
-    public void failure(RetrofitError error) {
-        Log.d("Album failure", error.toString());
-    }
-});
+Call<Album> call = spotifyService.getAlbum("2dIGnmEIy1WZIcZCFSj6i8");
+Response<Album> response = call.execute();
+Album album = response.body();
 ```
 
-It is also possible to construct the adapter with custom parameters.
+If default configuration doesn't work for you, you can create your own instance:
 
 ```java
-final String accessToken = "myAccessToken";
-
-RestAdapter restAdapter = new RestAdapter.Builder()
-        .setEndpoint(SpotifyApi.SPOTIFY_WEB_API_ENDPOINT)
-        .setRequestInterceptor(new RequestInterceptor() {
-            @Override
-            public void intercept(RequestFacade request) {
-                request.addHeader("Authorization", "Bearer " + accessToken);
-            }
-        })
+Retrofit retrofit = new Retrofit.Builder()
+        .client(customHttpClient)
+        .addConverterFactory(customConverterFactory)
+        .baseUrl(Config.API_URL)
         .build();
 
-SpotifyService spotify = restAdapter.create(SpotifyService.class);
+SpotifyService spotifyService = retrofit.create(SpotifyService.class);
+```
+
+## Using with Retrofit 1.9
+
+Basic usage
+
+```java
+SpotifyService spotifyService = Spotify.createAuthenticatedService(accessToken);
+
+// Access token is strongly advised but optional for certain endpoints
+// so if you know you'll only use the ones that don't require authorisation
+// you can use unauthenticated service instead:
+
+SpotifyService spotifyService = Spotify.createNotAuthenticatedService()
+
+Album album = spotifyService.getAlbum("2dIGnmEIy1WZIcZCFSj6i8");
+```
+
+If default configuration doesn't work for you, you can create your own instance:
+
+```java
+RestAdapter adapter = new RestAdapter.Builder()
+        .setEndpoint(Config.API_URL)
+        .setRequestInterceptor(customRequestInterceptor)
+        .setExecutors(customHttpExecutor, customCallbackExecutor)
+        .build();
+
+SpotifyService spotifyService = adapter.create(SpotifyService.class);
 ```
 
 ## Obtaining Access Tokens
@@ -85,6 +99,8 @@ Feeling adventurous? You can implement the auth flow yourself, following the [Sp
 
 ## Error Handling
 
+### With Retrofit 1.9
+
 When using Retrofit, errors are returned as [`RetrofitError`](http://square.github.io/retrofit/javadoc/retrofit/RetrofitError.html)
 objects. These objects, among others, contain HTTP status codes and their descriptions,
 for example `400 - Bad Request`.
@@ -94,7 +110,7 @@ for example `400 - No search query`.
 To use the data returned in the response from the Web API `SpotifyCallback` object should be passed to the
 request method instead of regular Retrofit's `Callback`:
 ```java
-spotify.getMySavedTracks(new SpotifyCallback<Pager<SavedTrack>>() {
+spotifyService.getMySavedTracks(new SpotifyCallback<Pager<SavedTrack>>() {
     @Override
     public void success(Pager<SavedTrack> savedTrackPager, Response response) {
         // handle successful response
@@ -106,14 +122,45 @@ spotify.getMySavedTracks(new SpotifyCallback<Pager<SavedTrack>>() {
     }
 });
 ```
+
 For synchronous requests `RetrofitError` can be converted to `SpotifyError` if needed:
+
 ```java
 try {
-    Pager<SavedTrack> mySavedTracks = spotify.getMySavedTracks();
+    Pager<SavedTrack> mySavedTracks = spotifyService.getMySavedTracks();
 } catch (RetrofitError error) {
     SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
     // handle error
 }
+```
+
+### With Retrofit 2.0
+
+To use the data returned in the response from the Web API `SpotifyCallback` object should be passed to the
+request method instead of regular Retrofit's `Callback`:
+
+```java
+Call<TracksPager> call = spotifyService.searchTracks(query, options);
+
+call.enqueue(new SpotifyCallback<TracksPager>() {
+     @Override
+    public void onResponse(Call<TracksPager> call, Response<TracksPager> response, TracksPager payload) {
+        // handle successful response
+    }
+
+    @Override
+    public void onFailure(Call<TracksPager> call, SpotifyError error) {
+        // handle error response
+    }
+});
+```
+
+For synchronous callse `RetrofitError` can be converted to `SpotifyError` if needed:
+
+```java
+Call<TracksPager> call = spotifyService.searchTracks(query, options);
+Response<TracksPager> response = call.execute();
+SpotifyError.fromResponse(response);
 ```
 
 ## Help
