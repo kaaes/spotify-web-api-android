@@ -1,11 +1,16 @@
 package kaaes.spotify.webapi.android;
 
+import java.io.IOException;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.android.MainThreadExecutor;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 
 /**
  * Creates and configures a REST adapter for Spotify Web API.
@@ -27,18 +32,22 @@ public class SpotifyApi {
     /**
      * Main Spotify Web API endpoint
      */
-    public static final String SPOTIFY_WEB_API_ENDPOINT = "https://api.spotify.com/v1";
+    public static final String SPOTIFY_WEB_API_ENDPOINT = "https://api.spotify.com/v1/";
 
     /**
      * The request interceptor that will add the header with OAuth
      * token to every request made with the wrapper.
      */
-    private class WebApiAuthenticator implements RequestInterceptor {
+    private class WebApiAuthenticator implements Interceptor {
         @Override
-        public void intercept(RequestFacade request) {
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
             if (mAccessToken != null) {
-                request.addHeader("Authorization", "Bearer " + mAccessToken);
+                Request.Builder requestBuilder = chain.request().newBuilder();
+                requestBuilder.addHeader("Authorization", "Bearer " + mAccessToken);
+                request = requestBuilder.build();
             }
+            return chain.proceed(request);
         }
     }
 
@@ -49,24 +58,33 @@ public class SpotifyApi {
     /**
      * Create instance of SpotifyApi with given executors.
      *
-     * @param httpExecutor executor for http request. Cannot be null.
+     * @param client the okhttp3 client retrofit will use. Can be null.
      * @param callbackExecutor executor for callbacks. If null is passed than the same
      *                         thread that created the instance is used.
      */
-    public SpotifyApi(Executor httpExecutor, Executor callbackExecutor) {
-        mSpotifyService = init(httpExecutor, callbackExecutor);
+    public SpotifyApi(OkHttpClient client, Executor callbackExecutor) {
+        mSpotifyService = init(client, callbackExecutor);
     }
 
-    private SpotifyService init(Executor httpExecutor, Executor callbackExecutor) {
+    private SpotifyService init(OkHttpClient client, Executor callbackExecutor) {
 
-        final RestAdapter restAdapter = new RestAdapter.Builder()
-                .setLogLevel(RestAdapter.LogLevel.BASIC)
-                .setExecutors(httpExecutor, callbackExecutor)
-                .setEndpoint(SPOTIFY_WEB_API_ENDPOINT)
-                .setRequestInterceptor(new WebApiAuthenticator())
-                .build();
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
-         return restAdapter.create(SpotifyService.class);
+        OkHttpClient.Builder clientBuilder = client.newBuilder();
+        clientBuilder.networkInterceptors().add(new WebApiAuthenticator());
+        clientBuilder.interceptors().add(loggingInterceptor);
+
+        final Retrofit.Builder builder = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(SPOTIFY_WEB_API_ENDPOINT)
+                .client(clientBuilder.build());
+
+        if (null != callbackExecutor) {
+            builder.callbackExecutor(callbackExecutor);
+        }
+        final Retrofit retrofit = builder.build();
+        return retrofit.create(SpotifyService.class);
     }
 
     /**
@@ -74,9 +92,7 @@ public class SpotifyApi {
      *  with single thread executor both for http and callbacks.
      */
     public SpotifyApi() {
-        Executor httpExecutor = Executors.newSingleThreadExecutor();
-        MainThreadExecutor callbackExecutor = new MainThreadExecutor();
-        mSpotifyService = init(httpExecutor, callbackExecutor);
+        mSpotifyService = init(new OkHttpClient(), null);
     }
 
     /**

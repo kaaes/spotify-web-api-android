@@ -7,7 +7,9 @@ project.group = GROUP
 version = VERSION_NAME
 
 dependencies {
-    compile('com.squareup.retrofit:retrofit:1.9.0')
+    compile("com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}")
+    compile("com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}")
+    compile "com.squareup.okhttp3:logging-interceptor:${OKHTTP_VERSION}"
 
     testCompile("org.robolectric:robolectric:${ROBOLECTRIC_VERSION}") {
         exclude group: 'com.android.support', module: 'support-v4'
@@ -20,7 +22,7 @@ dependencies {
     testCompile "org.mockito:mockito-core:${MOCKITO_CORE_VERSION}"
 
     androidTestCompile 'com.android.support.test:runner:0.2'
-    androidTestCompile 'com.squareup.okhttp:okhttp:2.2.0'
+    androidTestCompile "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
 }
 
 apply from: rootProject.file('release.gradle')
