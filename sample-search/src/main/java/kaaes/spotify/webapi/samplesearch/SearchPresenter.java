@@ -75,8 +75,8 @@ public class SearchPresenter implements Search.ActionListener {
                 }
 
                 @Override
-                public void onError(Throwable error) {
-                    logError(error.getMessage());
+                public void onError(String message) {
+                    logError(message);
                 }
             };
             mSearchPager.getFirstPage(searchQuery, PAGE_SIZE, mSearchListener);
@@ -134,6 +134,10 @@ public class SearchPresenter implements Search.ActionListener {
     }
 
     private void logError(String msg) {
+        if (msg == null) {
+            msg = "Unknown";
+        }
+
         Toast.makeText(mContext, "Error: " + msg, Toast.LENGTH_SHORT).show();
         Log.e(TAG, msg);
     }

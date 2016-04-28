@@ -1,7 +1,13 @@
 package kaaes.spotify.webapi.android;
 
-import kaaes.spotify.webapi.android.models.*;
-import retrofit.RetrofitError;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
+
+import kaaes.spotify.webapi.android.models.ErrorDetails;
+import kaaes.spotify.webapi.android.models.ErrorResponse;
+import retrofit2.Response;
 
 /**
  * This object wraps error responses from the Web API
@@ -9,15 +15,19 @@ import retrofit.RetrofitError;
  * descriptive than default Retrofit error messages.
  * <p>
  * To use with asynchronous requests pass {@link SpotifyCallback}
- * instead of {@link retrofit.Callback} when making the request:
+ * instead of {@link retrofit2.Callback} when making the request:
  * <pre>{@code
  * spotify.getMySavedTracks(new SpotifyCallback<Pager<SavedTrack>>() {
- *     public void success(Pager<SavedTrack> savedTrackPager, Response response) {
+ *      public void onResponse(Pager&lt;SavedTrack&gt; savedTrackPager) {
  *         // handle successful response
  *     }
  *
- *     public void failure(SpotifyError error) {
- *         // handle error
+ *     public void onResponse(SpotifyError errorResponse) {
+ *         // handle error response
+ *     }
+ *
+ *     public void failure(Call<T> call, Throwable t) {
+ *         // handle failure
  *     }
  * });
  * }</pre>
@@ -27,49 +37,36 @@ import retrofit.RetrofitError;
  * try {
  *     Pager<SavedTrack> mySavedTracks = spotify.getMySavedTracks();
  * } catch (RetrofitError error) {
- *     SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
+ *     SpotifyError spotifyError = SpotifyError.fromRetrofitResponse(error);
  * }
  * }</pre>
  */
 public class SpotifyError extends Exception {
 
-    private final RetrofitError mRetrofitError;
     private final ErrorDetails mErrorDetails;
 
-    public static SpotifyError fromRetrofitError(RetrofitError error) {
-        ErrorResponse errorResponse = null;
-
+    public static SpotifyError fromRetrofitResponse(Response response) {
+        Gson gson = new GsonBuilder().create();
         try {
-            errorResponse = (ErrorResponse) error.getBodyAs(ErrorResponse.class);
-        } catch (Exception e) {
+            ErrorResponse errorResponse = gson.fromJson(response.errorBody().string(), ErrorResponse.class);
+            if (errorResponse != null && errorResponse.error != null) {
+                String message = errorResponse.error.status + " " + errorResponse.error.message;
+                return new SpotifyError(errorResponse.error, message);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-        if (errorResponse != null && errorResponse.error != null) {
-            String message = errorResponse.error.status + " " + errorResponse.error.message;
-            return new SpotifyError(error, errorResponse.error, message);
-        } else {
-            return new SpotifyError(error);
-        }
+        return new SpotifyError();
     }
 
-    public SpotifyError(RetrofitError retrofitError, ErrorDetails errorDetails, String message) {
-        super(message, retrofitError);
-        mRetrofitError = retrofitError;
+    public SpotifyError(ErrorDetails errorDetails, String message) {
+        super(message);
         mErrorDetails = errorDetails;
     }
 
-    public SpotifyError(RetrofitError retrofitError) {
-        super(retrofitError);
-        mRetrofitError = retrofitError;
+    public SpotifyError() {
+        super();
         mErrorDetails = null;
-    }
-
-    /**
-     * @return the original {@link retrofit.RetrofitError} that was returned for this request.
-     */
-    public RetrofitError getRetrofitError() {
-        return mRetrofitError;
     }
 
     /**
