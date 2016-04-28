@@ -20,6 +20,8 @@ android {
 
     lintOptions {
         warning 'InvalidPackage'
+        textReport true
+        textOutput 'stdout'
     }
 }
 
