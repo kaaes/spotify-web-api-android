@@ -17,6 +17,10 @@ android {
             minifyEnabled false
         }
     }
+
+    lintOptions {
+        lintConfig new File(rootProject.projectDir, "lint.xml")
+    }
 }
 
 repositories {

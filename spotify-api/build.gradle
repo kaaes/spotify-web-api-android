@@ -43,6 +43,10 @@ android {
             testCoverageEnabled = true
         }
     }
+
+    lintOptions {
+        lintConfig new File(rootProject.projectDir, "lint.xml")
+    }
 }
 
 android.testOptions.unitTests.all {
