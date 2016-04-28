@@ -19,7 +19,7 @@ android {
     }
 
     lintOptions {
-        lintConfig new File(rootProject.projectDir, "lint.xml")
+        warning 'InvalidPackage'
     }
 }
 

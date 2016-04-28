@@ -1,9 +1,0 @@
-<lint>
-    <issue id="InvalidPackage">
-        <!-- due to an issue with okio, we need to exclude lint errors for it.-->
-        <!-- http://stackoverflow.com/questions/35492259/lint-error-on-okio -->
-        <!-- https://github.com/square/okio/issues/58 -->
-        <ignore regexp=".*okio.*" />
-        <ignore regexp=".*retrofit.*" />
-    </issue>
-</lint>
