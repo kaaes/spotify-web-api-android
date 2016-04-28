@@ -1,11 +1,5 @@
 package kaaes.spotify.webapi.android;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.io.IOException;
-
-import kaaes.spotify.webapi.android.models.ErrorResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,14 +38,7 @@ public abstract class SpotifyCallback<T> implements Callback<T> {
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
         if (!response.isSuccessful()) {
-
-            Gson gson = new GsonBuilder().create();
-            try {
-                ErrorResponse error = gson.fromJson(response.errorBody().string(), ErrorResponse.class);
-                onResponse(SpotifyError.fromRetrofitError(error));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            onResponse(SpotifyError.fromRetrofitResponse(response));
         } else {
             onResponse(response);
         }

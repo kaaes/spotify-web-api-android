@@ -1,7 +1,13 @@
 package kaaes.spotify.webapi.android;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
+
 import kaaes.spotify.webapi.android.models.ErrorDetails;
 import kaaes.spotify.webapi.android.models.ErrorResponse;
+import retrofit2.Response;
 
 /**
  * This object wraps error responses from the Web API
@@ -31,7 +37,7 @@ import kaaes.spotify.webapi.android.models.ErrorResponse;
  * try {
  *     Pager<SavedTrack> mySavedTracks = spotify.getMySavedTracks();
  * } catch (RetrofitError error) {
- *     SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
+ *     SpotifyError spotifyError = SpotifyError.fromRetrofitResponse(error);
  * }
  * }</pre>
  */
@@ -39,13 +45,18 @@ public class SpotifyError extends Exception {
 
     private final ErrorDetails mErrorDetails;
 
-    public static SpotifyError fromRetrofitError(ErrorResponse errorResponse) {
-        if (errorResponse != null && errorResponse.error != null) {
-            String message = errorResponse.error.status + " " + errorResponse.error.message;
-            return new SpotifyError(errorResponse.error, message);
-        } else {
-            return new SpotifyError();
+    public static SpotifyError fromRetrofitResponse(Response response) {
+        Gson gson = new GsonBuilder().create();
+        try {
+            ErrorResponse errorResponse = gson.fromJson(response.errorBody().string(), ErrorResponse.class);
+            if (errorResponse != null && errorResponse.error != null) {
+                String message = errorResponse.error.status + " " + errorResponse.error.message;
+                return new SpotifyError(errorResponse.error, message);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return new SpotifyError();
     }
 
     public SpotifyError(ErrorDetails errorDetails, String message) {

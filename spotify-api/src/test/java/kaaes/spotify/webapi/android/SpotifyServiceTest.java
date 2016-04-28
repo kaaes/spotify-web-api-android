@@ -13,9 +13,7 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.Matchers;
 import org.robolectric.RobolectricTestRunner;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
@@ -43,6 +41,7 @@ import kaaes.spotify.webapi.android.models.PlaylistSimple;
 import kaaes.spotify.webapi.android.models.PlaylistTrack;
 import kaaes.spotify.webapi.android.models.PlaylistsPager;
 import kaaes.spotify.webapi.android.models.Result;
+import kaaes.spotify.webapi.android.models.SavedTrack;
 import kaaes.spotify.webapi.android.models.SnapshotId;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.TrackToRemove;
@@ -53,14 +52,14 @@ import kaaes.spotify.webapi.android.models.TracksToRemove;
 import kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import kaaes.spotify.webapi.android.models.UserPublic;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Client;
-import retrofit.client.Request;
-import retrofit.client.Response;
-import retrofit.mime.TypedOutput;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.argThat;
@@ -72,7 +71,7 @@ import static org.mockito.Mockito.when;
 public class SpotifyServiceTest {
 
     private SpotifyService mSpotifyService;
-    private Client mMockClient;
+    private OkHttpClient mMockClient;
     private Gson mGson;
 
     private class MatchesId extends ArgumentMatcher<Request> {
@@ -84,21 +83,18 @@ public class SpotifyServiceTest {
         }
 
         public boolean matches(Object request) {
-            try {
-                return ((Request) request).getUrl().contains(URLEncoder.encode(mId, "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
-                return false;
-            }
+            return ((Request) request).url().toString().contains(mId);
         }
     }
 
     @Before
     public void setUp() {
-        mMockClient = mock(Client.class);
+        mMockClient = mock(OkHttpClient.class);
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setClient(mMockClient)
-                .setEndpoint(SpotifyApi.SPOTIFY_WEB_API_ENDPOINT)
+        Retrofit restAdapter = new Retrofit.Builder()
+                .client(mMockClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl(SpotifyApi.SPOTIFY_WEB_API_ENDPOINT)
                 .build();
 
         mSpotifyService = restAdapter.create(SpotifyService.class);
@@ -110,10 +106,11 @@ public class SpotifyServiceTest {
         String body = TestUtils.readTestData("track.json");
         Track fixture = mGson.fromJson(body, Track.class);
 
-        Response response = TestUtils.getResponseFromModel(fixture, Track.class);
-        when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
+        okhttp3.Response response = TestUtils.getResponseFromModel(fixture, Track.class);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new MatchesId(fixture.id)))).thenReturn(mockCall);
 
-        Track track = mSpotifyService.getTrack(fixture.id);
+        Track track = mSpotifyService.getTrack(fixture.id).execute().body();
         this.compareJSONWithoutNulls(body, track);
     }
 
@@ -131,9 +128,10 @@ public class SpotifyServiceTest {
         }
 
         Response response = TestUtils.getResponseFromModel(fixture, Tracks.class);
-        when(mMockClient.execute(argThat(new MatchesId(ids)))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new MatchesId(ids)))).thenReturn(mockCall);
 
-        Tracks tracks = mSpotifyService.getTracks(ids);
+        Tracks tracks = mSpotifyService.getTracks(ids).execute().body();
         this.compareJSONWithoutNulls(body, tracks);
     }
 
@@ -143,9 +141,10 @@ public class SpotifyServiceTest {
         Album fixture = mGson.fromJson(body, Album.class);
 
         Response response = TestUtils.getResponseFromModel(fixture, Album.class);
-        when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new MatchesId(fixture.id)))).thenReturn(mockCall);
 
-        Album album = mSpotifyService.getAlbum(fixture.id);
+        Album album = mSpotifyService.getAlbum(fixture.id).execute().body();
         this.compareJSONWithoutNulls(body, album);
     }
 
@@ -163,9 +162,10 @@ public class SpotifyServiceTest {
         }
 
         Response response = TestUtils.getResponseFromModel(fixture, Albums.class);
-        when(mMockClient.execute(argThat(new MatchesId(ids)))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new MatchesId(ids)))).thenReturn(mockCall);
 
-        Albums albums = mSpotifyService.getAlbums(ids);
+        Albums albums = mSpotifyService.getAlbums(ids).execute().body();
         this.compareJSONWithoutNulls(body, albums);
     }
 
@@ -175,9 +175,10 @@ public class SpotifyServiceTest {
         Artist fixture = mGson.fromJson(body, Artist.class);
 
         Response response = TestUtils.getResponseFromModel(fixture, Artist.class);
-        when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new MatchesId(fixture.id)))).thenReturn(mockCall);
 
-        Artist artist = mSpotifyService.getArtist(fixture.id);
+        Artist artist = mSpotifyService.getArtist(fixture.id).execute().body();
         this.compareJSONWithoutNulls(body, artist);
     }
 
@@ -195,9 +196,10 @@ public class SpotifyServiceTest {
         }
 
         Response response = TestUtils.getResponseFromModel(fixture, Artists.class);
-        when(mMockClient.execute(argThat(new MatchesId(ids)))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new MatchesId(ids)))).thenReturn(mockCall);
 
-        Artists artists = mSpotifyService.getArtists(ids);
+        Artists artists = mSpotifyService.getArtists(ids).execute().body();
 
         this.compareJSONWithoutNulls(body, artists);
     }
@@ -212,9 +214,10 @@ public class SpotifyServiceTest {
         Pager<Album> fixture = mGson.fromJson(body, modelType);
 
         Response response = TestUtils.getResponseFromModel(fixture, modelType);
-        when(mMockClient.execute(argThat(new MatchesId(artistId)))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new MatchesId(artistId)))).thenReturn(mockCall);
 
-        Pager<Album> albums = mSpotifyService.getArtistAlbums(artistId);
+        Pager<Album> albums = mSpotifyService.getArtistAlbums(artistId).execute().body();
 
         this.compareJSONWithoutNulls(body, albums);
     }
@@ -225,9 +228,10 @@ public class SpotifyServiceTest {
         Playlist fixture = mGson.fromJson(body, Playlist.class);
 
         Response response = TestUtils.getResponseFromModel(fixture, Playlist.class);
-        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(isA(Request.class))).thenReturn(mockCall);
 
-        Playlist playlist = mSpotifyService.getPlaylist(fixture.owner.id, fixture.id);
+        Playlist playlist = mSpotifyService.getPlaylist(fixture.owner.id, fixture.id).execute().body();
         compareJSONWithoutNulls(body, playlist);
     }
 
@@ -240,9 +244,10 @@ public class SpotifyServiceTest {
         Pager<PlaylistTrack> fixture = mGson.fromJson(body, modelType);
 
         Response response = TestUtils.getResponseFromModel(fixture, modelType);
-        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(isA(Request.class))).thenReturn(mockCall);
 
-        Pager<PlaylistTrack> playlistTracks = mSpotifyService.getPlaylistTracks("test", "test");
+        Pager<PlaylistTrack> playlistTracks = mSpotifyService.getPlaylistTracks("test", "test").execute().body();
         compareJSONWithoutNulls(body, playlistTracks);
     }
 
@@ -256,24 +261,25 @@ public class SpotifyServiceTest {
 
         Response response = TestUtils.getResponseFromModel(fixture, NewReleases.class);
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
 
                 try {
-                    return ((Request) argument).getUrl().contains("limit=" + limit) &&
-                            ((Request) argument).getUrl().contains("country=" + URLEncoder.encode(countryId, "UTF-8"));
+                    return ((Request) argument).url().toString().contains("limit=" + limit) &&
+                            ((Request) argument).url().toString().contains("country=" + URLEncoder.encode(countryId, "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                     return false;
                 }
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
         Map<String, Object> options = new HashMap<String, Object>();
         options.put(SpotifyService.COUNTRY, countryId);
         options.put(SpotifyService.OFFSET, 0);
         options.put(SpotifyService.LIMIT, limit);
-        NewReleases newReleases = mSpotifyService.getNewReleases(options);
+        NewReleases newReleases = mSpotifyService.getNewReleases(options).execute().body();
 
         this.compareJSONWithoutNulls(body, newReleases);
     }
@@ -289,19 +295,20 @@ public class SpotifyServiceTest {
 
         Response response = TestUtils.getResponseFromModel(fixture, FeaturedPlaylists.class);
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
 
                 try {
-                    return ((Request) argument).getUrl().contains("limit=" + limit) &&
-                            ((Request) argument).getUrl().contains("country=" + URLEncoder.encode(countryId, "UTF-8")) &&
-                            ((Request) argument).getUrl().contains("locale=" + URLEncoder.encode(locale, "UTF-8"));
+                    return ((Request) argument).url().toString().contains("limit=" + limit) &&
+                            ((Request) argument).url().toString().contains("country=" + URLEncoder.encode(countryId, "UTF-8")) &&
+                            ((Request) argument).url().toString().contains("locale=" + URLEncoder.encode(locale, "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                     return false;
                 }
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put(SpotifyService.COUNTRY, countryId);
@@ -309,7 +316,7 @@ public class SpotifyServiceTest {
         map.put(SpotifyService.OFFSET, 0);
         map.put(SpotifyService.LIMIT, limit);
 
-        FeaturedPlaylists featuredPlaylists = mSpotifyService.getFeaturedPlaylists(map);
+        FeaturedPlaylists featuredPlaylists = mSpotifyService.getFeaturedPlaylists(map).execute().body();
 
         this.compareJSONWithoutNulls(body, featuredPlaylists);
     }
@@ -320,9 +327,10 @@ public class SpotifyServiceTest {
         UserPublic fixture = mGson.fromJson(body, UserPublic.class);
 
         Response response = TestUtils.getResponseFromModel(fixture, UserPublic.class);
-        when(mMockClient.execute(argThat(new MatchesId(fixture.id)))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new MatchesId(fixture.id)))).thenReturn(mockCall);
 
-        UserPublic userSimple = mSpotifyService.getUser(fixture.id);
+        UserPublic userSimple = mSpotifyService.getUser(fixture.id).execute().body();
         this.compareJSONWithoutNulls(body, userSimple);
     }
 
@@ -332,9 +340,10 @@ public class SpotifyServiceTest {
         UserPrivate fixture = mGson.fromJson(body, UserPrivate.class);
 
         Response response = TestUtils.getResponseFromModel(fixture, UserPrivate.class);
-        when(mMockClient.execute(Matchers.<Request>any())).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(Matchers.<Request>any())).thenReturn(mockCall);
 
-        UserPrivate userPrivate = mSpotifyService.getMe();
+        UserPrivate userPrivate = mSpotifyService.getMe().execute().body();
         this.compareJSONWithoutNulls(body, userPrivate);
     }
 
@@ -349,19 +358,16 @@ public class SpotifyServiceTest {
 
         Response response = TestUtils.getResponseFromModel(fixture, modelType);
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
-                try {
-                    return ((Request) argument).getUrl().contains("type=user") &&
-                            ((Request) argument).getUrl().contains("ids=" + URLEncoder.encode(userIds, "UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    return false;
-                }
+                return ((Request) argument).url().toString().contains("type=user") &&
+                        ((Request) argument).url().toString().contains("ids=" + userIds);
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
-        Boolean[] result = mSpotifyService.isFollowingUsers(userIds);
+        Boolean[] result = mSpotifyService.isFollowingUsers(userIds).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -376,19 +382,20 @@ public class SpotifyServiceTest {
 
         Response response = TestUtils.getResponseFromModel(fixture, modelType);
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
                 try {
-                    return ((Request) argument).getUrl().contains("type=artist") &&
-                            ((Request) argument).getUrl().contains("ids=" + URLEncoder.encode(artistIds, "UTF-8"));
+                    return ((Request) argument).url().toString().contains("type=artist") &&
+                            ((Request) argument).url().toString().contains("ids=" + URLEncoder.encode(artistIds, "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                     return false;
                 }
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
-        Boolean[] result = mSpotifyService.isFollowingArtists(artistIds);
+        Boolean[] result = mSpotifyService.isFollowingArtists(artistIds).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -399,14 +406,15 @@ public class SpotifyServiceTest {
         ArtistsCursorPager fixture = mGson.fromJson(body, ArtistsCursorPager.class);
 
         Response response = TestUtils.getResponseFromModel(fixture, ArtistsCursorPager.class);
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
-                return ((Request) argument).getUrl().contains("type=artist");
+                return ((Request) argument).url().toString().contains("type=artist");
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
-        ArtistsCursorPager result = mSpotifyService.getFollowedArtists();
+        ArtistsCursorPager result = mSpotifyService.getFollowedArtists().execute().body();
         compareJSONWithoutNulls(body, result);
     }
 
@@ -416,9 +424,10 @@ public class SpotifyServiceTest {
         TracksPager fixture = mGson.fromJson(body, TracksPager.class);
 
         Response response = TestUtils.getResponseFromModel(fixture, TracksPager.class);
-        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(isA(Request.class))).thenReturn(mockCall);
 
-        TracksPager tracks = mSpotifyService.searchTracks("Christmas");
+        TracksPager tracks = mSpotifyService.searchTracks("Christmas").execute().body();
         compareJSONWithoutNulls(body, tracks);
     }
 
@@ -428,9 +437,10 @@ public class SpotifyServiceTest {
         AlbumsPager fixture = mGson.fromJson(body, AlbumsPager.class);
 
         Response response = TestUtils.getResponseFromModel(fixture, AlbumsPager.class);
-        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(isA(Request.class))).thenReturn(mockCall);
 
-        AlbumsPager result = mSpotifyService.searchAlbums("Christmas");
+        AlbumsPager result = mSpotifyService.searchAlbums("Christmas").execute().body();
         compareJSONWithoutNulls(body, result);
     }
 
@@ -440,9 +450,10 @@ public class SpotifyServiceTest {
         ArtistsPager fixture = mGson.fromJson(body, ArtistsPager.class);
 
         Response response = TestUtils.getResponseFromModel(fixture, ArtistsPager.class);
-        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(isA(Request.class))).thenReturn(mockCall);
 
-        ArtistsPager result = mSpotifyService.searchArtists("Christmas");
+        ArtistsPager result = mSpotifyService.searchArtists("Christmas").execute().body();
         compareJSONWithoutNulls(body, result);
     }
 
@@ -452,9 +463,10 @@ public class SpotifyServiceTest {
         PlaylistsPager fixture = mGson.fromJson(body, PlaylistsPager.class);
 
         Response response = TestUtils.getResponseFromModel(fixture, PlaylistsPager.class);
-        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(isA(Request.class))).thenReturn(mockCall);
 
-        PlaylistsPager result = mSpotifyService.searchPlaylists("Christmas");
+        PlaylistsPager result = mSpotifyService.searchPlaylists("Christmas").execute().body();
         compareJSONWithoutNulls(body, result);
     }
 
@@ -469,22 +481,19 @@ public class SpotifyServiceTest {
 
         final String userIds = "thelinmichael,jmperezperez,kaees";
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
-                try {
-                    return ((Request) argument).getUrl()
-                            .contains("ids=" + URLEncoder.encode(userIds, "UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    return false;
-                }
+                    return ((Request) argument).url().toString()
+                            .contains("ids=" + userIds);
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
         final String requestPlaylist = TestUtils.readTestData("playlist-response.json");
         final Playlist requestFixture = mGson.fromJson(requestPlaylist, Playlist.class);
 
-        final Boolean[] result = mSpotifyService.areFollowingPlaylist(requestFixture.owner.id, requestFixture.id, userIds);
+        final Boolean[] result = mSpotifyService.areFollowingPlaylist(requestFixture.owner.id, requestFixture.id, userIds).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -502,16 +511,17 @@ public class SpotifyServiceTest {
         final int offset = 1;
         final int limit = 2;
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
-                String requestUrl = ((Request) argument).getUrl();
+                String requestUrl = ((Request) argument).url().toString();
                 return requestUrl.contains(String.format("limit=%d", limit)) &&
                         requestUrl.contains(String.format("offset=%d", offset)) &&
                         requestUrl.contains(String.format("country=%s", country)) &&
                         requestUrl.contains(String.format("locale=%s", locale));
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
 
         final Map<String, Object> options = new HashMap<String, Object>();
@@ -520,7 +530,7 @@ public class SpotifyServiceTest {
         options.put("country", country);
         options.put("locale", locale);
 
-        final CategoriesPager result = mSpotifyService.getCategories(options);
+        final CategoriesPager result = mSpotifyService.getCategories(options).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -537,21 +547,22 @@ public class SpotifyServiceTest {
         final String country = "SE";
         final String locale = "sv_SE";
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
-                String requestUrl = ((Request) argument).getUrl();
+                String requestUrl = ((Request) argument).url().toString();
                 return requestUrl.contains(String.format("locale=%s", locale)) &&
                         requestUrl.contains(String.format("country=%s", country));
 
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
         final Map<String, Object> options = new HashMap<String, Object>();
         options.put("country", country);
         options.put("locale", locale);
 
-        final Category result = mSpotifyService.getCategory(categoryId, options);
+        final Category result = mSpotifyService.getCategory(categoryId, options).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -569,22 +580,23 @@ public class SpotifyServiceTest {
         final int offset = 1;
         final int limit = 2;
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
-                String requestUrl = ((Request) argument).getUrl();
+                String requestUrl = ((Request) argument).url().toString();
                 return requestUrl.contains(String.format("limit=%d", limit)) &&
                         requestUrl.contains(String.format("offset=%d", offset)) &&
                         requestUrl.contains(String.format("country=%s", country));
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
         final Map<String, Object> options = new HashMap<String, Object>();
         options.put("country", country);
         options.put("offset", offset);
         options.put("limit", limit);
 
-        final PlaylistsPager result = mSpotifyService.getPlaylistsForCategory(categoryId, options);
+        final PlaylistsPager result = mSpotifyService.getPlaylistsForCategory(categoryId, options).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -601,36 +613,32 @@ public class SpotifyServiceTest {
         final String name = "Coolest Playlist";
         final boolean isPublic = true;
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
                 final Request request = (Request) argument;
-
-                final OutputStream outputStream = new ByteArrayOutputStream();
-                final TypedOutput output = request.getBody();
                 String body = null;
                 try {
-                    output.writeTo(outputStream);
-                    body = outputStream.toString();
+                    body = TestUtils.requestBodyToString(request.body());
                 } catch (IOException e) {
                     fail("Could not read body");
                 }
 
-
                 final String expectedBody = String.format("{\"name\":\"%s\",\"public\":%b}",
                         name, isPublic);
 
-                return request.getUrl().endsWith(String.format("/users/%s/playlists", owner)) &&
+                return request.url().toString().endsWith(String.format("/users/%s/playlists", owner)) &&
                         JSONsContainSameData(expectedBody, body) &&
-                        "POST".equals(request.getMethod());
+                        "POST".equals(request.method());
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
         final Map<String, Object> options = new HashMap<String, Object>();
         options.put("name", name);
         options.put("public", isPublic);
 
-        final Playlist result = mSpotifyService.createPlaylist(owner, options);
+        final Playlist result = mSpotifyService.createPlaylist(owner, options).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -649,29 +657,26 @@ public class SpotifyServiceTest {
         final String trackUri2 = "spotify:track:2KCmalBTv3SiYxvpKrXmr5";
         final int position = 1;
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
                 final Request request = (Request) argument;
-
-                final OutputStream outputStream = new ByteArrayOutputStream();
-                final TypedOutput output = request.getBody();
                 String body = null;
                 try {
-                    output.writeTo(outputStream);
-                    body = outputStream.toString();
+                    body = TestUtils.requestBodyToString(request.body());
                 } catch (IOException e) {
                     fail("Could not read body");
                 }
 
                 final String expectedBody = String.format("{\"uris\":[\"%s\",\"%s\"]}",
                         trackUri1, trackUri2);
-                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/tracks?position=%d",
+                return request.url().toString().endsWith(String.format("/users/%s/playlists/%s/tracks?position=%d",
                         owner, playlistId, position)) &&
                         JSONsContainSameData(expectedBody, body) &&
-                        "POST".equals(request.getMethod());
+                        "POST".equals(request.method());
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
         final Map<String, Object> options = new HashMap<String, Object>();
         final List<String> trackUris = Arrays.asList(trackUri1, trackUri2);
@@ -680,7 +685,7 @@ public class SpotifyServiceTest {
         final Map<String, Object> queryParameters = new HashMap<String, Object>();
         queryParameters.put("position", String.valueOf(position));
 
-        final SnapshotId result = mSpotifyService.addTracksToPlaylist(owner, playlistId, queryParameters, options);
+        final SnapshotId result = mSpotifyService.addTracksToPlaylist(owner, playlistId, queryParameters, options).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -705,31 +710,28 @@ public class SpotifyServiceTest {
 
         ttr.tracks = Arrays.asList(trackObject1, trackObject2);
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
                 final Request request = (Request) argument;
-
-                final OutputStream outputStream = new ByteArrayOutputStream();
-                final TypedOutput output = request.getBody();
                 String body = null;
                 try {
-                    output.writeTo(outputStream);
-                    body = outputStream.toString();
+                    body = TestUtils.requestBodyToString(request.body());
                 } catch (IOException e) {
                     fail("Could not read body");
                 }
 
                 final String expectedBody = String.format("{\"tracks\":[{\"uri\":\"%s\"},{\"uri\":\"%s\"}]}",
                         trackUri1, trackUri2);
-                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/tracks",
+                return request.url().toString().endsWith(String.format("/users/%s/playlists/%s/tracks",
                         owner, playlistId)) &&
                         JSONsContainSameData(expectedBody, body) &&
-                        "DELETE".equals(request.getMethod());
+                        "DELETE".equals(request.method());
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
-        final SnapshotId result = mSpotifyService.removeTracksFromPlaylist(owner, playlistId, ttr);
+        final SnapshotId result = mSpotifyService.removeTracksFromPlaylist(owner, playlistId, ttr).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -756,31 +758,28 @@ public class SpotifyServiceTest {
 
         ttrwp.tracks = Arrays.asList(trackObject1, trackObject2);
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
                 final Request request = (Request) argument;
-
-                final OutputStream outputStream = new ByteArrayOutputStream();
-                final TypedOutput output = request.getBody();
                 String body = null;
                 try {
-                    output.writeTo(outputStream);
-                    body = outputStream.toString();
+                    body = TestUtils.requestBodyToString(request.body());
                 } catch (IOException e) {
                     fail("Could not read body");
                 }
 
                 final String expectedBody = String.format("{\"tracks\":[{\"uri\":\"%s\",\"positions\":[0,3]},{\"uri\":\"%s\",\"positions\":[1]}]}",
                         trackUri1, trackUri2);
-                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/tracks",
+                return request.url().toString().endsWith(String.format("/users/%s/playlists/%s/tracks",
                         owner, playlistId)) &&
                         JSONsContainSameData(expectedBody, body) &&
-                        "DELETE".equals(request.getMethod());
+                        "DELETE".equals(request.method());
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
-        final SnapshotId result = mSpotifyService.removeTracksFromPlaylist(owner, playlistId, ttrwp);
+        final SnapshotId result = mSpotifyService.removeTracksFromPlaylist(owner, playlistId, ttrwp).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -797,34 +796,31 @@ public class SpotifyServiceTest {
         final String name = "Changed name";
         final boolean isPublic = false;
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
                 final Request request = (Request) argument;
-
-                final OutputStream outputStream = new ByteArrayOutputStream();
-                final TypedOutput output = request.getBody();
                 String body = null;
                 try {
-                    output.writeTo(outputStream);
-                    body = outputStream.toString();
+                    body = TestUtils.requestBodyToString(request.body());
                 } catch (IOException e) {
                     fail("Could not read body");
                 }
 
                 final String expectedBody = String.format("{\"name\":\"%s\",\"public\":%b}", name, isPublic);
-                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s",
+                return request.url().toString().endsWith(String.format("/users/%s/playlists/%s",
                                                                owner, playlistId)) &&
                        JSONsContainSameData(expectedBody, body) &&
-                       "PUT".equals(request.getMethod());
+                       "PUT".equals(request.method());
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
         final Map<String, Object> options = new HashMap<String, Object>();
         options.put("name", name);
         options.put("public", isPublic);
 
-        final Result result = mSpotifyService.changePlaylistDetails(owner, playlistId, options);
+        final Result result = mSpotifyService.changePlaylistDetails(owner, playlistId, options).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -839,17 +835,18 @@ public class SpotifyServiceTest {
         final String owner = "thelinmichael";
         final String playlistId = "4JPlPnLULieb2WPFKlLiRq";
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
                 final Request request = (Request) argument;
-                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/followers",
+                return request.url().toString().endsWith(String.format("/users/%s/playlists/%s/followers",
                         owner, playlistId)) &&
-                        "PUT".equals(request.getMethod());
+                        "PUT".equals(request.method());
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
-        final Result result = mSpotifyService.followPlaylist(owner, playlistId);
+        final Result result = mSpotifyService.followPlaylist(owner, playlistId).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -865,31 +862,29 @@ public class SpotifyServiceTest {
         final String owner = "thelinmichael";
         final String playlistId = "4JPlPnLULieb2WPFKlLiRq";
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
                 final Request request = (Request) argument;
-                final OutputStream outputStream = new ByteArrayOutputStream();
-                final TypedOutput output = request.getBody();
                 String body = null;
                 try {
-                    output.writeTo(outputStream);
-                    body = outputStream.toString();
+                    body = TestUtils.requestBodyToString(request.body());
                 } catch (IOException e) {
                     fail("Could not read body");
                 }
 
                 final String expectedBody = String.format("{\"public\":%b}", isPublic);
-                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/followers",
+                return request.url().toString().endsWith(String.format("/users/%s/playlists/%s/followers",
                         owner, playlistId)) &&
                         JSONsContainSameData(expectedBody, body) &&
-                        "PUT".equals(request.getMethod());
+                        "PUT".equals(request.method());
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
         PlaylistFollowPrivacy pfp = new PlaylistFollowPrivacy();
         pfp.is_public = isPublic;
-        final Result result = mSpotifyService.followPlaylist(owner, playlistId, pfp);
+        final Result result = mSpotifyService.followPlaylist(owner, playlistId, pfp).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -909,36 +904,33 @@ public class SpotifyServiceTest {
         final int rangeLength = 2;
         final int insertBefore = 0;
 
-        when(mMockClient.execute(argThat(new ArgumentMatcher<Request>() {
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(argThat(new ArgumentMatcher<Request>() {
             @Override
             public boolean matches(Object argument) {
                 final Request request = (Request) argument;
-
-                final OutputStream outputStream = new ByteArrayOutputStream();
-                final TypedOutput output = request.getBody();
                 String body = null;
                 try {
-                    output.writeTo(outputStream);
-                    body = outputStream.toString();
+                    body = TestUtils.requestBodyToString(request.body());
                 } catch (IOException e) {
                     fail("Could not read body");
                 }
 
                 final String expectedBody = String.format("{\"range_start\":%d,\"range_length\":%d,\"insert_before\":%d}",
                         rangeStart, rangeLength, insertBefore);
-                return request.getUrl().endsWith(String.format("/users/%s/playlists/%s/tracks",
+                return request.url().toString().endsWith(String.format("/users/%s/playlists/%s/tracks",
                         owner, playlistId)) &&
                         JSONsContainSameData(expectedBody, body) &&
-                        "PUT".equals(request.getMethod());
+                        "PUT".equals(request.method());
             }
-        }))).thenReturn(response);
+        }))).thenReturn(mockCall);
 
         final Map<String, Object> options = new HashMap<String, Object>();
         options.put("range_start", rangeStart);
         options.put("range_length", rangeLength);
         options.put("insert_before", insertBefore);
 
-        final SnapshotId result = mSpotifyService.reorderPlaylistTracks(owner, playlistId, options);
+        final SnapshotId result = mSpotifyService.reorderPlaylistTracks(owner, playlistId, options).execute().body();
         this.compareJSONWithoutNulls(body, result);
     }
 
@@ -949,22 +941,15 @@ public class SpotifyServiceTest {
 
         final Response response = TestUtils.getResponseFromModel(403, fixture, ErrorResponse.class);
 
-        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(isA(Request.class))).thenReturn(mockCall);
 
-        boolean errorReached = false;
-
-        try {
-            mSpotifyService.getMySavedTracks();
-        } catch (RetrofitError error) {
-            errorReached = true;
-
-            SpotifyError spotifyError = SpotifyError.fromRetrofitError(error);
-            assertEquals(fixture.error.status, spotifyError.getErrorDetails().status);
-            assertEquals(fixture.error.message, spotifyError.getErrorDetails().message);
-            assertEquals(403, spotifyError.getRetrofitError().getResponse().getStatus());
-        }
-
-        assertTrue(errorReached);
+        retrofit2.Response<Pager<SavedTrack>> retrofitResponse = mSpotifyService.getMySavedTracks().execute();
+        assertFalse(retrofitResponse.isSuccessful());
+        SpotifyError spotifyError = SpotifyError.fromRetrofitResponse(retrofitResponse);
+        assertEquals(fixture.error.status, spotifyError.getErrorDetails().status);
+        assertEquals(fixture.error.message, spotifyError.getErrorDetails().message);
+        assertEquals(403, retrofitResponse.code());
     }
 
     @Test
@@ -973,9 +958,10 @@ public class SpotifyServiceTest {
         Tracks fixture = mGson.fromJson(body, Tracks.class);
 
         Response response = TestUtils.getResponseFromModel(fixture, Tracks.class);
-        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(isA(Request.class))).thenReturn(mockCall);
 
-        Tracks tracks = mSpotifyService.getArtistTopTrack("test", "SE");
+        Tracks tracks = mSpotifyService.getArtistTopTrack("test", "SE").execute().body();
         compareJSONWithoutNulls(body, tracks);
     }
 
@@ -985,9 +971,10 @@ public class SpotifyServiceTest {
         Artists fixture = mGson.fromJson(body, Artists.class);
 
         Response response = TestUtils.getResponseFromModel(fixture, Artists.class);
-        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(isA(Request.class))).thenReturn(mockCall);
 
-        Artists tracks = mSpotifyService.getRelatedArtists("test");
+        Artists tracks = mSpotifyService.getRelatedArtists("test").execute().body();
         compareJSONWithoutNulls(body, tracks);
     }
 
@@ -998,9 +985,10 @@ public class SpotifyServiceTest {
         Pager<PlaylistSimple> fixture = mGson.fromJson(body, modelType);
 
         Response response = TestUtils.getResponseFromModel(fixture, modelType);
-        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(isA(Request.class))).thenReturn(mockCall);
 
-        Pager<PlaylistSimple> playlists = mSpotifyService.getPlaylists("test");
+        Pager<PlaylistSimple> playlists = mSpotifyService.getPlaylists("test").execute().body();
         compareJSONWithoutNulls(body, playlists);
     }
 
@@ -1011,9 +999,10 @@ public class SpotifyServiceTest {
         Pager<PlaylistSimple> fixture = mGson.fromJson(body, modelType);
 
         Response response = TestUtils.getResponseFromModel(fixture, modelType);
-        when(mMockClient.execute(isA(Request.class))).thenReturn(response);
+        Call mockCall = TestUtils.createdMockedCall(response);
+        when(mMockClient.newCall(isA(Request.class))).thenReturn(mockCall);
 
-        Pager<PlaylistSimple> playlists = mSpotifyService.getMyPlaylists();
+        Pager<PlaylistSimple> playlists = mSpotifyService.getMyPlaylists().execute().body();
         compareJSONWithoutNulls(body, playlists);
     }
 

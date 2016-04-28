@@ -2,7 +2,6 @@ package kaaes.spotify.webapi.android;
 
 import java.util.Map;
 
-import kaaes.spotify.webapi.android.annotations.DELETEWITHBODY;
 import kaaes.spotify.webapi.android.models.Album;
 import kaaes.spotify.webapi.android.models.Albums;
 import kaaes.spotify.webapi.android.models.AlbumsPager;
@@ -39,6 +38,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -247,7 +247,7 @@ public interface SpotifyService {
      * @param tracksToRemove A list of tracks to remove
      * @see <a href="https://developer.spotify.com/web-api/remove-tracks-playlist/">Remove Tracks from a Playlist</a>
      */
-    @DELETEWITHBODY("users/{user_id}/playlists/{playlist_id}/tracks")
+    @HTTP(method = "DELETE", path = "users/{user_id}/playlists/{playlist_id}/tracks", hasBody = true)
     Call<SnapshotId> removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemove tracksToRemove);
 
     /**
@@ -259,7 +259,7 @@ public interface SpotifyService {
      * @return A snapshot ID (the version of the playlist)
      * @see <a href="https://developer.spotify.com/web-api/remove-tracks-playlist/">Remove Tracks from a Playlist</a>
      */
-    @DELETEWITHBODY("users/{user_id}/playlists/{playlist_id}/tracks")
+    @HTTP(method = "DELETE", path = "users/{user_id}/playlists/{playlist_id}/tracks", hasBody = true)
     Call<SnapshotId> removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemoveWithPosition tracksToRemoveWithPosition);
 
     /**
