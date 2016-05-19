@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="io.github.kaaes.spotify.webapi.retrofit.v1">
+
+    <!-- required -->
+    <application/>
+
+</manifest>
