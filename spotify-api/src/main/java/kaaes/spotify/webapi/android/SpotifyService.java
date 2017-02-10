@@ -370,7 +370,7 @@ public interface SpotifyService {
      * @see <a href="https://developer.spotify.com/web-api/add-tracks-to-playlist/">Add Tracks to a Playlist</a>
      */
     @POST("/users/{user_id}/playlists/{playlist_id}/tracks")
-    void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, Object> queryParameters, @Body Map<String, Object> body, Callback<Pager<PlaylistTrack>> callback);
+    void addTracksToPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @QueryMap Map<String, Object> queryParameters, @Body Map<String, Object> body, Callback<SnapshotId> callback);
 
     /**
      * Remove one or more tracks from a user’s playlist.
