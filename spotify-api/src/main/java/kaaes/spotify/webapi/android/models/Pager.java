@@ -41,7 +41,7 @@ public class Pager<T> implements Parcelable  {
 
     protected Pager(Parcel in) {
         this.href = in.readString();
-        this.items = in.readArrayList(ArrayList.class.getClassLoader());
+        this.items = in.readArrayList(Pager.class.getClassLoader());
         this.limit = in.readInt();
         this.next = in.readString();
         this.offset = in.readInt();
