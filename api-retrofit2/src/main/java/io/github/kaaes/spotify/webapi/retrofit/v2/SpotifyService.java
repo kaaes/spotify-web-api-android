@@ -1,5 +1,7 @@
 package io.github.kaaes.spotify.webapi.retrofit.v2;
 
+import java.util.Map;
+
 import io.github.kaaes.spotify.webapi.core.models.Album;
 import io.github.kaaes.spotify.webapi.core.models.Albums;
 import io.github.kaaes.spotify.webapi.core.models.AlbumsPager;
@@ -32,9 +34,6 @@ import io.github.kaaes.spotify.webapi.core.models.TracksToRemove;
 import io.github.kaaes.spotify.webapi.core.models.TracksToRemoveWithPosition;
 import io.github.kaaes.spotify.webapi.core.models.UserPrivate;
 import io.github.kaaes.spotify.webapi.core.models.UserPublic;
-
-import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -852,7 +851,7 @@ public interface SpotifyService {
      * @param ids A comma-separated list of the Spotify IDs for the tracks. Maximum: 100 IDs
      * @return An object whose key is "audio_features" and whose value is an array of audio features objects.
      */
-    @GET("/audio-features")
+    @GET("audio-features")
     Call<AudioFeaturesTracks> getTracksAudioFeatures(@Query("ids") String ids);
 
 
@@ -862,7 +861,7 @@ public interface SpotifyService {
      * @param id The Spotify ID for the track.
      * @return Audio features object
      */
-    @GET("/audio-features/{id}")
+    @GET("audio-features/{id}")
     Call<AudioFeaturesTrack> getTrackAudioFeatures(@Path("id") String id);
 
     /*******************
@@ -876,7 +875,7 @@ public interface SpotifyService {
      *                <a href="https://developer.spotify.com/web-api/get-recommendations/">endpoint documentation</a>
      * @return Recommendations response object
      */
-    @GET("/recommendations")
+    @GET("recommendations")
     Call<Recommendations> getRecommendations(@QueryMap Map<String, Object> options);
 
 
@@ -885,7 +884,7 @@ public interface SpotifyService {
      *
      * @return An object whose key is "genres" and whose value is an array of available genres.
      */
-    @GET("/recommendations/available-genre-seeds")
+    @GET("recommendations/available-genre-seeds")
     Call<SeedsGenres> getSeedsGenres();
 
 
@@ -899,7 +898,7 @@ public interface SpotifyService {
      * @return The objects whose response body contains an artists or tracks object.
      * The object in turn contains a paging object of Artists or Tracks
      */
-    @GET("/me/top/artists")
+    @GET("me/top/artists")
     Call<Pager<Artist>> getTopArtists();
 
     /**
@@ -910,7 +909,7 @@ public interface SpotifyService {
      * @return The objects whose response body contains an artists or tracks object.
      * The object in turn contains a paging object of Artists or Tracks
      */
-    @GET("/me/top/artists")
+    @GET("me/top/artists")
     Call<Pager<Artist>> getTopArtists(@QueryMap Map<String, Object> options);
 
     /**
@@ -919,7 +918,7 @@ public interface SpotifyService {
      * @return The objects whose response body contains an artists or tracks object.
      * The object in turn contains a paging object of Artists or Tracks
      */
-    @GET("/me/top/tracks")
+    @GET("me/top/tracks")
     Call<Pager<Track>> getTopTracks();
 
     /**
@@ -930,6 +929,6 @@ public interface SpotifyService {
      * @return The objects whose response body contains an artists or tracks object.
      * The object in turn contains a paging object of Artists or Tracks
      */
-    @GET("/me/top/tracks")
+    @GET("me/top/tracks")
     Call<Pager<Track>> getTopTracks(@QueryMap Map<String, Object> options);
 }
