@@ -32,6 +32,7 @@ import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
 import kaaes.spotify.webapi.android.models.TracksPager;
 import kaaes.spotify.webapi.android.models.TracksToRemove;
+import kaaes.spotify.webapi.android.models.TracksToRemoveByPosition;
 import kaaes.spotify.webapi.android.models.TracksToRemoveWithPosition;
 import kaaes.spotify.webapi.android.models.UserPrivate;
 import kaaes.spotify.webapi.android.models.UserPublic;
@@ -407,6 +408,19 @@ public interface SpotifyService {
      */
     @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
     void removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemoveWithPosition tracksToRemoveWithPosition, Callback<SnapshotId> callback);
+
+    /**
+     * Remove one or more tracks from a user’s playlist.
+     *
+     * @param userId                     The owner of the playlist
+     * @param playlistId                 The playlist's Id
+     * @param tracksToRemoveByPosition A list of positions of tracks to remove
+     * @param callback                   Callback method
+     * @see <a href="https://developer.spotify.com/web-api/remove-tracks-playlist/">Remove Tracks from a Playlist</a>
+     */
+    @DELETEWITHBODY("/users/{user_id}/playlists/{playlist_id}/tracks")
+    void removeTracksFromPlaylist(@Path("user_id") String userId, @Path("playlist_id") String playlistId, @Body TracksToRemoveByPosition tracksToRemoveByPosition, Callback<SnapshotId> callback);
+
 
     /**
      * Remove one or more tracks from a user’s playlist.
