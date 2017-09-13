@@ -14,6 +14,7 @@ import kaaes.spotify.webapi.android.models.AudioFeaturesTrack;
 import kaaes.spotify.webapi.android.models.AudioFeaturesTracks;
 import kaaes.spotify.webapi.android.models.CategoriesPager;
 import kaaes.spotify.webapi.android.models.Category;
+import kaaes.spotify.webapi.android.models.CurrentlyPlaying;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
 import kaaes.spotify.webapi.android.models.NewReleases;
 import kaaes.spotify.webapi.android.models.Pager;
@@ -1440,7 +1441,6 @@ public interface SpotifyService {
      * Get the current user's followed artists.
      *
      * @param callback Callback method.
-     * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
      */
     @GET("/me/following?type=artist")
@@ -1463,7 +1463,6 @@ public interface SpotifyService {
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-followed-artists/">endpoint documentation</a>
      * @param callback Callback method.
-     * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
      */
     @GET("/me/following?type=artist")
@@ -1810,4 +1809,23 @@ public interface SpotifyService {
     @GET("/me/top/tracks")
     void getTopTracks(@QueryMap Map<String, Object> options, Callback<Pager<Track>> callback);
 
+    /**
+     * Get the object currently being played on the user’s Spotify account.
+     *
+     * @param market   Optional. An ISO 3166-1 alpha-2 country code. Provide this parameter if you want to apply Track Relinking.
+     *                 <a href="https://developer.spotify.com/web-api/get-the-users-currently-playing-track/">endpoint documentation</a>
+     * @param callback Callback method
+     */
+    @GET("/me/player/currently-playing")
+    void getCurrentlyPlaying(@Query("market") String market, Callback<CurrentlyPlaying> callback);
+
+    /**
+     * Get the object currently being played on the user’s Spotify account.
+     *
+     * @param market Optional. An ISO 3166-1 alpha-2 country code. Provide this parameter if you want to apply Track Relinking.
+     *               <a href="https://developer.spotify.com/web-api/get-the-users-currently-playing-track/">endpoint documentation</a>
+     * @return Currently Playing Object
+     */
+    @GET("/me/player/currently-playing")
+    CurrentlyPlaying getCurrentlyPlaying(@Query("market") String market);
 }
