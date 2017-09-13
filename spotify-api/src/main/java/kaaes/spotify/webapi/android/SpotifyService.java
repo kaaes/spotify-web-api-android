@@ -1441,7 +1441,6 @@ public interface SpotifyService {
      * Get the current user's followed artists.
      *
      * @param callback Callback method.
-     * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
      */
     @GET("/me/following?type=artist")
@@ -1464,7 +1463,6 @@ public interface SpotifyService {
      * @param options  Optional parameters. For list of supported parameters see
      *                 <a href="https://developer.spotify.com/web-api/get-followed-artists/">endpoint documentation</a>
      * @param callback Callback method.
-     * @return An empty result
      * @see <a href="https://developer.spotify.com/web-api/get-followed-artists/">Get User's Followed Artists</a>
      */
     @GET("/me/following?type=artist")
@@ -1826,6 +1824,7 @@ public interface SpotifyService {
      *
      * @param market Optional. An ISO 3166-1 alpha-2 country code. Provide this parameter if you want to apply Track Relinking.
      *               <a href="https://developer.spotify.com/web-api/get-the-users-currently-playing-track/">endpoint documentation</a>
+     * @return Currently Playing Object
      */
     @GET("/me/player/currently-playing")
     CurrentlyPlaying getCurrentlyPlaying(@Query("market") String market);
