@@ -99,8 +99,8 @@ public interface SpotifyService {
     String TIME_RANGE = "time_range";
 
     /**
-    * Get User’s Followed Artists: The last artist ID retrieved from the previous request.
-    */
+     * Get User’s Followed Artists: The last artist ID retrieved from the previous request.
+     */
     String AFTER = "after";
 
     /************
