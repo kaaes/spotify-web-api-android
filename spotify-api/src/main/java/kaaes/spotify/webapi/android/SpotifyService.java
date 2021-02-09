@@ -14,9 +14,12 @@ import kaaes.spotify.webapi.android.models.AudioFeaturesTrack;
 import kaaes.spotify.webapi.android.models.AudioFeaturesTracks;
 import kaaes.spotify.webapi.android.models.CategoriesPager;
 import kaaes.spotify.webapi.android.models.Category;
+import kaaes.spotify.webapi.android.models.ContextObject;
+import kaaes.spotify.webapi.android.models.CursorPager;
 import kaaes.spotify.webapi.android.models.FeaturedPlaylists;
 import kaaes.spotify.webapi.android.models.NewReleases;
 import kaaes.spotify.webapi.android.models.Pager;
+import kaaes.spotify.webapi.android.models.PlayHistory;
 import kaaes.spotify.webapi.android.models.Playlist;
 import kaaes.spotify.webapi.android.models.PlaylistFollowPrivacy;
 import kaaes.spotify.webapi.android.models.PlaylistSimple;
@@ -1810,4 +1813,48 @@ public interface SpotifyService {
     @GET("/me/top/tracks")
     void getTopTracks(@QueryMap Map<String, Object> options, Callback<Pager<Track>> callback);
 
+
+    /*****************************
+     * User's Recently Played Tracks *
+     *****************************/
+
+    /**
+     * Get tracks from the current user’s recently played tracks.
+     *
+     * @return A list of play history objects wrapped in a cursor-based paging object.
+     * The play history items each contain the context the track was played from (e.g. playlist, album),
+     * the date and time the track was played, and a track object (simplified).
+     */
+    @GET("/me/player/recently-played")
+    CursorPager<PlayHistory> getRecentlyPlayed();
+
+    /**
+     * Get tracks from the current user’s recently played tracks.
+     *
+     * @param callback callback method
+     */
+    @GET("/me/player/recently-played")
+    void getRecentlyPlayed(Callback<CursorPager<PlayHistory>> callback);
+
+    /**
+     * Get tracks from the current user’s recently played tracks.
+     *
+     * @param options Optional parameters. For list of available parameters see
+     *                <a href="https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-recently-played">endpoint documentation</a>
+     * @return A list of play history objects wrapped in a cursor-based paging object.
+     *      * The play history items each contain the context the track was played from (e.g. playlist, album),
+     *      * the date and time the track was played, and a track object (simplified).
+     */
+    @GET("/me/player/recently-played")
+    CursorPager<PlayHistory> getRecentlyPlayed(@QueryMap Map<String, Object> options);
+
+    /**
+     * Get tracks from the current user’s recently played tracks.
+     *
+     * @param options Optional parameters. For list of available parameters see
+     *                <a href="https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-recently-played">endpoint documentation</a>
+     * @param callback callback method
+     */
+    @GET("/me/player/recently-played")
+    void getRecentlyPlayed(@QueryMap Map<String, Object> options, Callback<CursorPager<PlayHistory>> callback);
 }
